@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dp4kp15ct53tw"]
+
+[node name="FadeControl" type="Control"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 359.0
+color = Color(0, 0, 0, 1)

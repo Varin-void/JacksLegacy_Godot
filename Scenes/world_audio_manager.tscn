@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cyjix7ve8f03c"]
+
+[ext_resource type="Script" uid="uid://jxedes60pemn" path="res://Scripts/MiscellaneousScripts/world_audio_manager.gd" id="1_cilue"]
+[ext_resource type="AudioStream" uid="uid://j0wtm4iie8w6" path="res://Assets/Audio/Background_Senya.mp3" id="2_n2mqe"]
+[ext_resource type="AudioStream" uid="uid://ba2eu5spe2148" path="res://Assets/Audio/Sengunbanba.mp3" id="3_33aiw"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ajhoy"]
+shuffle = true
+stream_count = 1
+stream_0 = ExtResource("2_n2mqe")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_68bto"]
+stream_count = 1
+stream_0 = ExtResource("3_33aiw")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_n2mqe"]
+shuffle = true
+stream_count = 2
+stream_0 = ExtResource("3_33aiw")
+stream_1 = ExtResource("2_n2mqe")
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_5a1qp"]
+clip_count = 3
+clip_0/name = &"Map1Music"
+clip_0/stream = SubResource("AudioStreamPlaylist_ajhoy")
+clip_0/auto_advance = 0
+clip_1/name = &"Map2Music"
+clip_1/stream = SubResource("AudioStreamPlaylist_68bto")
+clip_1/auto_advance = 0
+clip_2/name = &"MainScreenMusic"
+clip_2/stream = SubResource("AudioStreamPlaylist_n2mqe")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 0): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+}
+}
+
+[node name="WorldAudioManager" type="Node" node_paths=PackedStringArray("bg_music_player")]
+script = ExtResource("1_cilue")
+bg_music_player = NodePath("BackgroundMusicPlayer")
+
+[node name="BackgroundMusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_5a1qp")
+volume_db = -20.0
+autoplay = true
+bus = &"music"

@@ -1,0 +1,2 @@
+-Bind your Esacpe Key in Input Map to name "pause_game"
+-Create a CanvasLayer Drop this in and Re-attached Scripts

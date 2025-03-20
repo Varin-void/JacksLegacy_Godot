@@ -1,0 +1,113 @@
+[gd_scene load_steps=14 format=3 uid="uid://dc1tescjuv6j8"]
+
+[ext_resource type="Script" uid="uid://c64t2htlypk0a" path="res://Scripts/MiscellaneousScripts/loading_scene.gd" id="1_mtmfq"]
+[ext_resource type="Texture2D" uid="uid://cgyyedvuyfkxr" path="res://Assets/UI Element/lone_samurai_2.jpg" id="2_x2f1y"]
+[ext_resource type="FontFile" uid="uid://cb6uvootidiii" path="res://Assets/UI Element/SilentGUI/Fonts/Pixeloid/PixeloidSans-Bold.ttf" id="3_x2f1y"]
+[ext_resource type="Texture2D" uid="uid://dnkxvl35xi7yk" path="res://Assets/UI Element/bro V coin.png" id="4_fore0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fore0"]
+texture = ExtResource("2_x2f1y")
+region_rect = Rect2(0, 0, 5376, 3141)
+modulate_color = Color(0.525101, 0.525101, 0.525101, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_680dq"]
+atlas = ExtResource("4_fore0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxyel"]
+atlas = ExtResource("4_fore0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e64nk"]
+atlas = ExtResource("4_fore0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m0vk"]
+atlas = ExtResource("4_fore0")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tawlj"]
+atlas = ExtResource("4_fore0")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27t0t"]
+atlas = ExtResource("4_fore0")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k703"]
+atlas = ExtResource("4_fore0")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gpp50"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_680dq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxyel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e64nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3m0vk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tawlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27t0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4k703")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="LoadingScene" type="Node2D"]
+script = ExtResource("1_mtmfq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="LoadingPanel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fore0")
+
+[node name="txtPercent" type="Label" parent="CanvasLayer/LoadingPanel"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 314.0
+offset_right = 162.0
+offset_bottom = 337.0
+theme_override_fonts/font = ExtResource("3_x2f1y")
+text = "Loading..."
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/LoadingPanel"]
+position = Vector2(30, 323)
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_gpp50")
+autoplay = "default"
+frame_progress = 0.0415731
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ExitTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ExitTimer" to="." method="_on_exit_timer_timeout"]

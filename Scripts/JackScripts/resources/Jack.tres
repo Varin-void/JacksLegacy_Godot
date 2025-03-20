@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="_PlayerStats" load_steps=2 format=3 uid="uid://0eknppfhwmr"]
+
+[ext_resource type="Script" uid="uid://re645wp6k6ml" path="res://Scripts/JackScripts/PlayerRes.gd" id="1_pxaxq"]
+
+[resource]
+script = ExtResource("1_pxaxq")
+char = "Jack"
+hp = 100
+max_hp = 100
+mp = 100
+max_mp = 100
+str = 7
+def = 7
+vit = 7
+agi = 7
+crit_chance = 0
+crit_dmg = 0
+metadata/_custom_type_script = "uid://re645wp6k6ml"

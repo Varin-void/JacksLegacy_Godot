@@ -1,0 +1,121 @@
+[gd_scene load_steps=16 format=3 uid="uid://denurpivpi2vj"]
+
+[ext_resource type="Texture2D" uid="uid://dbi3cvo245cum" path="res://Assets/Particle/Flame Speck.PNG" id="3_1oof5"]
+
+[sub_resource type="Environment" id="Environment_bsrhp"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.0
+glow_strength = 2.0
+glow_hdr_threshold = 1.5
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5rdsf"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_dyhwn"]
+offsets = PackedFloat32Array(0, 0.15534, 0.747573, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_07mej"]
+gradient = SubResource("Gradient_dyhwn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k7ya5"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 200, 1)
+angle_min = 45.0
+angle_max = 45.0
+spread = 20.0
+initial_velocity_min = 250.0
+initial_velocity_max = 400.0
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 50.0
+gravity = Vector3(0, 10, 0)
+scale_min = 0.1
+scale_max = 0.2
+color_ramp = SubResource("GradientTexture1D_07mej")
+anim_offset_max = 1.0
+turbulence_influence_min = 0.706
+turbulence_influence_max = 0.706
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 84.4
+
+[sub_resource type="Gradient" id="Gradient_t5j1e"]
+offsets = PackedFloat32Array(0, 0.512605, 1)
+colors = PackedColorArray(0.824, 0.298, 0, 0, 0.823512, 0.297878, 0, 1, 0.824, 0.298, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_w17u8"]
+gradient = SubResource("Gradient_t5j1e")
+width = 1
+height = 32
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_2sjw8"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i8nq3"]
+gradient = SubResource("Gradient_2sjw8")
+
+[sub_resource type="Gradient" id="Gradient_3j16n"]
+offsets = PackedFloat32Array(0, 0.26699, 0.76699, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gk2fj"]
+gradient = SubResource("Gradient_3j16n")
+
+[sub_resource type="Curve" id="Curve_neqkj"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0854701, 90.1099), 0.0, 0.0, 0, 0, Vector2(0.209402, -10.989), 0.0, 0.0, 0, 0, Vector2(0.320513, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.444444, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.534188, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.649573, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.773504, 85.7143), 0.0, 0.0, 0, 0, Vector2(0.901709, 2.19778), 0.0, 0.0, 0, 0, Vector2(1, 54.9451), 0.0, 0.0, 0, 0]
+point_count = 10
+
+[sub_resource type="CurveTexture" id="CurveTexture_swoxu"]
+curve = SubResource("Curve_neqkj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xpxls"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(200, 200, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(100, 20, 0)
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 6.0
+tangential_accel_curve = SubResource("CurveTexture_swoxu")
+damping_max = 100.0
+scale_min = 0.5
+scale_max = 0.8
+color_ramp = SubResource("GradientTexture1D_gk2fj")
+color_initial_ramp = SubResource("GradientTexture1D_i8nq3")
+
+[node name="FireDustSpeck" type="Node2D"]
+
+[node name="Speck" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Speck"]
+environment = SubResource("Environment_bsrhp")
+
+[node name="FireSpeckParticle" type="GPUParticles2D" parent="Speck"]
+material = SubResource("CanvasItemMaterial_5rdsf")
+position = Vector2(250, 130)
+rotation = -0.523599
+scale = Vector2(1, 1.66105)
+amount = 150
+texture = ExtResource("3_1oof5")
+randomness = 0.11
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_k7ya5")
+
+[node name="WindParticle" type="GPUParticles2D" parent="Speck"]
+visible = false
+position = Vector2(32, 214)
+rotation = -0.261799
+amount = 25
+texture = SubResource("GradientTexture2D_w17u8")
+lifetime = 5.0
+preprocess = 2.0
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.6
+process_material = SubResource("ParticleProcessMaterial_xpxls")

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cvffbgwycebh8"
+path="res://.godot/imported/AMBForst_Spring Afternoon Edge of Mixed Forest Yellowhammer Eurasian Blackcap Tree Pipit Insects_JSE_FA.wav-a8e53f06725d6579ee9dbc49a6357447.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Ambiences/AMBForst_Spring Afternoon Edge of Mixed Forest Yellowhammer Eurasian Blackcap Tree Pipit Insects_JSE_FA.wav"
+dest_files=["res://.godot/imported/AMBForst_Spring Afternoon Edge of Mixed Forest Yellowhammer Eurasian Blackcap Tree Pipit Insects_JSE_FA.wav-a8e53f06725d6579ee9dbc49a6357447.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

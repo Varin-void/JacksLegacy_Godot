@@ -1,0 +1,187 @@
+[gd_scene load_steps=22 format=3 uid="uid://clnw6lm0wf2im"]
+
+[ext_resource type="Script" uid="uid://37ouaypjuccf" path="res://Scenes/Miscellaneous/Pause/pause_menus.gd" id="1_8dbas"]
+[ext_resource type="Shader" uid="uid://dmtydnjclyv24" path="res://Scenes/Miscellaneous/Pause/pause_menus.gdshader" id="2_434pd"]
+[ext_resource type="Texture2D" uid="uid://kpna5g2i264y" path="res://Assets/UI Element/SilentGUI/svg/Panel/Window/Medium.svg" id="3_lyakp"]
+[ext_resource type="Texture2D" uid="uid://b3it51o5k0vir" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Rect-Medium/PlayIcon/Hover.svg" id="4_dfdpy"]
+[ext_resource type="Texture2D" uid="uid://bkq0hrkmtuhfa" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Rect-Medium/PlayIcon/Default.svg" id="5_uohbo"]
+[ext_resource type="Texture2D" uid="uid://c1plxl81y6a2" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Square-Medium/Repeat/Hover.svg" id="6_76e53"]
+[ext_resource type="Texture2D" uid="uid://c7yln3bngpjhd" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Square-Medium/Repeat/Default.svg" id="7_2ghh4"]
+[ext_resource type="Texture2D" uid="uid://unhwd8fw83e4" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Square-Medium/Home/Hover.svg" id="8_py1vx"]
+[ext_resource type="Texture2D" uid="uid://tdbhg7r3n22j" path="res://Assets/UI Element/SilentGUI/svg/Buttons/Square-Medium/Home/Default.svg" id="9_4tdc7"]
+[ext_resource type="FontFile" uid="uid://brtgfsode8lf0" path="res://Assets/UI Element/SilentGUI/Fonts/josefin-sans/JosefinSans-Bold.ttf" id="10_qubb0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_du53b"]
+shader = ExtResource("2_434pd")
+shader_parameter/lod = 0.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfdpy"]
+texture = ExtResource("3_lyakp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qfo6e"]
+texture = ExtResource("4_dfdpy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h3uuk"]
+texture = ExtResource("5_uohbo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fq7tc"]
+texture = ExtResource("6_76e53")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n508l"]
+texture = ExtResource("7_2ghh4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q4io3"]
+texture = ExtResource("8_py1vx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wu5t3"]
+texture = ExtResource("9_4tdc7")
+
+[sub_resource type="Animation" id="Animation_duray"]
+resource_name = "Blurred"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PauseMenus/ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PauseMenus/PanelContainer2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_abv4l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PauseMenus/ColorRect:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PauseMenus/PanelContainer2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gnh4g"]
+_data = {
+&"Blurred": SubResource("Animation_duray"),
+&"RESET": SubResource("Animation_abv4l")
+}
+
+[node name="PauseMenus" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_top = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+script = ExtResource("1_8dbas")
+metadata/_edit_horizontal_guides_ = [115.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_du53b")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.0
+offset_top = -60.0
+offset_right = 121.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_dfdpy")
+
+[node name="Control" type="Control" parent="PanelContainer2"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="PanelContainer2/Control"]
+layout_mode = 2
+offset_left = 89.0
+offset_top = 57.0
+offset_right = 159.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/hover = SubResource("StyleBoxTexture_qfo6e")
+theme_override_styles/normal = SubResource("StyleBoxTexture_h3uuk")
+
+[node name="Restart" type="Button" parent="PanelContainer2/Control"]
+layout_mode = 2
+offset_left = 13.0
+offset_top = 57.0
+offset_right = 53.0
+offset_bottom = 97.0
+theme_override_styles/hover = SubResource("StyleBoxTexture_fq7tc")
+theme_override_styles/normal = SubResource("StyleBoxTexture_n508l")
+
+[node name="Home" type="Button" parent="PanelContainer2/Control"]
+layout_mode = 2
+offset_left = 189.0
+offset_top = 57.0
+offset_right = 229.0
+offset_bottom = 97.0
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4io3")
+theme_override_styles/normal = SubResource("StyleBoxTexture_wu5t3")
+
+[node name="Label" type="Label" parent="PanelContainer2/Control"]
+layout_mode = 2
+offset_top = 1.0
+offset_right = 242.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0.898039, 0.145098, 0.329412, 1)
+theme_override_fonts/font = ExtResource("10_qubb0")
+theme_override_font_sizes/font_size = 20
+text = "Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_gnh4g")
+}
+
+[connection signal="pressed" from="PanelContainer2/Control/Resume" to="." method="_on_button_resume_pressed"]
+[connection signal="pressed" from="PanelContainer2/Control/Restart" to="." method="_on_button_restart_pressed"]
+[connection signal="pressed" from="PanelContainer2/Control/Home" to="." method="_on_button_exit_pressed"]

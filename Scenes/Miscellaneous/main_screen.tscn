@@ -1,0 +1,202 @@
+[gd_scene load_steps=28 format=3 uid="uid://cbyayktnmu7h5"]
+
+[ext_resource type="Texture2D" uid="uid://b45t8drb268pf" path="res://Assets/UI Element/LoadingScreen.png" id="1_tjriq"]
+[ext_resource type="Script" uid="uid://dmr024np3q5ex" path="res://Scripts/MiscellaneousScripts/main_screen.gd" id="1_vgc1b"]
+[ext_resource type="Texture2D" uid="uid://dbi3cvo245cum" path="res://Assets/Particle/Flame Speck.PNG" id="2_wt5um"]
+[ext_resource type="Texture2D" uid="uid://cp5a3daxdtjk5" path="res://Assets/UI Element/SilentGUI/png@3x/Buttons/Rect-Medium/PlayText/Hover@3x.png" id="3_5kdhm"]
+[ext_resource type="FontFile" uid="uid://btwovxh6qvbjv" path="res://Assets/UI Element/SilentGUI/Fonts/josefin-sans/JosefinSans-Regular.ttf" id="4_lukfi"]
+[ext_resource type="Texture2D" uid="uid://0uqvt7gvm8ou" path="res://Assets/UI Element/SilentGUI/png/Buttons/Rect-Medium/PlayText/Hover.png" id="5_tycvk"]
+[ext_resource type="Texture2D" uid="uid://1aoo7t8rko3j" path="res://Assets/UI Element/SilentGUI/png/Buttons/Rect-Medium/PlayText/Default.png" id="6_lukfi"]
+[ext_resource type="Texture2D" uid="uid://twy7f82axmlq" path="res://Assets/UI Element/SilentGUI/exit.png" id="8_k46a3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjriq"]
+texture = ExtResource("1_tjriq")
+
+[sub_resource type="Environment" id="Environment_0gs8m"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 1.0
+glow_strength = 2.0
+glow_hdr_threshold = 1.5
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5kdhm"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_dwu5g"]
+offsets = PackedFloat32Array(0, 0.15534, 0.747573, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bksop"]
+gradient = SubResource("Gradient_dwu5g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tycvk"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 200, 1)
+angle_min = 45.0
+angle_max = 45.0
+spread = 20.0
+initial_velocity_min = 250.0
+initial_velocity_max = 400.0
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 50.0
+gravity = Vector3(0, 10, 0)
+scale_min = 0.1
+scale_max = 0.2
+color_ramp = SubResource("GradientTexture1D_bksop")
+anim_offset_max = 1.0
+turbulence_influence_min = 0.706
+turbulence_influence_max = 0.706
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 84.4
+
+[sub_resource type="Gradient" id="Gradient_8c61o"]
+offsets = PackedFloat32Array(0, 0.512605, 1)
+colors = PackedColorArray(0.824, 0.298, 0, 0, 0.823512, 0.297878, 0, 1, 0.824, 0.298, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lukfi"]
+gradient = SubResource("Gradient_8c61o")
+width = 1
+height = 32
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_vgc1b"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_68yyf"]
+gradient = SubResource("Gradient_vgc1b")
+
+[sub_resource type="Gradient" id="Gradient_6r4rq"]
+offsets = PackedFloat32Array(0, 0.26699, 0.76699, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q7rwo"]
+gradient = SubResource("Gradient_6r4rq")
+
+[sub_resource type="Curve" id="Curve_k46a3"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0854701, 90.1099), 0.0, 0.0, 0, 0, Vector2(0.209402, -10.989), 0.0, 0.0, 0, 0, Vector2(0.320513, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.444444, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.534188, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.649573, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.773504, 85.7143), 0.0, 0.0, 0, 0, Vector2(0.901709, 2.19778), 0.0, 0.0, 0, 0, Vector2(1, 54.9451), 0.0, 0.0, 0, 0]
+point_count = 10
+
+[sub_resource type="CurveTexture" id="CurveTexture_72lsg"]
+curve = SubResource("Curve_k46a3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2uhq0"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(200, 200, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(100, 20, 0)
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 6.0
+tangential_accel_curve = SubResource("CurveTexture_72lsg")
+damping_max = 100.0
+scale_min = 0.5
+scale_max = 0.8
+color_ramp = SubResource("GradientTexture1D_q7rwo")
+color_initial_ramp = SubResource("GradientTexture1D_68yyf")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tycvk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tycvk"]
+texture = ExtResource("3_5kdhm")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgc1b"]
+texture = ExtResource("5_tycvk")
+modulate_color = Color(1, 1, 1, 0.52549)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lukfi"]
+texture = ExtResource("6_lukfi")
+
+[node name="MainScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vgc1b")
+metadata/_edit_horizontal_guides_ = [344.0]
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 216.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_tjriq")
+
+[node name="Speck" type="Node" parent="Panel"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Panel/Speck"]
+environment = SubResource("Environment_0gs8m")
+
+[node name="FireSpeckParticle" type="GPUParticles2D" parent="Panel/Speck"]
+material = SubResource("CanvasItemMaterial_5kdhm")
+position = Vector2(250, 130)
+rotation = -0.523599
+scale = Vector2(1, 1.66105)
+amount = 150
+texture = ExtResource("2_wt5um")
+randomness = 0.11
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_tycvk")
+
+[node name="WindParticle" type="GPUParticles2D" parent="Panel/Speck"]
+visible = false
+position = Vector2(32, 214)
+rotation = -0.261799
+amount = 25
+texture = SubResource("GradientTexture2D_lukfi")
+lifetime = 5.0
+preprocess = 2.0
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.6
+process_material = SubResource("ParticleProcessMaterial_2uhq0")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 14.0
+offset_right = 553.0
+offset_bottom = 85.0
+theme_override_colors/default_color = Color(0.989705, 0.47074, 0.530411, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.376471)
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/shadow_offset_x = 3
+theme_override_fonts/normal_font = ExtResource("4_lukfi")
+theme_override_font_sizes/normal_font_size = 50
+text = "Jack's Legacy"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Play" type="Button" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 212.0
+offset_top = 122.0
+offset_right = 295.0
+offset_bottom = 168.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tycvk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tycvk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vgc1b")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lukfi")
+
+[node name="Exit" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = -297.0
+offset_top = 136.0
+offset_right = -267.0
+offset_bottom = 166.0
+texture_normal = ExtResource("8_k46a3")
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_button_pressed"]

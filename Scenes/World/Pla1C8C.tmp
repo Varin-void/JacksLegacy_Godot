@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b62tphgsu1naf"]
+
+[ext_resource type="PackedScene" uid="uid://dtuyutu4x7mi7" path="res://Scenes/World/MapMain.tscn" id="1_kjfmu"]
+[ext_resource type="PackedScene" uid="uid://ccasrwe4bynde" path="res://Scenes/Player/player.tscn" id="2_oargn"]
+
+[node name="PlayScene" type="Node2D"]
+
+[node name="MapMain" parent="." instance=ExtResource("1_kjfmu")]
+
+[node name="Player" parent="." instance=ExtResource("2_oargn")]
+z_index = 5
+position = Vector2(126, -157)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+scale = Vector2(0.5, 0.5)
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(126, -157)
+scale = Vector2(0.5, 0.5)
+zoom = Vector2(2, 2)
