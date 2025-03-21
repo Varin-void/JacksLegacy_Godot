@@ -1,9 +1,8 @@
-[gd_scene load_steps=56 format=3 uid="uid://c7d7u7y52kw66"]
+[gd_scene load_steps=58 format=3 uid="uid://c7d7u7y52kw66"]
 
 [ext_resource type="Texture2D" uid="uid://bh6ikhi44n0lu" path="res://Assets/Enemies/Skeleton/Idle.png" id="1_0qj1f"]
 [ext_resource type="Texture2D" uid="uid://68xkc102v36j" path="res://Assets/Enemies/Skeleton/Attack.png" id="1_6layy"]
 [ext_resource type="Script" uid="uid://h66as1ewfei5" path="res://Scripts/EnemyScripts/Skelly/skellyController.gd" id="1_vuksy"]
-[ext_resource type="Shader" uid="uid://cxcg3oky6564x" path="res://ShaderNResources/skelly.gdshader" id="2_ochcu"]
 [ext_resource type="Texture2D" uid="uid://10mplf34dg7q" path="res://Assets/Enemies/Skeleton/Death.png" id="2_y7efa"]
 [ext_resource type="Texture2D" uid="uid://dnty37mup3egi" path="res://Assets/Enemies/Skeleton/Shield.png" id="4_bq7fo"]
 [ext_resource type="Texture2D" uid="uid://dvprfin42i07s" path="res://Assets/Enemies/Skeleton/Take Hit.png" id="5_76l70"]
@@ -13,14 +12,15 @@
 [ext_resource type="Script" uid="uid://bj42fnts68457" path="res://Scripts/EnemyScripts/Skelly/E_walk.gd" id="11_cv5gx"]
 [ext_resource type="Script" uid="uid://cpfskbmbvudv4" path="res://Scripts/EnemyScripts/Skelly/E_combat.gd" id="12_htm1h"]
 [ext_resource type="Script" uid="uid://6vvf51h0rawf" path="res://Scripts/EnemyScripts/Skelly/E_attack.gd" id="13_0tbki"]
+[ext_resource type="Shader" uid="uid://dlgpseqakkaha" path="res://ShaderNResources/PaletteSwap.gdshader" id="14_3rbnq"]
+[ext_resource type="Texture2D" uid="uid://dhecus1qgdu57" path="res://Assets/Enemies/Skeleton/Idle_palette.png" id="15_qjnjd"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sf5hs"]
-shader = ExtResource("2_ochcu")
-shader_parameter/color = Color(0.905882, 0, 0, 0)
-shader_parameter/width = 0.85
-shader_parameter/pattern = 1
-shader_parameter/inside = false
-shader_parameter/add_margins = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0tbki"]
+shader = ExtResource("14_3rbnq")
+shader_parameter/palette = ExtResource("15_qjnjd")
+shader_parameter/skip_first_row = true
+shader_parameter/use_palette_alpha = false
+shader_parameter/fps = 6.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8fdkr"]
 atlas = ExtResource("1_6layy")
@@ -469,24 +469,28 @@ size = Vector2(119, 60)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dafwi"]
 size = Vector2(70, 59)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lbk5d"]
+
 [node name="Skelly" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_vuksy")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -10.0
 offset_top = -49.0
 offset_right = 30.0
 offset_bottom = -26.0
 
 [node name="SkellySprite" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_sf5hs")
+material = SubResource("ShaderMaterial_0tbki")
 sprite_frames = SubResource("SpriteFrames_0k6yh")
 animation = &"Attack"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_odjfc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -512,6 +516,7 @@ script = ExtResource("12_htm1h")
 script = ExtResource("13_0tbki")
 
 [node name="prop" type="Node2D" parent="."]
+visible = false
 
 [node name="DetectionArea" type="Area2D" parent="prop"]
 collision_layer = 0
@@ -546,6 +551,11 @@ target_position = Vector2(-33, 0)
 [node name="PlayerTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_lbk5d")
+texture = ExtResource("1_0qj1f")
 
 [connection signal="body_entered" from="prop/DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="prop/DetectionArea" to="." method="_on_detection_area_body_exited"]

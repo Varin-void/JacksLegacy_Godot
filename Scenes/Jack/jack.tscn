@@ -1,4 +1,4 @@
-[gd_scene load_steps=392 format=3 uid="uid://bvm2exo6iry4y"]
+[gd_scene load_steps=394 format=3 uid="uid://bvm2exo6iry4y"]
 
 [ext_resource type="Texture2D" uid="uid://5q7s73fal10s" path="res://Assets/Player/lightning_ronin_full_v1.0.png" id="1_cd7a0"]
 [ext_resource type="Script" uid="uid://00gmrnsb0u42" path="res://Scripts/JackScripts/JackController.gd" id="1_jjc82"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://defwnqb23umj1" path="res://Scripts/JackScripts/run.gd" id="5_76evf"]
 [ext_resource type="Script" uid="uid://puohb3eptkym" path="res://Scripts/JackScripts/falling.gd" id="6_e56na"]
 [ext_resource type="Script" uid="uid://div521tlyga5j" path="res://Scripts/JackScripts/jump.gd" id="7_pd6oq"]
+[ext_resource type="Shader" uid="uid://cuclp0xkvj2we" path="res://ShaderNResources/color_swap.gdshader" id="8_5rdy6"]
 [ext_resource type="Script" uid="uid://bib8ghk24udgu" path="res://Scripts/JackScripts/dash.gd" id="8_a5clf"]
 [ext_resource type="Script" uid="uid://bfb3sbpwqcvng" path="res://Scripts/JackScripts/attack.gd" id="9_ydnmm"]
 [ext_resource type="Script" uid="uid://8ms0yjyoiv1a" path="res://Scripts/JackScripts/hurt.gd" id="12_lixyl"]
@@ -41,6 +42,10 @@ shader_parameter/palette = ExtResource("3_n7rl4")
 shader_parameter/skip_first_row = true
 shader_parameter/use_palette_alpha = false
 shader_parameter/fps = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_go7hy"]
+shader = ExtResource("8_5rdy6")
+shader_parameter/custom_color = Color(0.113725, 0.243137, 0.403922, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lo385"]
 atlas = ExtResource("1_cd7a0")
@@ -2983,6 +2988,7 @@ vframes = 49
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
+material = SubResource("ShaderMaterial_go7hy")
 sprite_frames = SubResource("SpriteFrames_m2gg4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -3021,4 +3027,3 @@ script = ExtResource("13_02sdt")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="PlayerAudio" type="AudioStreamPlayer2D" parent="."]
-bus = &"sfx"
