@@ -1,14 +1,11 @@
-
 extends CharacterBody2D
 class_name JackController
-
-@export var speed: float = 300
-#@export var health: float = 1
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $JackSprite
 @onready var fsm = $FSM
 @onready var body: CollisionShape2D = $CollisionShape2D
+@onready var health_bar: ProgressBar = $UI/HealthBar
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction: float = 0
@@ -29,8 +26,6 @@ var clampMin:Vector2
 var clampMax:Vector2
 var cam_pov:Vector2
 
-@export var stats : _PlayerStats
-
 var ability: Dictionary = {
 	"Dashing": false,
 	"Attacking": false,
@@ -39,41 +34,8 @@ var ability: Dictionary = {
 	"Air_Combo": false
 }
 
-var combos: Dictionary = {
-	"default": {
-		"id": 0, "damage": 1.0, "magic": 0.0,
-		"knockbackX": 25, "knockbackY": 0, "knockduration": 0.05,
-		"moveforward": 0.0, "sound": "punchHit", "sfx": "",
-		"cooldown": 0.0, "posX": 45.3, "posY": -8,
-		"scaleX": 2.08, "scaleY": 3.015
-	},
-	"attack1": {
-		"id": 1, "damage": 1, "magic": 0,
-		"knockbackX": 25, "knockbackY": 0, "knockduration": 0.05,
-		"moveforward": 0, "sound": "punchHit2", "sfx": "",
-		"cooldown": 0.0, "animspeed": 0.8, "hitpoint": "hitpoint1",
-		"shakeduration": 0.02, "shakeintensity": 4,
-		"posX": 53.5, "posY": -10, "scaleX": 107, "scaleY": 95
-	},
-	"attack2": {
-		"id": 2, "damage": 1, "magic": 0,
-		"knockbackX": 25, "knockbackY": 0, "knockduration": 0.05,
-		"moveforward": 0, "sound": "punchHit2", "sfx": "",
-		"cooldown": 0.0, "isStun": true, "animspeed": 0.5,
-		"hitpoint": "hitpoint2", "shakeduration": 0.02,
-		"shakeintensity": 4, "posX": 53.5, "posY": -10,
-		"scaleX": 107, "scaleY": 95
-	},
-	"attack3": {
-		"id": 3, "damage": 1.5, "magic": 0,
-		"knockbackX": 25, "knockbackY": 0, "knockduration": 0.05,
-		"moveforward": 0, "sfx": "", "cooldown": 0.0,
-		"hurtanim": "", "animspeed": 1.2, "hitStop": 0.3,
-		"hitpoint": "hitpoint3", "hitimpact": "b_impact4",
-		"shakeduration": 0.02, "shakeintensity": 4,
-		"posX": 53.5, "posY": -10, "scaleX": 107, "scaleY": 95
-	}
-}
+@export var stats : _PlayerStats
+@export var speed: float = 300
 
 @export_group("SoundFX")
 @export var AttackSfx : AudioStreamMP3
@@ -101,10 +63,10 @@ func _ready():
 	else:
 		GameManager.setPlayerStat(stats.max_hp, stats._str, stats.agi, stats.vit, stats.def)
 
-
 func _process(_delta):
 	$Label.text = str(fsm.currentState)
-	#playAudioOnInput()
+	health_bar.value = GameManager.HP
+	%CoinValue.text = str(GameManager.VCoins)
 	if !chkAbility("Dashing"):
 		direction = Input.get_axis("move_left", "move_right")
 	flip()
@@ -142,14 +104,16 @@ func flip():
 	elif direction > 0:
 		sprite.flip_h = false
 		dir = 1
+	$AttackBox.scale.x = -1 if sprite.flip_h else 1
+
 
 func resetSpeed(newspeed:float):
 	speed = newspeed
 	velocity.x = direction * speed
 
 func calJumpForce(_jumpheight:float,_peaktime:float)->float:
-	gravity=(2*_jumpheight) / pow(_peaktime,2)
-	return -1*gravity*_peaktime	
+	gravity = (2 * _jumpheight) / pow(_peaktime,2)
+	return -1 * gravity * _peaktime
 
 func calJumpDistance(_jumpdistance:float,_peaktime:float)->float:
 	return _jumpdistance/(_peaktime * 1.8)
@@ -159,11 +123,6 @@ func setAbilty(_ability:String,val:bool)->void:
 
 func chkAbility(_ability: String) -> bool:
 	return ability.get(_ability, false)
-
-func getCombo(val:String):
-	var combo = combos.get(val.to_lower());
-	if !combo: combo = combos.get("default");
-	return combo;
 
 func _take_damage(amount):
 	if(is_dead == true):
@@ -198,10 +157,3 @@ func audio_random_pitch():
 
 func set_audio_volume(amount:float):
 	playerAudio.volume_db = amount
-
-#func load_sfx(sfx_to_load):
-	#if playerAudio.stream != sfx_to_load or !playerAudio.playing:
-		#playerAudio.stop()
-		#playerAudio.stream = sfx_to_load
-		#playerAudio.volume_db = -5
-		#playerAudio.play()

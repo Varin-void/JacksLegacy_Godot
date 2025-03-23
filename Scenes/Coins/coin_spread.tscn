@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://wcaylsvafv00"]
+
+[ext_resource type="Script" uid="uid://c24i381ambnho" path="res://Scripts/MiscellaneousScripts/Coins/coin_spread.gd" id="1_4of0v"]
+[ext_resource type="PackedScene" uid="uid://ph8t8x1x0jwm" path="res://Scenes/Coins/coin_pool.tscn" id="2_244to"]
+
+[node name="CoinSpread" type="Node2D" groups=["coinSpread"]]
+script = ExtResource("1_4of0v")
+
+[node name="Pooling" type="Node2D" parent="."]
+
+[node name="CoinPool" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool2" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool3" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool4" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool5" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool6" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool7" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool8" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool9" parent="Pooling" instance=ExtResource("2_244to")]
+
+[node name="CoinPool10" parent="Pooling" instance=ExtResource("2_244to")]

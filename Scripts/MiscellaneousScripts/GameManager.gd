@@ -48,6 +48,12 @@ var att = [
 		"knockback": 0,
 	}
 ]
+
+var coinSpread = []
+var coinSpreadInd = 0
+var coinSpreadMax = 3
+var player_total_coin = 0
+
 #endregion
 
 func _ready():
@@ -72,6 +78,16 @@ func get_xp_data() -> Dictionary:
 
 func get_max_xp_at(level):
 	return xp_table_data[str(level)]["need"]
+
+func add_coin(value:int):
+	player_total_coin += value
+
+func getCoinSpread()->int:
+	coinSpreadInd +=1;
+	if coinSpreadInd>=coinSpreadMax:
+		coinSpreadInd = 0;
+	return coinSpreadInd;
+
 
 #region Pause n Stat Controller
 var is_paused: bool = false

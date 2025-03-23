@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cjae7tcahph3m"]
+[gd_scene load_steps=33 format=3 uid="uid://cjae7tcahph3m"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_6bfml"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="1_040rt"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://01ycw0k84ivy" path="res://ShaderNResources/CameraController/CameraSO.gd" id="17_i0miu"]
 [ext_resource type="PackedScene" uid="uid://c7d7u7y52kw66" path="res://Scenes/Enemy/Skelly/skelly.tscn" id="17_soh27"]
 [ext_resource type="Script" uid="uid://bfadu481xf6gu" path="res://ShaderNResources/CameraController/CameraTrigger.gd" id="21_soh27"]
+[ext_resource type="PackedScene" uid="uid://wcaylsvafv00" path="res://Scenes/Coins/coin_spread.tscn" id="22_733rx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dhrl2"]
 shader = ExtResource("3_040rt")
@@ -338,6 +339,22 @@ shape = SubResource("RectangleShape2D_6bfml")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="TrasitNext"]
 position = Vector2(5547, 3349)
 shape = SubResource("RectangleShape2D_0g4ye")
+
+[node name="CoinsPooling" type="Node2D" parent="."]
+position = Vector2(-16000, -10000)
+
+[node name="CoinSpread" parent="CoinsPooling" instance=ExtResource("22_733rx")]
+
+[node name="CoinSpread2" parent="CoinsPooling" instance=ExtResource("22_733rx")]
+
+[node name="CoinSpread3" parent="CoinsPooling" instance=ExtResource("22_733rx")]
+
+[node name="CoinSpread4" parent="CoinsPooling" instance=ExtResource("22_733rx")]
+
+[node name="CoinSpread5" parent="CoinsPooling" instance=ExtResource("22_733rx")]
+
+[node name="DeadEnemies" type="Node2D" parent="."]
+visible = false
 
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig2" to="Map1/Map1Triggers/lvl1CamTrig2" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig3" to="Map1/Map1Triggers/lvl1CamTrig3" method="_on_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://c7d7u7y52kw66"]
+[gd_scene load_steps=59 format=3 uid="uid://c7d7u7y52kw66"]
 
 [ext_resource type="Texture2D" uid="uid://bh6ikhi44n0lu" path="res://Assets/Enemies/Skeleton/Idle.png" id="1_0qj1f"]
 [ext_resource type="Texture2D" uid="uid://68xkc102v36j" path="res://Assets/Enemies/Skeleton/Attack.png" id="1_6layy"]
@@ -13,7 +13,9 @@
 [ext_resource type="Script" uid="uid://cpfskbmbvudv4" path="res://Scripts/EnemyScripts/Skelly/E_combat.gd" id="12_htm1h"]
 [ext_resource type="Script" uid="uid://6vvf51h0rawf" path="res://Scripts/EnemyScripts/Skelly/E_attack.gd" id="13_0tbki"]
 [ext_resource type="Shader" uid="uid://dlgpseqakkaha" path="res://ShaderNResources/PaletteSwap.gdshader" id="14_3rbnq"]
+[ext_resource type="Script" uid="uid://b5ta0e16pyydd" path="res://Scripts/EnemyScripts/Skelly/E_hurt.gd" id="15_3rbnq"]
 [ext_resource type="Texture2D" uid="uid://dhecus1qgdu57" path="res://Assets/Enemies/Skeleton/Idle_palette.png" id="15_qjnjd"]
+[ext_resource type="Script" uid="uid://bjl8k72ig8ejr" path="res://Scripts/EnemyScripts/Skelly/E_dead.gd" id="16_qjnjd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tbki"]
 shader = ExtResource("14_3rbnq")
@@ -85,10 +87,6 @@ region = Rect2(300, 0, 150, 150)
 [sub_resource type="AtlasTexture" id="AtlasTexture_mn1wn"]
 atlas = ExtResource("1_0qj1f")
 region = Rect2(450, 0, 150, 150)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_274bd"]
-atlas = ExtResource("1_6layy")
-region = Rect2(0, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p4ne0"]
 atlas = ExtResource("4_bq7fo")
@@ -202,14 +200,6 @@ animations = [{
 "loop": true,
 "name": &"Idle",
 "speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_274bd")
-}],
-"loop": true,
-"name": &"ListAll",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -407,22 +397,6 @@ tracks/1/keys = {
 "values": [&"Shield"]
 }
 
-[sub_resource type="Animation" id="Animation_bfghw"]
-resource_name = "TakeHit"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SkellySprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-
 [sub_resource type="Animation" id="Animation_84w4i"]
 resource_name = "Walk"
 length = 1.5
@@ -452,6 +426,34 @@ tracks/1/keys = {
 "values": [&"Walk"]
 }
 
+[sub_resource type="Animation" id="Animation_3rbnq"]
+resource_name = "TakeHit"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkellySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SkellySprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Take_Hit"]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qw3p4"]
 _data = {
 &"Attack": SubResource("Animation_d8exw"),
@@ -459,7 +461,7 @@ _data = {
 &"Idle": SubResource("Animation_pgy1r"),
 &"RESET": SubResource("Animation_dygl2"),
 &"Shield": SubResource("Animation_thmxk"),
-&"TakeHit": SubResource("Animation_bfghw"),
+&"TakeHit": SubResource("Animation_3rbnq"),
 &"Walk": SubResource("Animation_84w4i")
 }
 
@@ -475,9 +477,9 @@ size = Vector2(70, 59)
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_vuksy")
+health = 100.0
 
 [node name="Label" type="Label" parent="."]
-visible = false
 offset_left = -10.0
 offset_top = -49.0
 offset_right = 30.0
@@ -514,6 +516,18 @@ script = ExtResource("12_htm1h")
 
 [node name="Attack" type="Node" parent="FSM"]
 script = ExtResource("13_0tbki")
+
+[node name="Hurt" type="Node" parent="FSM"]
+script = ExtResource("15_3rbnq")
+metadata/_custom_type_script = "uid://boxbtoh25c3mr"
+
+[node name="HitTimer" type="Timer" parent="FSM/Hurt"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Dead" type="Node" parent="FSM"]
+script = ExtResource("16_qjnjd")
+metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="prop" type="Node2D" parent="."]
 visible = false

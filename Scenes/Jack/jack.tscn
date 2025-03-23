@@ -1,4 +1,4 @@
-[gd_scene load_steps=394 format=3 uid="uid://bvm2exo6iry4y"]
+[gd_scene load_steps=407 format=3 uid="uid://bvm2exo6iry4y"]
 
 [ext_resource type="Texture2D" uid="uid://5q7s73fal10s" path="res://Assets/Player/lightning_ronin_full_v1.0.png" id="1_cd7a0"]
 [ext_resource type="Script" uid="uid://00gmrnsb0u42" path="res://Scripts/JackScripts/JackController.gd" id="1_jjc82"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://8ms0yjyoiv1a" path="res://Scripts/JackScripts/hurt.gd" id="12_lixyl"]
 [ext_resource type="Script" uid="uid://owi7gjuoeecd" path="res://Scripts/JackScripts/block.gd" id="13_02sdt"]
 [ext_resource type="AudioStream" uid="uid://dpg8g4n6tu4ft" path="res://Assets/Audio/PlayerSFX/LightningDash.mp3" id="17_xi45x"]
+[ext_resource type="Texture2D" uid="uid://dnkxvl35xi7yk" path="res://Assets/UI Element/bro V coin.png" id="18_go7hy"]
 
 [sub_resource type="Resource" id="Resource_bg3eg"]
 script = ExtResource("2_02sdt")
@@ -35,6 +36,15 @@ metadata/_custom_type_script = "uid://re645wp6k6ml"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tal6s"]
 height = 46.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5rdy6"]
+size = Vector2(113, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_go7hy"]
+size = Vector2(108, 101)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xi45x"]
+size = Vector2(266, 86)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r4w7t"]
 shader = ExtResource("2_j6iir")
@@ -2685,6 +2695,18 @@ tracks/2/keys = {
 "method": &"audio_random_pitch"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackBox/Attack1:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.104478, 0.238806),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_c2x4x"]
 resource_name = "Attack2"
@@ -2733,6 +2755,18 @@ tracks/2/keys = {
 "args": [],
 "method": &"audio_random_pitch"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackBox/Attack2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.134328, 0.253731),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_as5ct"]
@@ -2798,6 +2832,18 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0.402985)
 }
 tracks/3/use_blend = true
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AttackBox/Attack3:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.373134, 0.567164),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_3r0r0"]
 resource_name = "Dash"
@@ -2927,6 +2973,42 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackBox/Attack1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackBox/Attack2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackBox/Attack3:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_dcc7i"]
 resource_name = "Run"
@@ -2960,6 +3042,70 @@ _data = {
 &"Run": SubResource("Animation_dcc7i")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65hw8"]
+bg_color = Color(1, 0, 0.290196, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xi45x"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ij5gx"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvgk5"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic35r"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kg8p2"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fcpj"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlhud"]
+atlas = ExtResource("18_go7hy")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3mx38"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xi45x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ij5gx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lvgk5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic35r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kg8p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fcpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mlhud")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
 [node name="Jack" type="CharacterBody2D" node_paths=PackedStringArray("playerAudio") groups=["Player"]]
 script = ExtResource("1_jjc82")
 stats = SubResource("Resource_bg3eg")
@@ -2976,6 +3122,25 @@ offset_bottom = -46.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2, 2)
 shape = SubResource("CapsuleShape2D_tal6s")
+
+[node name="AttackBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Attack1" type="CollisionShape2D" parent="AttackBox"]
+position = Vector2(113.5, 0)
+shape = SubResource("RectangleShape2D_5rdy6")
+disabled = true
+
+[node name="Attack2" type="CollisionShape2D" parent="AttackBox"]
+position = Vector2(82, 0)
+shape = SubResource("RectangleShape2D_go7hy")
+disabled = true
+
+[node name="Attack3" type="CollisionShape2D" parent="AttackBox"]
+position = Vector2(161, 0)
+shape = SubResource("RectangleShape2D_xi45x")
+disabled = true
 
 [node name="JackSprite" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -3027,3 +3192,60 @@ script = ExtResource("13_02sdt")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="PlayerAudio" type="AudioStreamPlayer2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+texture_filter = 1
+anchors_preset = -1
+anchor_top = -0.0123457
+anchor_right = 0.0277778
+offset_left = 14.0
+offset_top = 304.444
+offset_right = 54.0
+offset_bottom = 323.0
+text = "Health"
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+light_mask = 2
+visibility_layer = 2
+anchors_preset = -1
+anchor_top = 0.00987778
+anchor_right = 0.00625
+anchor_bottom = 0.326544
+offset_left = 15.0
+offset_top = 333.444
+offset_right = 21.0
+offset_bottom = 397.444
+rotation = -1.5708
+theme_override_styles/fill = SubResource("StyleBoxFlat_65hw8")
+step = 1.0
+value = 25.0
+fill_mode = 2
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI"]
+position = Vector2(562, 27)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_3mx38")
+autoplay = "default"
+frame_progress = 0.888701
+
+[node name="Label" type="Label" parent="UI/AnimatedSprite2D"]
+offset_left = 6.0
+offset_top = -10.6667
+offset_right = 46.0
+offset_bottom = 12.3333
+text = " : "
+
+[node name="CoinValue" type="Label" parent="UI/AnimatedSprite2D"]
+unique_name_in_owner = true
+offset_left = 17.3333
+offset_top = -10.6667
+offset_right = 57.3333
+offset_bottom = 14.3333
+text = "50"
+
+[connection signal="body_entered" from="AttackBox" to="FSM/Attack" method="_on_attack_box_body_entered"]

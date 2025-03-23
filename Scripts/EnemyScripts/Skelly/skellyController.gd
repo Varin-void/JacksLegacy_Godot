@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 #region variable
-@export var health : float = 30
+@export var health : float = 50
 @export var enemyType : EnemyType
 @export var enemyClass : EnemyClass
 @export var isInactive = false
@@ -53,6 +53,11 @@ var RCChkSpace : RayCast2D
 var barrel : Node2D
 var speed = 40
 var lastPost = Vector2.ZERO
+
+var isDead = false
+var isHurt = false
+var isBlock = false
+
 #endregion
 
 func _ready():
@@ -74,8 +79,6 @@ func _ready():
 		fsm.changeState("Patrol")
 
 func _physics_process(delta):
-	#print("Front:", RCChkFront.is_colliding(), " | Ground:", RCChkGround.is_colliding(), " | Back:", RCChkBack.is_colliding())
-
 	label.text = fsm.currentState
 	if not is_on_floor() && enemyType != EnemyType.Fly:
 		if isAirbone:
@@ -137,6 +140,22 @@ func on_detection_area_body_exited(body: Node2D) -> void:
 		player = null
 		speed = orgChaseSpeed
 		fsm.getState("Patrol").tmpSpeed = speed
+
+func take_dmg(attack_name):
+	if isDead or isHurt:
+		return  # Prevent re-entering Hurt state while already hurt
+
+	var attack_data = GameManager.get_attack_by_name(attack_name)
+	if attack_data.size() > 0:
+		health -= attack_data.dmg
+		global_position.x += attack_data.knockback
+		print(health)
+
+		isHurt = true
+		fsm.changeState("Hurt")
+	else:
+		print("Attack not found: ", attack_name)
+
 
 func _on_player_timer_timeout():
 	player = null
