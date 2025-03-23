@@ -52,7 +52,8 @@ func on_animation_finish(animName):
 		if animName == "Attack"+str(att_count):
 			if action_pressed and att_count < 3:
 				att_count += 1
-				animator.play("Attack"+str(att_count))
+				att_name = "Attack"+str(att_count)  
+				animator.play(att_name)
 				
 				action_pressed = false
 				combo_timer.start()
@@ -79,5 +80,5 @@ func comboAtt():
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
-		print("enemy hit")
+		#print("enemy hit")
 		body.take_dmg(att_name)

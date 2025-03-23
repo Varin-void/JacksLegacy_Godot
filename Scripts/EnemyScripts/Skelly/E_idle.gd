@@ -10,7 +10,8 @@ func physicsUpdate(_delta):
 		owner.rotateToPlayer()
 		if owner.enemyType == owner.EnemyType.Fixed:
 			#changeState("Attack")
-			print("attack state")
+			pass
+			#print("attack state")
 		else:
 			#if(owner.RCDown.is_colliding()):
 			changeState("Combat")

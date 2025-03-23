@@ -23,8 +23,8 @@ func on_animation_finished(anim_name):
 	if anim_name == "TakeHit":
 		hit_timer.stop()
 		if owner.health <= 0:
+			owner.isDead = true
 			changeState("Dead")
-			#print("nibba is dead")
 		else:
 			changeState("Idle")
 

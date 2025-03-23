@@ -3,10 +3,13 @@ class_name StageControl
 
 @onready var current_map = "Map1"
 @onready var completed_condition = true
+@onready var info_timer: Timer = $CanvasLayer/Instruction/infoTimer
+@onready var instruction: Control = $CanvasLayer/Instruction
 
 var audio_control = preload("uid://cyjix7ve8f03c")
 
 @onready var jack: JackController = $Jack
+@onready var health_bar: ProgressBar = $CanvasLayer/PlayerUi/HealthBar
 @onready var camera: CameraController = $Camera2D
 
 var maps = {}
@@ -15,7 +18,8 @@ var camera_triggers = {}
 
 func _ready():
 	GameManager.add_fade_to_scene("/root/TestScene/CanvasLayer")
-	
+	info_timer.start()
+	info_timer.timeout.connect(_on_info_timer_timeout)
 	for i in range(1, 3):
 		var map = get_node_or_null("Map" + str(i))
 		var spawn = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Spawn")
@@ -43,6 +47,10 @@ func _ready():
 
 func _process(_delta):
 	AudioGlobal.current_map = current_map
+	health_bar.value = GameManager.HP
+	%CoinValue.text = str(int(GameManager.VCoins))
+	# Simplified PlayerUi visibility logic
+	$CanvasLayer/PlayerUi.visible = not ($CanvasLayer/PauseMenus.visible or $CanvasLayer/StatsControl.visible)
 
 func _on_body_entered(body):
 	if body.is_in_group("Player") and completed_condition:
@@ -64,4 +72,5 @@ func transition_to_next_map():
 		await GameManager.fade_out(GameManager.fade_panel.get_node("ColorRect"),1)
 		GameManager.fade_panel.visible = true
 
-	
+func _on_info_timer_timeout():
+	instruction.visible = false

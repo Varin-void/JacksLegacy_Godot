@@ -13,7 +13,7 @@ var tween_fade
 var nextScene : String
 var fade_panel : Control
 
-const  XP_DATABASE = "res://Data/Database.json"
+const XP_DATABASE = "res://Data/Database.json"
 const MAX_LEVEl = 4
 
 var xp_table_data = {}
@@ -30,12 +30,12 @@ var att = [
 	{
 		"name": "Attack1",
 		"dmg": get_stat_damage(),
-		"knockback": 10,
+		"knockback": 20,
 	},
 	{
 		"name": "Attack2",
 		"dmg": get_stat_damage()+5,
-		"knockback": 15,
+		"knockback":25,
 	},
 	{
 		"name": "Attack3",
@@ -45,7 +45,7 @@ var att = [
 	{
 		"name": "AirAttack",
 		"dmg": get_stat_damage()+2,
-		"knockback": 0,
+		"knockback": 10,
 	}
 ]
 
@@ -63,6 +63,30 @@ func _ready():
 	xp_table_data = get_xp_data()
 	total_xp = 0
 	print(xp_table_data)
+
+func update_attacks():
+	att = [
+		{
+			"name": "Attack1",
+			"dmg": get_stat_damage(),
+			"knockback": 20,
+		},
+		{
+			"name": "Attack2",
+			"dmg": get_stat_damage() + 5,
+			"knockback": 25,
+		},
+		{
+			"name": "Attack3",
+			"dmg": get_stat_damage() + 5,
+			"knockback": 5,
+		},
+		{
+			"name": "AirAttack",
+			"dmg": get_stat_damage() + 2,
+			"knockback": 10,
+		}
+	]
 
 # Function to get an attack by name
 func get_attack_by_name(_name: String) -> Dictionary:
@@ -86,8 +110,7 @@ func getCoinSpread()->int:
 	coinSpreadInd +=1;
 	if coinSpreadInd>=coinSpreadMax:
 		coinSpreadInd = 0;
-	return coinSpreadInd;
-
+	return coinSpreadInd
 
 #region Pause n Stat Controller
 var is_paused: bool = false
@@ -103,7 +126,7 @@ func register_pause_menu(menu: Control):
 
 func toggle_pause():
 	if not pause_menu:
-		print("Pause menu is NOT assigned!")  
+		#print("Pause menu is NOT assigned!")  
 		return  
 
 	if stat_menu and stat_menu.visible:
@@ -190,7 +213,7 @@ func transition_map():
 #endregion
 
 #region PlayerStats
-var lvl:int = 1:
+var lvl: int = 1:
 	set(value):
 		lvl = value
 		
@@ -199,7 +222,11 @@ var lvl:int = 1:
 		Agility += 2
 		Vitality += 1
 		Defense += 5
+		
 		setPlayerStatCalc()
+		update_attacks()
+
+		#print(" 🔥 Level Up! New Strength:", Strength)
 
 var total_xp = 0
 
@@ -224,7 +251,6 @@ var HP:int:
 var Strength:int:
 	set(value):
 		Strength = value
-		
 
 var Vitality:int:
 	set(value):
@@ -266,62 +292,15 @@ func get_extra_speed(speed:float) -> float:
 	return speed + (Agility * 2)
 
 func get_stat_damage() -> int:
-	return Strength * 2 + 10
+	return Strength * 2 + 5
 
 func setPlayerStatCalc():
 	HP = HP + get_extra_hp()
+	update_attacks()
 #endregion
 
 #region Save Game
 
-#func to_dict() -> Dictionary:
-	#return {
-		#"Name": "Jack",
-		#"lvl": lvl,
-		#"total_xp": total_xp,
-		#"current_xp": current_xp, 
-		#"HP": HP,   # Store base HP only - get_extra_hp(),
-		#"Strength": Strength,
-		#"Agility": Agility,
-		#"Vitality": Vitality,
-		#"Defense": Defense,
-		#"VCoins": VCoins,
-		#"global_position": Character.global_position
-	#}
-#
-#func load_from_dict(data: Dictionary):
-	#print("🔄 Loading Data from Save:", data)
-#
-	#if "lvl" in data:
-		#lvl = data["lvl"]
-	#if "total_xp" in data:
-		#total_xp = data["total_xp"]
-	#if "current_xp" in data:
-		#current_xp = data["current_xp"]
-	#if "HP" in data:
-		#HP = data["HP"]  # Load base HP only
-	#if "Strength" in data:
-		#Strength = data["Strength"]
-	#if "Agility" in data:
-		#Agility = data["Agility"]
-	#if "Vitality" in data:
-		#Vitality = data["Vitality"]
-	#if "Defense" in data:
-		#Defense = data["Defense"]
-	#if "VCoins" in data:
-		#VCoins = data["VCoins"]
-	#if "global_position" in data and Character:
-		#var pos_str = data["global_position"]
-		#if pos_str is String:
-			#var pos_values = pos_str.trim_prefix("(").trim_suffix(")").split(", ")
-			#if pos_values.size() == 2:
-				#Character.global_position = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
-			#else:
-				#print("⚠️ Invalid position format:", pos_str)
-		#else:
-			#Character.global_position = data["global_position"]
-	#print("✅ Player Stats Loaded: Level =", lvl, "| HP =", HP, "| Strength =", Strength, 
-		  #"| Agility =", Agility, "| Vitality =", Vitality, "| Defense =", Defense, "| XP =", current_xp)
 func to_dict() -> Dictionary:
 	return {
 		"Name": "Jack",
@@ -340,7 +319,7 @@ func to_dict() -> Dictionary:
 	}
 
 func load_from_dict(data: Dictionary):
-	print("🔄 Loading Data from Save:", data)
+	#print("🔄 Loading Data from Save:", data)
 
 	if "lvl" in data:
 		lvl = data["lvl"]
@@ -369,7 +348,8 @@ func load_from_dict(data: Dictionary):
 			if pos_values.size() == 2:
 				Character.global_position = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
 			else:
-				print("⚠️ Invalid position format:", pos_str)
+				#print("⚠️ Invalid position format:", pos_str)
+				pass
 		else:
 			Character.global_position = data["global_position"]
 
@@ -385,12 +365,13 @@ func load_from_dict(data: Dictionary):
 			if pos_values.size() == 2:
 				StageController.camera.global_position = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
 			else:
-				print("⚠️ Invalid position format:", pos_str)
+				#print("⚠️ Invalid position format:", pos_str)
+				pass
 		else:
 			StageController.camera.global_position = data["camera_position"]
 		#StageController.camera.global_position = Vector2(data["camera_position"].x, data["camera_position"].y)
 
-	print("✅ Player and Stage Loaded: Map =", StageController.current_map, "| Position =", Character.global_position)
+	#print("✅ Player and Stage Loaded: Map =", StageController.current_map, "| Position =", Character.global_position)
 
 
 func _save_game() -> void:
@@ -400,7 +381,7 @@ func _save_game() -> void:
 
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	if !file:
-		print("Failed to open file: ", FileAccess.get_open_error())  
+		#print("Failed to open file: ", FileAccess.get_open_error())  
 		return
 
 	var data_dict = to_dict()
@@ -408,16 +389,16 @@ func _save_game() -> void:
 	var json_data = JSON.stringify(data_dict, "\t")  
 	file.store_string(json_data)
 	file.close()
-	print("✅ -> Game Saved Successfully!")
+	#print("✅ -> Game Saved Successfully!")
 
 func _load_game():
 	if !FileAccess.file_exists(path):
-		print("Save file not found: ", path)
+		#print("Save file not found: ", path)
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:
-		print("Failed to open file: ", FileAccess.get_open_error())
+		#print("Failed to open file: ", FileAccess.get_open_error())
 		return
 
 	var content = file.get_as_text()
@@ -425,7 +406,7 @@ func _load_game():
 
 	var data = JSON.parse_string(content)
 	if typeof(data) != TYPE_DICTIONARY:
-		print("Cannot parse %s as a JSON string: (%s)" % [path, content])
+		#print("Cannot parse %s as a JSON string: (%s)" % [path, content])
 		return
 
 	# Load stats first

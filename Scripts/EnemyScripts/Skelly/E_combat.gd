@@ -37,7 +37,7 @@ func physicsUpdate(delta):
 				
 				if(floor(abs(dist.x))<owner.attackRadius && owner.attackRadius>0):
 					#target.x = owner.player.global_position.x + 120
-					print("state Locationg")
+					#print("state Locationg")
 					
 					#changeState("Locating")
 					return
@@ -52,7 +52,8 @@ func physicsUpdate(delta):
 					
 				if owner.canMove():
 					if owner.player.is_on_floor() && abs(dist.y)>=owner.attackHeight && abs(dist.x)<=50:
-						print("Jump")
+						#print("Jump")
+						pass
 					owner.anim.play(animName)
 					owner.global_position = owner.global_position.move_toward(
 						Vector2(owner.player.global_position.x,owner.global_position.y) ,owner.speed * delta)
@@ -62,11 +63,11 @@ func physicsUpdate(delta):
 					return
 			if owner.canAttack():
 				if owner.player.is_on_floor() && abs(dist.y)>=owner.attackHeight:
-					print("state routing")
+					#print("state routing")
 					#changeState("Routing")
+					pass
 				else:
-					print("state attack")
-					
+					#print("state attack")
 					changeState("Attack")
 			else:
 				owner.anim.play("Idle" if owner.enemyType == owner.EnemyType.Fly else animName)

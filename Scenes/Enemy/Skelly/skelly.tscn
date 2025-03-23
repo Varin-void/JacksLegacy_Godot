@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://c7d7u7y52kw66"]
+[gd_scene load_steps=60 format=3 uid="uid://c7d7u7y52kw66"]
 
 [ext_resource type="Texture2D" uid="uid://bh6ikhi44n0lu" path="res://Assets/Enemies/Skeleton/Idle.png" id="1_0qj1f"]
 [ext_resource type="Texture2D" uid="uid://68xkc102v36j" path="res://Assets/Enemies/Skeleton/Attack.png" id="1_6layy"]
@@ -259,7 +259,7 @@ height = 54.0
 
 [sub_resource type="Animation" id="Animation_d8exw"]
 resource_name = "Attack"
-length = 0.5
+length = 0.55
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -267,10 +267,10 @@ tracks/0/path = NodePath("SkellySprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7]
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -283,6 +283,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"Attack"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("prop/AttackBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_ux4xn"]
@@ -368,6 +380,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [&"Attack"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("prop/AttackBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_thmxk"]
 resource_name = "Shield"
@@ -395,6 +419,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [&"Shield"]
+}
+
+[sub_resource type="Animation" id="Animation_3rbnq"]
+resource_name = "TakeHit"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SkellySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SkellySprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Take_Hit"]
 }
 
 [sub_resource type="Animation" id="Animation_84w4i"]
@@ -426,34 +478,6 @@ tracks/1/keys = {
 "values": [&"Walk"]
 }
 
-[sub_resource type="Animation" id="Animation_3rbnq"]
-resource_name = "TakeHit"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SkellySprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.233333, 0.366667),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("SkellySprite:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Take_Hit"]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qw3p4"]
 _data = {
 &"Attack": SubResource("Animation_d8exw"),
@@ -471,6 +495,9 @@ size = Vector2(119, 60)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dafwi"]
 size = Vector2(70, 59)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qjnjd"]
+size = Vector2(54, 52)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lbk5d"]
 
 [node name="Skelly" type="CharacterBody2D" groups=["Enemy"]]
@@ -478,8 +505,10 @@ collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_vuksy")
 health = 100.0
+damage = 5
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -10.0
 offset_top = -49.0
 offset_right = 30.0
@@ -516,6 +545,10 @@ script = ExtResource("12_htm1h")
 
 [node name="Attack" type="Node" parent="FSM"]
 script = ExtResource("13_0tbki")
+
+[node name="AttackTimer" type="Timer" parent="FSM/Attack"]
+wait_time = 0.75
+one_shot = true
 
 [node name="Hurt" type="Node" parent="FSM"]
 script = ExtResource("15_3rbnq")
@@ -562,6 +595,15 @@ target_position = Vector2(0, 75)
 [node name="RCChkBack" type="RayCast2D" parent="prop"]
 target_position = Vector2(-33, 0)
 
+[node name="AttackBox" type="Area2D" parent="prop"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="prop/AttackBox"]
+position = Vector2(40, 1)
+shape = SubResource("RectangleShape2D_qjnjd")
+disabled = true
+
 [node name="PlayerTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
@@ -573,4 +615,5 @@ texture = ExtResource("1_0qj1f")
 
 [connection signal="body_entered" from="prop/DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="prop/DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="prop/AttackBox" to="." method="_on_attack_box_body_entered"]
 [connection signal="timeout" from="PlayerTimer" to="." method="_on_player_timer_timeout"]

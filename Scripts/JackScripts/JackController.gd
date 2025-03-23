@@ -5,7 +5,6 @@ class_name JackController
 @onready var sprite: Sprite2D = $JackSprite
 @onready var fsm = $FSM
 @onready var body: CollisionShape2D = $CollisionShape2D
-@onready var health_bar: ProgressBar = $UI/HealthBar
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction: float = 0
@@ -19,6 +18,7 @@ var dashCD: float = 0.75
 var is_dead: bool = false
 var attack_input: bool = false
 var camera:CameraController
+var is_hurt: bool = false
 
 var camera_pos:Vector2
 var viewport_size:Vector2
@@ -65,8 +65,6 @@ func _ready():
 
 func _process(_delta):
 	$Label.text = str(fsm.currentState)
-	health_bar.value = GameManager.HP
-	%CoinValue.text = str(GameManager.VCoins)
 	if !chkAbility("Dashing"):
 		direction = Input.get_axis("move_left", "move_right")
 	flip()
@@ -125,16 +123,17 @@ func chkAbility(_ability: String) -> bool:
 	return ability.get(_ability, false)
 
 func _take_damage(amount):
-	if(is_dead == true):
+	if is_dead:
 		return
 	
+	is_hurt = true
 	GameManager.HP -= amount
-	
-	if(	GameManager.HP <= 0):
-		_die()
+	fsm.changeState("Hurt")
+	#if(GameManager.HP <= 0):
+		#_die()
 
-func _die():
-	print("Player Died")
+#func _die():
+	#print("Player Died")
 
 func fn_ClampPosition():
 	camera_pos = get_parent().camera.global_position

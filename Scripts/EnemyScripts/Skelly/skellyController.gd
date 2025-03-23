@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 #region variable
 @export var health : float = 50
+@export var damage : int = 10
+
 @export var enemyType : EnemyType
 @export var enemyClass : EnemyClass
 @export var isInactive = false
@@ -143,18 +145,18 @@ func on_detection_area_body_exited(body: Node2D) -> void:
 
 func take_dmg(attack_name):
 	if isDead or isHurt:
-		return  # Prevent re-entering Hurt state while already hurt
+		return
 
 	var attack_data = GameManager.get_attack_by_name(attack_name)
 	if attack_data.size() > 0:
 		health -= attack_data.dmg
 		global_position.x += attack_data.knockback
-		print(health)
 
 		isHurt = true
 		fsm.changeState("Hurt")
 	else:
-		print("Attack not found: ", attack_name)
+		#print("Attack not found: ", attack_name)
+		pass
 
 
 func _on_player_timer_timeout():
@@ -166,3 +168,8 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 
 func _on_detection_area_body_exited(_body: Node2D) -> void:
 	$PlayerTimer.start()
+
+
+func _on_attack_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player") and body.has_method("_take_damage"):
+		body._take_damage(damage)

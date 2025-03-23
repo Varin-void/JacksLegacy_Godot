@@ -1,7 +1,9 @@
 extends State
 
 func enter():
+	owner.isDead = true
 	owner.anim.play("Death")
 	await owner.anim.animation_finished
 	owner.visible = false
-	owner.reparent($DeadEnemies)
+	owner.isInactive = true
+	#owner.reparent($DeadEnemies)
