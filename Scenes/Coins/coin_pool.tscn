@@ -68,6 +68,7 @@ animations = [{
 }]
 
 [node name="CoinPool" type="CharacterBody2D"]
+scale = Vector2(100, 100)
 collision_layer = 0
 script = ExtResource("1_72ug0")
 value = 1

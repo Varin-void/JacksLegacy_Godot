@@ -53,8 +53,8 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func setType():
-	scale.x = 0.4
-	scale.y = 0.4
+	scale.x = 1
+	scale.y = 1
 
 func poolReturn():
 	timerLifeSpan.stop()
@@ -81,17 +81,15 @@ func launch(target:Vector2,duration:float = 0):
 		timerLaunch.wait_time = duration
 		timerLaunch.start()
 
-func calcArcVelocity(sPosition,tPosition,arcHeight,gravity):
+func calcArcVelocity(sPosition,tPosition,arcHeight,_gravity):
 	var vel : Vector2
 	var displacement = tPosition - sPosition
 	if displacement.y > arcHeight:
-		var timeUp = sqrt(-2 * arcHeight / float(gravity))
-		var timeDown = sqrt(2 * (displacement.y - arcHeight) / float(gravity))
-		vel.y = -sqrt(-2 * gravity * arcHeight)
+		var timeUp = sqrt(-2 * arcHeight / float(_gravity))
+		var timeDown = sqrt(2 * (displacement.y - arcHeight) / float(_gravity))
+		vel.y = -sqrt(-2 * _gravity * arcHeight)
 		vel.x = displacement.x / float(timeUp + timeDown)
-	
 	return vel
-
 
 func _on_pickup_body_entered(body) -> void:
 	if body.is_in_group("Player") && !isConsuming:

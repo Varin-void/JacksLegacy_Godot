@@ -9,7 +9,6 @@ func _ready():
 	var audio = audio_control.instantiate()
 	get_tree().root.call_deferred("add_child",audio)
 	
-
 func _on_play_pressed():
 	#GameManager.transition_scene("uid://cjae7tcahph3m")
 	on_play_pressed()

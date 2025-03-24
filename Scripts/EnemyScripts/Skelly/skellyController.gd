@@ -3,6 +3,7 @@ extends CharacterBody2D
 #region variable
 @export var health : float = 50
 @export var damage : int = 10
+@export var _exp : float = 100 
 
 @export var enemyType : EnemyType
 @export var enemyClass : EnemyClass
@@ -21,7 +22,7 @@ extends CharacterBody2D
 @onready var anim = $AnimationPlayer
 @onready var fsm: FSM = $FSM
 @onready var label: Label = $Label
-@onready var sprite: AnimatedSprite2D = $SkellySprite
+@onready var sprite: AnimatedSprite2D
 @onready var prop: Node2D = $prop
 @onready var player : JackController
 @onready var hurtBox = $CollisionShape2D as CollisionShape2D
@@ -31,6 +32,10 @@ extends CharacterBody2D
 @onready var RCChkGround = $prop/RCChkGround as RayCast2D
 @onready var RCChkBack = $prop/RCChkBack as RayCast2D
 @onready var screenSize  = get_viewport_rect()
+@onready var gollux_sprite: AnimatedSprite2D = $Golem/GolluxSprite
+@onready var skelly_sprite: AnimatedSprite2D = $SkellySprite
+
+var coinSpread : Node
 
 enum EnemyType {
 	Ground,
@@ -40,7 +45,7 @@ enum EnemyType {
 
 enum EnemyClass{
 	Melee,
-	_range,
+	Golem,
 	_container
 }
 
@@ -63,11 +68,12 @@ var isBlock = false
 #endregion
 
 func _ready():
+	set_enemy_properties()
 	orgPos = global_position
+	orgChaseSpeed = speed
 	RCChkFront.enabled = true
 	RCChkGround.enabled = true
 	RCChkBack.enabled = true
-
 	lastPost = global_position
 	
 	if playerTrigger:
@@ -143,21 +149,25 @@ func on_detection_area_body_exited(body: Node2D) -> void:
 		speed = orgChaseSpeed
 		fsm.getState("Patrol").tmpSpeed = speed
 
-func take_dmg(attack_name):
+func take_dmg(attack_name, attacker_pos):
 	if isDead or isHurt:
 		return
-
+	
 	var attack_data = GameManager.get_attack_by_name(attack_name)
 	if attack_data.size() > 0:
 		health -= attack_data.dmg
-		global_position.x += attack_data.knockback
+
+		if health <= 0:
+			isDead = true
+			GameManager.current_xp += _exp
+			fsm.changeState("Dead")
+			return
+
+		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
+		global_position.x += attack_data.knockback * knockback_dir
 
 		isHurt = true
 		fsm.changeState("Hurt")
-	else:
-		#print("Attack not found: ", attack_name)
-		pass
-
 
 func _on_player_timer_timeout():
 	player = null
@@ -169,6 +179,26 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 func _on_detection_area_body_exited(_body: Node2D) -> void:
 	$PlayerTimer.start()
 
+func set_enemy_properties():
+	match enemyClass:
+		EnemyClass.Melee:
+			sprite = skelly_sprite
+			speed = 50
+			damage = 10
+			health = 100
+			_exp = 100
+			gollux_sprite.visible = false
+			skelly_sprite.visible = true
+			
+		EnemyClass.Golem:
+			sprite = gollux_sprite
+			speed = 75
+			damage = 20
+			health = 150
+			_exp = 150
+			skelly_sprite.visible = false
+			gollux_sprite.visible = true
+			
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and body.has_method("_take_damage"):

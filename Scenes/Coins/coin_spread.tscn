@@ -4,26 +4,37 @@
 [ext_resource type="PackedScene" uid="uid://ph8t8x1x0jwm" path="res://Scenes/Coins/coin_pool.tscn" id="2_244to"]
 
 [node name="CoinSpread" type="Node2D" groups=["coinSpread"]]
+scale = Vector2(3, 3)
 script = ExtResource("1_4of0v")
 
 [node name="Pooling" type="Node2D" parent="."]
 
 [node name="CoinPool" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool2" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool3" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool4" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool5" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool6" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool7" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool8" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool9" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)
 
 [node name="CoinPool10" parent="Pooling" instance=ExtResource("2_244to")]
+scale = Vector2(3, 3)

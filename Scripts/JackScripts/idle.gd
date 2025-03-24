@@ -16,6 +16,11 @@ func update(_delta):
 			changeState("Jump")
 		elif Input.is_action_just_pressed("attack_swing"):
 			changeState("Attack")
-	
+		elif Input.is_action_just_pressed("block"):
+			changeState("Block")
+		elif Input.is_action_just_pressed("attack_swing_heavy"):
+			owner.heavy_att = true
+			changeState("Attack")
+			
 	if Input.is_action_just_pressed("move_dash") and owner.canDash:
 		changeState("Dash")

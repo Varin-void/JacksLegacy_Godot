@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cbyayktnmu7h5"]
+[gd_scene load_steps=18 format=3 uid="uid://cbyayktnmu7h5"]
 
 [ext_resource type="Texture2D" uid="uid://b45t8drb268pf" path="res://Assets/UI Element/LoadingScreen.png" id="1_tjriq"]
 [ext_resource type="Script" uid="uid://dmr024np3q5ex" path="res://Scripts/MiscellaneousScripts/main_screen.gd" id="1_vgc1b"]
@@ -11,13 +11,6 @@
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjriq"]
 texture = ExtResource("1_tjriq")
-
-[sub_resource type="Environment" id="Environment_0gs8m"]
-background_mode = 3
-glow_enabled = true
-glow_intensity = 1.0
-glow_strength = 2.0
-glow_hdr_threshold = 1.5
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5kdhm"]
 particles_animation = true
@@ -42,7 +35,7 @@ spread = 20.0
 initial_velocity_min = 250.0
 initial_velocity_max = 400.0
 angular_velocity_min = -1.60933e-05
-angular_velocity_max = 50.0
+angular_velocity_max = 20.0
 gravity = Vector3(0, 10, 0)
 scale_min = 0.1
 scale_max = 0.2
@@ -52,52 +45,6 @@ turbulence_influence_min = 0.706
 turbulence_influence_max = 0.706
 turbulence_initial_displacement_min = 1.49012e-06
 turbulence_initial_displacement_max = 84.4
-
-[sub_resource type="Gradient" id="Gradient_8c61o"]
-offsets = PackedFloat32Array(0, 0.512605, 1)
-colors = PackedColorArray(0.824, 0.298, 0, 0, 0.823512, 0.297878, 0, 1, 0.824, 0.298, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lukfi"]
-gradient = SubResource("Gradient_8c61o")
-width = 1
-height = 32
-fill_to = Vector2(0, 1)
-
-[sub_resource type="Gradient" id="Gradient_vgc1b"]
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_68yyf"]
-gradient = SubResource("Gradient_vgc1b")
-
-[sub_resource type="Gradient" id="Gradient_6r4rq"]
-offsets = PackedFloat32Array(0, 0.26699, 0.76699, 1)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_q7rwo"]
-gradient = SubResource("Gradient_6r4rq")
-
-[sub_resource type="Curve" id="Curve_k46a3"]
-_limits = [-200.0, 200.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0854701, 90.1099), 0.0, 0.0, 0, 0, Vector2(0.209402, -10.989), 0.0, 0.0, 0, 0, Vector2(0.320513, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.444444, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.534188, 81.3187), 0.0, 0.0, 0, 0, Vector2(0.649573, 2.19778), 0.0, 0.0, 0, 0, Vector2(0.773504, 85.7143), 0.0, 0.0, 0, 0, Vector2(0.901709, 2.19778), 0.0, 0.0, 0, 0, Vector2(1, 54.9451), 0.0, 0.0, 0, 0]
-point_count = 10
-
-[sub_resource type="CurveTexture" id="CurveTexture_72lsg"]
-curve = SubResource("Curve_k46a3")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2uhq0"]
-particle_flag_disable_z = true
-emission_shape_scale = Vector3(200, 200, 1)
-emission_shape = 3
-emission_box_extents = Vector3(1, 1, 1)
-gravity = Vector3(100, 20, 0)
-tangential_accel_min = -2.23517e-06
-tangential_accel_max = 6.0
-tangential_accel_curve = SubResource("CurveTexture_72lsg")
-damping_max = 100.0
-scale_min = 0.5
-scale_max = 0.8
-color_ramp = SubResource("GradientTexture1D_q7rwo")
-color_initial_ramp = SubResource("GradientTexture1D_68yyf")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tycvk"]
 
@@ -133,9 +80,6 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_tjriq")
 
 [node name="Speck" type="Node" parent="Panel"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Panel/Speck"]
-environment = SubResource("Environment_0gs8m")
-
 [node name="FireSpeckParticle" type="GPUParticles2D" parent="Panel/Speck"]
 material = SubResource("CanvasItemMaterial_5kdhm")
 position = Vector2(250, 130)
@@ -143,22 +87,10 @@ rotation = -0.523599
 scale = Vector2(1, 1.66105)
 amount = 150
 texture = ExtResource("2_wt5um")
+speed_scale = 0.5
 randomness = 0.11
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_tycvk")
-
-[node name="WindParticle" type="GPUParticles2D" parent="Panel/Speck"]
-visible = false
-position = Vector2(32, 214)
-rotation = -0.261799
-amount = 25
-texture = SubResource("GradientTexture2D_lukfi")
-lifetime = 5.0
-preprocess = 2.0
-randomness = 1.0
-trail_enabled = true
-trail_lifetime = 0.6
-process_material = SubResource("ParticleProcessMaterial_2uhq0")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
 layout_mode = 0

@@ -6,6 +6,7 @@ class_name JackController
 @onready var fsm = $FSM
 @onready var body: CollisionShape2D = $CollisionShape2D
 
+var ui : StageControl
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction: float = 0
 var dir: int = 0
@@ -19,12 +20,14 @@ var is_dead: bool = false
 var attack_input: bool = false
 var camera:CameraController
 var is_hurt: bool = false
+var is_blocking: bool = false
 
 var camera_pos:Vector2
 var viewport_size:Vector2
 var clampMin:Vector2
 var clampMax:Vector2
 var cam_pov:Vector2
+var heavy_att = false
 
 var ability: Dictionary = {
 	"Dashing": false,
@@ -35,7 +38,7 @@ var ability: Dictionary = {
 }
 
 @export var stats : _PlayerStats
-@export var speed: float = 300
+@export var speed: float = 225
 
 @export_group("SoundFX")
 @export var AttackSfx : AudioStreamMP3
@@ -43,6 +46,7 @@ var ability: Dictionary = {
 @export var playerAudio : AudioStreamPlayer2D
 
 func _ready():
+	ui = get_tree().get_nodes_in_group("Level")[0] as StageControl
 	floor_snap_length = 10
 	camera = get_tree().get_nodes_in_group("Camera")[0] as CameraController
 	calJumpForce(5*16, .25)
@@ -129,11 +133,36 @@ func _take_damage(amount):
 	is_hurt = true
 	GameManager.HP -= amount
 	fsm.changeState("Hurt")
-	#if(GameManager.HP <= 0):
-		#_die()
+	if(GameManager.HP <= 0):
+		is_dead = true 
 
-#func _die():
-	#print("Player Died")
+var dialog = ConfirmationDialog.new()
+
+func _die():
+	get_tree().paused = true
+	dialog.dialog_text = "Game Over. Do you want to continue from your last save? Or Restart?"
+	
+	get_tree().root.add_child(dialog)
+	dialog.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	dialog.ok_button_text = "Load Game"
+	dialog.cancel_button_text = "New Game"
+	
+	dialog.connect("confirmed", Callable(self, "_load_game"))
+	dialog.connect("canceled", Callable(self, "_start_new_game"))
+	
+	dialog.popup_centered()
+
+func _start_new_game():
+	GameManager.transition_scene("uid://cjae7tcahph3m")
+	get_tree().paused = false
+	dialog.queue_free()
+
+func _load_game():
+	GameManager.isLoad = true
+	GameManager.transition_scene("uid://cjae7tcahph3m")
+	get_tree().paused = false
+	dialog.queue_free()
 
 func fn_ClampPosition():
 	camera_pos = get_parent().camera.global_position

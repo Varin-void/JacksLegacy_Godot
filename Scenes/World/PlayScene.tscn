@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c4dbuo5jew0yf" path="res://Assets/LevelDesign/Legacy Adventure Pack - CEMETERY/Assets/Background_1.png" id="3_y6ktg"]
 [ext_resource type="PackedScene" uid="uid://bvm2exo6iry4y" path="res://Scenes/Jack/jack.tscn" id="5_ca733"]
 [ext_resource type="TileSet" uid="uid://dqnk2lgwth6oy" path="res://Assets/LevelDesign/Cemetry.tres" id="6_l7gho"]
-[ext_resource type="PackedScene" uid="uid://c7d7u7y52kw66" path="res://Scenes/Enemy/skelly.tscn" id="7_trvkr"]
+[ext_resource type="PackedScene" uid="uid://c7d7u7y52kw66" path="res://Scenes/Enemy/Skelly/Enemies.tscn" id="7_trvkr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0jj43"]
 shader = ExtResource("2_l3rvn")

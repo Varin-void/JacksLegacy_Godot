@@ -1,7 +1,7 @@
 extends State
 const animation:String = "Jump"
 var isjump : bool = false
-var jumpforce : float = -330
+var jumpforce : float = -350
 var jumpcount : int = 0
 
 var pixelSize :float = 16

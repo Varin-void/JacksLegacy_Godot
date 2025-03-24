@@ -21,8 +21,8 @@ var xp_table_data = {}
 var path : String
 var dir:String
 var json:String
-const filename="save.dat"
-const folder:String="JackSaveFiles"
+const filename = "jack_save.dat"
+const folder:String = "JackSaveFiles"
 
 var isLoad = false
 
@@ -52,7 +52,6 @@ var att = [
 var coinSpread = []
 var coinSpreadInd = 0
 var coinSpreadMax = 3
-var player_total_coin = 0
 
 #endregion
 
@@ -62,7 +61,7 @@ func _ready():
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	xp_table_data = get_xp_data()
 	total_xp = 0
-	print(xp_table_data)
+	#print(xp_table_data)
 
 func update_attacks():
 	att = [
@@ -104,7 +103,7 @@ func get_max_xp_at(level):
 	return xp_table_data[str(level)]["need"]
 
 func add_coin(value:int):
-	player_total_coin += value
+	VCoins += value
 
 func getCoinSpread()->int:
 	coinSpreadInd +=1;
@@ -216,8 +215,6 @@ func transition_map():
 var lvl: int = 1:
 	set(value):
 		lvl = value
-		
-		HP += 20
 		Strength += 4
 		Agility += 2
 		Vitality += 1
@@ -225,8 +222,6 @@ var lvl: int = 1:
 		
 		setPlayerStatCalc()
 		update_attacks()
-
-		#print(" 🔥 Level Up! New Strength:", Strength)
 
 var total_xp = 0
 
@@ -243,6 +238,11 @@ var current_xp = 0:
 		
 		var total = min((GameManager.xp_table_data[str(lvl)]["total"] + current_xp),GameManager.xp_table_data[str(GameManager.MAX_LEVEl)]["total"])
 		total_xp = total
+
+var max_hp: int:
+	set(value):
+		max_hp = value
+		HP = min(HP, max_hp)
 
 var HP:int:
 	set(value):
@@ -295,7 +295,8 @@ func get_stat_damage() -> int:
 	return Strength * 2 + 5
 
 func setPlayerStatCalc():
-	HP = HP + get_extra_hp()
+	max_hp = 100 + get_extra_hp() + (lvl * 20)
+	HP = max_hp
 	update_attacks()
 #endregion
 
@@ -308,6 +309,7 @@ func to_dict() -> Dictionary:
 		"total_xp": total_xp,
 		"current_xp": current_xp, 
 		"HP": HP,
+		"max_hp": max_hp,
 		"Strength": Strength,
 		"Agility": Agility,
 		"Vitality": Vitality,
@@ -316,6 +318,7 @@ func to_dict() -> Dictionary:
 		"global_position": Character.global_position,
 		"current_map": StageController.current_map,
 		"camera_position": StageController.camera.global_position,
+		"background_offset" : StageController.bg_2.scroll_base_offset,
 	}
 
 func load_from_dict(data: Dictionary):
@@ -329,6 +332,8 @@ func load_from_dict(data: Dictionary):
 		current_xp = data["current_xp"]
 	if "HP" in data:
 		HP = data["HP"]
+	if "max_hp" in data:
+		max_hp = data["max_hp"]
 	if "Strength" in data:
 		Strength = data["Strength"]
 	if "Agility" in data:
@@ -346,10 +351,7 @@ func load_from_dict(data: Dictionary):
 		if pos_str is String:
 			var pos_values = pos_str.trim_prefix("(").trim_suffix(")").split(", ")
 			if pos_values.size() == 2:
-				Character.global_position = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
-			else:
-				#print("⚠️ Invalid position format:", pos_str)
-				pass
+				Character.global_position = Vector2((pos_values[0].to_float())+100, pos_values[1].to_float())
 		else:
 			Character.global_position = data["global_position"]
 
@@ -365,40 +367,41 @@ func load_from_dict(data: Dictionary):
 			if pos_values.size() == 2:
 				StageController.camera.global_position = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
 			else:
-				#print("⚠️ Invalid position format:", pos_str)
 				pass
 		else:
 			StageController.camera.global_position = data["camera_position"]
-		#StageController.camera.global_position = Vector2(data["camera_position"].x, data["camera_position"].y)
-
-	#print("✅ Player and Stage Loaded: Map =", StageController.current_map, "| Position =", Character.global_position)
-
+	
+	# Restore Background position
+	if "background_offset" in data:
+		var pos_str = data["background_offset"]
+		if pos_str is String:
+			var pos_values = pos_str.trim_prefix("(").trim_suffix(")").split(", ")
+			if pos_values.size() == 2:
+				StageController.bg_1_2.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
+		else:
+			StageController.bg_1_2.scroll_base_offset = data["background_offset"]
 
 func _save_game() -> void:
 	var directory = DirAccess.open("user://")
 	if !directory.dir_exists(dir):
-		directory.make_dir_recursive(dir)  # Ensure directory exists
+		directory.make_dir_recursive(dir)
 
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	if !file:
-		#print("Failed to open file: ", FileAccess.get_open_error())  
 		return
 
 	var data_dict = to_dict()
-	print("Saving Data: ", data_dict)  # Debugging
 	var json_data = JSON.stringify(data_dict, "\t")  
 	file.store_string(json_data)
 	file.close()
-	#print("✅ -> Game Saved Successfully!")
+	print("✅ -> Game Saved Successfully!")
 
 func _load_game():
 	if !FileAccess.file_exists(path):
-		#print("Save file not found: ", path)
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
 	if FileAccess.get_open_error() != OK:
-		#print("Failed to open file: ", FileAccess.get_open_error())
 		return
 
 	var content = file.get_as_text()
@@ -406,12 +409,7 @@ func _load_game():
 
 	var data = JSON.parse_string(content)
 	if typeof(data) != TYPE_DICTIONARY:
-		#print("Cannot parse %s as a JSON string: (%s)" % [path, content])
 		return
-
-	# Load stats first
 	load_from_dict(data)
-	
-	#print("✅ -> Game Loaded Successfully: ", data)
 
 #endregion

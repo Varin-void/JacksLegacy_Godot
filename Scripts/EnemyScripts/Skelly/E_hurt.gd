@@ -26,10 +26,11 @@ func on_animation_finished(anim_name):
 			owner.isDead = true
 			changeState("Dead")
 		else:
-			changeState("Idle")
+			changeState("Patrol")
 
 func hit_timeout():
-	changeState("Idle")
+	owner.speed = owner.orgChaseSpeed
+	changeState("Patrol")
 
 func exit():
 	owner.RCChkFront.enabled = true

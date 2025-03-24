@@ -8,6 +8,7 @@ func enter():
 	owner.velocity.x = 0
 	if not owner.anim.is_connected("animation_finished", on_animation_finished):
 		owner.anim.animation_finished.connect(on_animation_finished)
+	owner.ui.health_bar.value = GameManager.HP
 
 	owner.anim.play("Hurt")
 

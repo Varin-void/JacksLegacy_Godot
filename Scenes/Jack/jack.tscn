@@ -1,4 +1,4 @@
-[gd_scene load_steps=400 format=3 uid="uid://bvm2exo6iry4y"]
+[gd_scene load_steps=403 format=3 uid="uid://bvm2exo6iry4y"]
 
 [ext_resource type="Texture2D" uid="uid://5q7s73fal10s" path="res://Assets/Player/lightning_ronin_full_v1.0.png" id="1_cd7a0"]
 [ext_resource type="Script" uid="uid://00gmrnsb0u42" path="res://Scripts/JackScripts/JackController.gd" id="1_jjc82"]
@@ -45,6 +45,9 @@ size = Vector2(108, 101)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xi45x"]
 size = Vector2(266, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ij5gx"]
+size = Vector2(195, 135)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r4w7t"]
 shader = ExtResource("2_j6iir")
@@ -2646,6 +2649,18 @@ tracks/2/keys = {
 "method": &"audio_random_pitch"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackBox/AirAttack:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.101969, 0.356891),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_l5uyh"]
 resource_name = "Attack1"
@@ -2845,6 +2860,22 @@ tracks/4/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_xi45x"]
+resource_name = "Blocking"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JackSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 25), Vector2i(1, 25), Vector2i(2, 25), Vector2i(3, 25)]
+}
+
 [sub_resource type="Animation" id="Animation_3r0r0"]
 resource_name = "Dash"
 length = 0.3
@@ -2909,6 +2940,23 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_go7hy"]
+resource_name = "Death"
+length = 1.5
+step = 0.075
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JackSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3, 0.375, 0.45, 0.525, 0.6, 0.675, 0.75, 0.825, 0.9, 0.975, 1.05, 1.125, 1.2, 1.275, 1.35, 1.425),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 27), Vector2i(1, 27), Vector2i(2, 27), Vector2i(3, 27), Vector2i(4, 27), Vector2i(5, 27), Vector2i(6, 27), Vector2i(7, 27), Vector2i(8, 27), Vector2i(9, 27), Vector2i(10, 27), Vector2i(11, 27), Vector2i(12, 27), Vector2i(13, 27), Vector2i(14, 27), Vector2i(15, 27), Vector2i(16, 27), Vector2i(17, 27), Vector2i(18, 27), Vector2i(19, 27)]
+}
+
 [sub_resource type="Animation" id="Animation_vrtc8"]
 resource_name = "Falling"
 length = 0.4
@@ -2924,6 +2972,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3), Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3)]
+}
+
+[sub_resource type="Animation" id="Animation_5rdy6"]
+resource_name = "Hurt"
+length = 0.35
+step = 0.015
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JackSprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0149254, 0.0149254, 0.104478, 0.179104, 0.253731),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 26), Vector2i(1, 26), Vector2i(2, 26), Vector2i(3, 26), Vector2i(5, 26)]
 }
 
 [sub_resource type="Animation" id="Animation_x6fxn"]
@@ -3009,6 +3074,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AttackBox/AirAttack:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_dcc7i"]
 resource_name = "Run"
@@ -3027,10 +3104,9 @@ tracks/0/keys = {
 "values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1), Vector2i(6, 1), Vector2i(7, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_5rdy6"]
-resource_name = "Hurt"
-length = 0.45
-step = 0.015
+[sub_resource type="Animation" id="Animation_ij5gx"]
+resource_name = "end_blocking"
+length = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -3038,27 +3114,10 @@ tracks/0/path = NodePath("JackSprite:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(-0.0149254, 0.0149254, 0.104478, 0.208955, 0.313433, 0.402985),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [Vector2i(0, 26), Vector2i(1, 26), Vector2i(2, 26), Vector2i(3, 26), Vector2i(4, 26), Vector2i(5, 26)]
-}
-
-[sub_resource type="Animation" id="Animation_go7hy"]
-resource_name = "Death"
-length = 1.5
-step = 0.075
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("JackSprite:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.075, 0.15, 0.225, 0.3, 0.375, 0.45, 0.525, 0.6, 0.675, 0.75, 0.825, 0.9, 0.975, 1.05, 1.125, 1.2, 1.275, 1.35, 1.425),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 27), Vector2i(1, 27), Vector2i(2, 27), Vector2i(3, 27), Vector2i(4, 27), Vector2i(5, 27), Vector2i(6, 27), Vector2i(7, 27), Vector2i(8, 27), Vector2i(9, 27), Vector2i(10, 27), Vector2i(11, 27), Vector2i(12, 27), Vector2i(13, 27), Vector2i(14, 27), Vector2i(15, 27), Vector2i(16, 27), Vector2i(17, 27), Vector2i(18, 27), Vector2i(19, 27)]
+"values": [Vector2i(4, 25), Vector2i(5, 25), Vector2i(6, 25), Vector2i(7, 25)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nhmoj"]
@@ -3067,6 +3126,7 @@ _data = {
 &"Attack1": SubResource("Animation_l5uyh"),
 &"Attack2": SubResource("Animation_c2x4x"),
 &"Attack3": SubResource("Animation_as5ct"),
+&"Blocking": SubResource("Animation_xi45x"),
 &"Dash": SubResource("Animation_3r0r0"),
 &"DashV2": SubResource("Animation_rx6pr"),
 &"Death": SubResource("Animation_go7hy"),
@@ -3075,7 +3135,8 @@ _data = {
 &"Idle": SubResource("Animation_x6fxn"),
 &"Jump": SubResource("Animation_scc6n"),
 &"RESET": SubResource("Animation_htthk"),
-&"Run": SubResource("Animation_dcc7i")
+&"Run": SubResource("Animation_dcc7i"),
+&"end_blocking": SubResource("Animation_ij5gx")
 }
 
 [node name="Jack" type="CharacterBody2D" node_paths=PackedStringArray("playerAudio") groups=["Player"]]
@@ -3113,6 +3174,11 @@ disabled = true
 [node name="Attack3" type="CollisionShape2D" parent="AttackBox"]
 position = Vector2(161, 0)
 shape = SubResource("RectangleShape2D_xi45x")
+disabled = true
+
+[node name="AirAttack" type="CollisionShape2D" parent="AttackBox"]
+position = Vector2(142.5, -17.5)
+shape = SubResource("RectangleShape2D_ij5gx")
 disabled = true
 
 [node name="JackSprite" type="Sprite2D" parent="."]
@@ -3161,7 +3227,7 @@ script = ExtResource("12_lixyl")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="HurtTimer" type="Timer" parent="FSM/Hurt"]
-wait_time = 0.4
+wait_time = 0.55
 one_shot = true
 
 [node name="Block" type="Node" parent="FSM"]

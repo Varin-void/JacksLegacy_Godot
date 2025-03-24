@@ -45,10 +45,10 @@ func _process(_delta: float) -> void:
 	updateVal()
 	if Input.is_action_just_pressed("player_stat") and not GameManager.pause_menu.visible:
 		toggle_stat_screen()
-	if Input.is_action_just_pressed("add_exp"):
-		GameManager.current_xp += 100
-	if Input.is_action_just_pressed("save_game"):
-		GameManager._save_game()
+	#if Input.is_action_just_pressed("add_exp"):
+		#GameManager.current_xp += 100
+	#if Input.is_action_just_pressed("save_game"):
+		#GameManager._save_game()
 
 func updateVal():
 	%Label2.text = str(GameManager.lvl)
