@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://cy746rfrdfl7w"]
+
+[ext_resource type="Texture2D" uid="uid://cjjkxhai167aa" path="res://Assets/UI Element/background.png" id="1_dx1y2"]
+[ext_resource type="Script" uid="uid://cpmu3tmp36req" path="res://Scripts/MiscellaneousScripts/boot_splash.gd" id="1_qx80b"]
+[ext_resource type="Texture2D" uid="uid://cqbmxxk0uscft" path="res://Assets/UI Element/logoIndie.png" id="3_3khld"]
+
+[sub_resource type="Animation" id="Animation_lk06g"]
+resource_name = "Fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 1),
+"transitions": PackedFloat32Array(0.5, 0.5, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3quvu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_po18e"]
+_data = {
+&"Fade_out": SubResource("Animation_lk06g"),
+&"RESET": SubResource("Animation_3quvu")
+}
+
+[node name="BootSplash" type="Node2D"]
+script = ExtResource("1_qx80b")
+
+[node name="ColorRect" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_dx1y2")
+
+[node name="Logo" type="Node2D" parent="."]
+
+[node name="LogoIndie" type="Sprite2D" parent="Logo"]
+position = Vector2(320, 182)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("3_3khld")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_po18e")
+}
+autoplay = "Fade_out"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

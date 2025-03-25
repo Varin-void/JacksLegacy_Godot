@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx5lksxp534vf"
-path="res://.godot/imported/R-IndieGame.png-d7529a9d61b1eadddbecf89710a4858b.ctex"
+uid="uid://uin72tpxwuce"
+path="res://.godot/imported/R_indie.png-25a8dbad64174f3e98319ef6035db3ee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI Element/R-IndieGame.png"
-dest_files=["res://.godot/imported/R-IndieGame.png-d7529a9d61b1eadddbecf89710a4858b.ctex"]
+source_file="res://Assets/UI Element/R_indie.png"
+dest_files=["res://.godot/imported/R_indie.png-25a8dbad64174f3e98319ef6035db3ee.ctex"]
 
 [params]
 

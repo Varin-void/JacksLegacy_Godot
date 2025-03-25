@@ -80,10 +80,8 @@ bg_music_player = NodePath("BackgroundMusicPlayer")
 stream = SubResource("AudioStreamInteractive_5a1qp")
 volume_db = -20.0
 autoplay = true
-bus = &"music"
 
 [node name="AmbientPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_ok08k")
 volume_db = -10.0
 autoplay = true
-bus = &"ambient"

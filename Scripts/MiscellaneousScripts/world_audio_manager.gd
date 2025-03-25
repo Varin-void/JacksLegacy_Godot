@@ -6,6 +6,7 @@ var current_map: String
 
 func _ready():
 	current_map = AudioGlobal.current_map
+	
 	ambient_player.playing = false
 
 func _process(_delta):
@@ -16,10 +17,14 @@ func _process(_delta):
 func update_music_for_scene():
 	var current_map_music = str(current_map+"Music")
 	var current_map_amb = str(current_map+"Ambient")
-	
-	if current_map == "Map1":
+	if current_map == "MainScreen":
+		ambient_player.playing = false
+	elif current_map == "Map1":
 		ambient_player.playing = true
-	if current_map == "Map2":
+	elif current_map == "Map2":
 		ambient_player.volume_db = -17.5
+	else:
+		ambient_player.playing = false
+	
 	bg_music_player["parameters/switch_to_clip"] = current_map_music
 	ambient_player["parameters/switch_to_clip"] = current_map_amb

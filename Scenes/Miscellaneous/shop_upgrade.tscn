@@ -1,5 +1,6 @@
-[gd_scene load_steps=83 format=3 uid="uid://e318ln22q70d"]
+[gd_scene load_steps=86 format=3 uid="uid://e318ln22q70d"]
 
+[ext_resource type="Script" uid="uid://c084ooduaqppw" path="res://Scripts/MiscellaneousScripts/shop_upgrade.gd" id="1_0qsq1"]
 [ext_resource type="Shader" uid="uid://dmtydnjclyv24" path="res://Scenes/Miscellaneous/Pause/pause_menus.gdshader" id="1_r403a"]
 [ext_resource type="Texture2D" uid="uid://cililriqfwuut" path="res://Assets/UI Element/upgrade_stats.png" id="2_6vxha"]
 [ext_resource type="Texture2D" uid="uid://5q7s73fal10s" path="res://Assets/Player/lightning_ronin_full_v1.0.png" id="3_nip4f"]
@@ -532,14 +533,6 @@ animations = [{
 "speed": 16.0
 }]
 
-[sub_resource type="Animation" id="Animation_r403a"]
-resource_name = "blurred"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_6vxha"]
-_data = {
-&"blurred": SubResource("Animation_r403a")
-}
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r403a"]
 bg_color = Color(0.79641, 0.226806, 0.31255, 1)
 corner_radius_top_left = 8
@@ -556,6 +549,120 @@ border_width_bottom = 5
 border_color = Color(0.690196, 0.176471, 0.258824, 1)
 border_blend = true
 
+[sub_resource type="Animation" id="Animation_r403a"]
+resource_name = "blurred"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jrv12"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bg:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Open"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0qsq1"]
+resource_name = "Open"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bg:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Open"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bg:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0447762, 0.0895523, 0.119403, 0.149253, 0.208955, 0.238806, 0.270149),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0298507),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6vxha"]
+_data = {
+&"Open": SubResource("Animation_0qsq1"),
+&"RESET": SubResource("Animation_jrv12"),
+&"blurred": SubResource("Animation_r403a")
+}
+
 [node name="ShopUpgrade" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -563,6 +670,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_0qsq1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_hkl61")
@@ -574,14 +682,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="bg" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(319, 181)
 scale = Vector2(1.24597, 1.13333)
 sprite_frames = SubResource("SpriteFrames_rq6qq")
 animation = &"Open"
-frame = 7
-frame_progress = 1.0
 
 [node name="ColorRect" type="Panel" parent="bg"]
+visible = false
 offset_left = 75.7896
 offset_top = -122.294
 offset_right = 210.79
@@ -589,18 +697,15 @@ offset_bottom = 59.7059
 theme_override_styles/panel = SubResource("StyleBoxFlat_ry3mw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="bg"]
+visible = false
 position = Vector2(141.696, -129.413)
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_nd3nf")
 animation = &"Idle"
 autoplay = "Idle"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_6vxha")
-}
-
 [node name="Panel" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -770,17 +875,22 @@ offset_right = 550.0
 offset_bottom = 293.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_nip4f")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+[node name="GoldContainer" type="HBoxContainer" parent="Panel/Panel2"]
 layout_mode = 0
-offset_left = 459.0
-offset_top = 253.0
-offset_right = 522.0
-offset_bottom = 293.0
+offset_left = 9.0
+offset_right = 72.0
+offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="Panel/HBoxContainer"]
+[node name="Label" type="Label" parent="Panel/Panel2/GoldContainer"]
 layout_mode = 2
 text = "Gold : "
 
-[node name="GoldAmount" type="Label" parent="Panel/HBoxContainer"]
+[node name="GoldAmount" type="Label" parent="Panel/Panel2/GoldContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6vxha")
+}

@@ -1,9 +1,10 @@
-[gd_scene load_steps=61 format=3 uid="uid://cjae7tcahph3m"]
+[gd_scene load_steps=65 format=3 uid="uid://cjae7tcahph3m"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
 [ext_resource type="PackedScene" uid="uid://dcnqucotuj41y" path="res://Scenes/Miscellaneous/stats_control.tscn" id="3_3jb3e"]
 [ext_resource type="Texture2D" uid="uid://dnkxvl35xi7yk" path="res://Assets/UI Element/bro V coin.png" id="4_0q6go"]
+[ext_resource type="PackedScene" uid="uid://e318ln22q70d" path="res://Scenes/Miscellaneous/shop_upgrade.tscn" id="5_0buan"]
 [ext_resource type="Texture2D" uid="uid://csfsww6yy1745" path="res://Assets/LevelDesign/oak_woods_v1.0/background/background_layer_1.png" id="5_0q6go"]
 [ext_resource type="Texture2D" uid="uid://drej2mpmvkquo" path="res://Assets/LevelDesign/Legacy Adventure Pack - CEMETERY/Assets/Background_2.png" id="5_vanww"]
 [ext_resource type="Texture2D" uid="uid://c4dbuo5jew0yf" path="res://Assets/LevelDesign/Legacy Adventure Pack - CEMETERY/Assets/Background_1.png" id="6_0buan"]
@@ -27,7 +28,6 @@
 [ext_resource type="PackedScene" uid="uid://ck06uebud7qs" path="res://Scenes/World/Map3.tscn" id="21_5nxkl"]
 [ext_resource type="PackedScene" uid="uid://bvm2exo6iry4y" path="res://Scenes/Jack/jack.tscn" id="22_gc6ep"]
 [ext_resource type="PackedScene" uid="uid://bm0mbx3bn11ar" path="res://ShaderNResources/CameraController/CameraController.tscn" id="23_2hjmt"]
-[ext_resource type="PackedScene" uid="uid://wcaylsvafv00" path="res://Scenes/Coins/coin_spread.tscn" id="24_llte1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajhoy"]
 bg_color = Color(1, 0, 0.290196, 1)
@@ -237,6 +237,18 @@ size = Vector2(98, 145)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0g4ye"]
 size = Vector2(458, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q6go"]
+size = Vector2(20, 284)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0buan"]
+size = Vector2(101, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vanww"]
+size = Vector2(582, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt5ii"]
+size = Vector2(232, 183)
+
 [node name="GameScenes" type="Node2D" groups=["Level"]]
 script = ExtResource("1_oufk3")
 metadata/_edit_vertical_guides_ = [2937.0]
@@ -353,7 +365,32 @@ text = "Press Enter  : To Save Game"
 wait_time = 5.0
 one_shot = true
 
+[node name="ShopUpgrade" parent="CanvasLayer" node_paths=PackedStringArray("player_area") instance=ExtResource("5_0buan")]
+player_area = NodePath("../../ShopArea")
+
+[node name="BG_Map1" type="ParallaxBackground" parent="."]
+scroll_offset = Vector2(3000, 3000)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="BG_Map1"]
+motion_scale = Vector2(0.1, 1)
+motion_mirroring = Vector2(1240, 0)
+
+[node name="Background2" type="Sprite2D" parent="BG_Map1/ParallaxLayer"]
+position = Vector2(555, -32)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("5_vanww")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="BG_Map1"]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(1240, 0)
+
+[node name="Background1" type="Sprite2D" parent="BG_Map1/ParallaxLayer2"]
+position = Vector2(555, -32)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("6_0buan")
+
 [node name="bg2" type="Node2D" parent="."]
+visible = false
 
 [node name="BG_Map2" type="ParallaxBackground" parent="bg2"]
 scroll_offset = Vector2(3000, 3000)
@@ -457,28 +494,6 @@ scale = Vector2(-2, 2)
 texture = ExtResource("8_vanww")
 region_enabled = true
 region_rect = Rect2(192, 64, 64, 32)
-
-[node name="BG_Map1" type="ParallaxBackground" parent="."]
-visible = false
-scroll_offset = Vector2(3000, 3000)
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="BG_Map1"]
-motion_scale = Vector2(0.1, 1)
-motion_mirroring = Vector2(1240, 0)
-
-[node name="Background2" type="Sprite2D" parent="BG_Map1/ParallaxLayer"]
-position = Vector2(555, -32)
-scale = Vector2(2.5, 2.5)
-texture = ExtResource("5_vanww")
-
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="BG_Map1"]
-motion_scale = Vector2(0.2, 1)
-motion_mirroring = Vector2(1240, 0)
-
-[node name="Background1" type="Sprite2D" parent="BG_Map1/ParallaxLayer2"]
-position = Vector2(555, -32)
-scale = Vector2(2.5, 2.5)
-texture = ExtResource("6_0buan")
 
 [node name="BG3_4" type="ParallaxBackground" parent="."]
 visible = false
@@ -706,7 +721,7 @@ process_material = SubResource("ParticleProcessMaterial_5nxq0")
 
 [node name="TrasitNext" type="Area2D" parent="."]
 position = Vector2(-787, 41)
-collision_layer = 0
+collision_layer = 8
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TrasitNext"]
@@ -714,61 +729,75 @@ position = Vector2(2495, 127)
 shape = SubResource("RectangleShape2D_6bfml")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="TrasitNext"]
-position = Vector2(5547, 3349)
+position = Vector2(5542, 3302)
 shape = SubResource("RectangleShape2D_0g4ye")
 
-[node name="CoinsPooling" type="Node2D" parent="."]
-position = Vector2(-16000, -10000)
+[node name="lvlBlockade" type="StaticBody2D" parent="."]
+position = Vector2(-457, 109)
 
-[node name="CoinSpread" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
+[node name="lvlBlockadeCol1" type="CollisionShape2D" parent="lvlBlockade"]
+position = Vector2(1868, 112)
+shape = SubResource("RectangleShape2D_0q6go")
 
-[node name="CoinSpread2" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
+[node name="lvlBlockadeCol2" type="CollisionShape2D" parent="lvlBlockade"]
+position = Vector2(5324, 3004)
+shape = SubResource("RectangleShape2D_0q6go")
 
-[node name="CoinSpread3" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
+[node name="Info" type="Area2D" parent="lvlBlockade"]
+collision_layer = 0
+collision_mask = 2
 
-[node name="CoinSpread4" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
+[node name="lvlinfo1" type="CollisionShape2D" parent="lvlBlockade/Info"]
+position = Vector2(1865, 121)
+shape = SubResource("RectangleShape2D_0buan")
 
-[node name="CoinSpread5" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread6" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread7" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread8" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread9" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread10" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread11" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread12" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread13" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread14" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
-
-[node name="CoinSpread15" parent="CoinsPooling" instance=ExtResource("24_llte1")]
-scale = Vector2(1, 1)
+[node name="lvlinfo2" type="CollisionShape2D" parent="lvlBlockade/Info"]
+position = Vector2(5365, 3038)
+shape = SubResource("RectangleShape2D_0buan")
 
 [node name="CoinMarker" type="Marker2D" parent="."]
 position = Vector2(-2537, -2004)
+
+[node name="EnemyBox" type="Node2D" parent="."]
+position = Vector2(-16000, 4250)
+
+[node name="enemyContainer" type="StaticBody2D" parent="EnemyBox"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBox/enemyContainer"]
+position = Vector2(281, 0)
+shape = SubResource("RectangleShape2D_vanww")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="EnemyBox/enemyContainer"]
+position = Vector2(281, 562)
+shape = SubResource("RectangleShape2D_vanww")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyBox/enemyContainer"]
+position = Vector2(-20, 281)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_vanww")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="EnemyBox/enemyContainer"]
+position = Vector2(582, 281)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_vanww")
+
+[node name="EnemyDropPos" type="Marker2D" parent="EnemyBox/enemyContainer"]
+position = Vector2(232, 110)
+
+[node name="CoinsPooling" type="Node2D" parent="."]
+
+[node name="ShopArea" type="Area2D" parent="."]
+position = Vector2(4137, 3081)
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShopArea"]
+position = Vector2(106, 81.5)
+shape = SubResource("RectangleShape2D_tt5ii")
 
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig2" to="Map1/Map1Triggers/lvl1CamTrig2" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig3" to="Map1/Map1Triggers/lvl1CamTrig3" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig" to="Map1/Map1Triggers/lvl1CamTrig" method="_on_body_entered"]
 [connection signal="body_entered" from="TrasitNext" to="." method="_on_body_entered"]
+[connection signal="body_entered" from="ShopArea" to="CanvasLayer/ShopUpgrade" method="_on_shop_area_body_entered"]
+[connection signal="body_exited" from="ShopArea" to="CanvasLayer/ShopUpgrade" method="_on_shop_area_body_exited"]

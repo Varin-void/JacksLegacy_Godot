@@ -6,11 +6,14 @@ var audio_control = preload("uid://cyjix7ve8f03c")
 func _ready():
 	GameManager.fade_panel = fade_control.instantiate()
 	get_tree().root.call_deferred("add_child",GameManager.fade_panel)
-	var audio = audio_control.instantiate()
-	get_tree().root.call_deferred("add_child",audio)
 	
+	if not get_tree().root.has_node("AudioControl"):
+		var audio = audio_control.instantiate()
+		audio.name = "AudioControl"  # Set a unique name
+		get_tree().root.call_deferred("add_child", audio)
+	AudioGlobal.current_map = self.name
+
 func _on_play_pressed():
-	#GameManager.transition_scene("uid://cjae7tcahph3m")
 	on_play_pressed()
 
 func _on_exit_button_pressed() -> void:
@@ -18,7 +21,6 @@ func _on_exit_button_pressed() -> void:
 
 func exit_game() -> void:
 	get_tree().quit()
-
 
 func on_play_pressed():
 	if FileAccess.file_exists(GameManager.path):

@@ -25,6 +25,8 @@ func _ready():
 	GameManager.add_fade_to_scene("/root/GameScenes/CanvasLayer")
 	info_timer.start()
 	info_timer.timeout.connect(_on_info_timer_timeout)
+
+	# Store Maps & Triggers
 	for i in range(1, 3):
 		var map = get_node_or_null("Map" + str(i))
 		var spawn = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Spawn")
@@ -35,19 +37,27 @@ func _ready():
 			spawn_points["Map" + str(i)] = spawn
 			camera_triggers["Map" + str(i)] = cam_trig
 
-	# Pooling coins
-	for node in coin_pools.get_children():
-		if node.is_in_group("coinSpread"):
-			node.global_position = coin_marker.global_position
-			GameManager.coinSpread.append(node);
-	GameManager.coinSpreadMax = GameManager.coinSpread.size();
-
-	if "Map1" in maps:
+	# 🛠️ Automatically Pool 10 Coins (Instead of Manually Placing Them)
+	GameManager.coinSpread.clear()
+	var coin_spread_scene = preload("uid://wcaylsvafv00")
+	
+	for i in range(10):  # Pool 10 coins
+		var coin_instance = coin_spread_scene.instantiate()
+		coin_instance.global_position = coin_marker.global_position
+		coin_pools.add_child(coin_instance)
+		GameManager.coinSpread.append(coin_instance)
+		
+	GameManager.coinSpreadMax = GameManager.coinSpread.size()
+	
+	# Set Initial Player and Camera Positions
+	if "Map1" in maps and !GameManager.isLoad:
 		jack.global_position = spawn_points["Map1"].global_position
 		camera.global_position = spawn_points["Map1"].global_position + Vector2(200, 20)
 		camera.update_camera_attribute(camera_triggers["Map1"].cam_so)
 		$Camera2D/RainParticle.visible = false
-	
+		bg_1.visible = true
+
+	# Load Game If Necessary
 	if GameManager.isLoad:
 		GameManager.StageController = self
 		await get_tree().process_frame
@@ -112,7 +122,7 @@ func _inTheWork():
 	dialog.ok_button_text = "Ok"
 	dialog.cancel_button_text = "Cancel"
 	
-	dialog.connect("confirmed", Callable(self, "_load_game"))
+	dialog.connect("confirmed", Callable(self, "_start_new_game"))
 	dialog.connect("canceled", Callable(self, "_back_to_menu"))
 	
 	dialog.popup_centered()
@@ -123,7 +133,6 @@ func _start_new_game():
 	dialog.queue_free()
 
 func _back_to_menu():
-	GameManager.isLoad = true
 	GameManager.transition_scene("uid://cbyayktnmu7h5")
 	get_tree().paused = false
 	dialog.queue_free()

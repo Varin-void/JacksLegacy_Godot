@@ -6,7 +6,6 @@ func enter():
 		owner.anim.play("Attack")
 		await owner.anim.animation_finished
 		
-		
 		attack_timer.start() 
 		await attack_timer.timeout
 		changeState("Idle")

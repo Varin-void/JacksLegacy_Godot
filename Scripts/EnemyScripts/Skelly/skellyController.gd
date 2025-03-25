@@ -198,7 +198,6 @@ func set_enemy_properties():
 			_exp = 150
 			skelly_sprite.visible = false
 			gollux_sprite.visible = true
-			
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and body.has_method("_take_damage"):

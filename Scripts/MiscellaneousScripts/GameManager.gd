@@ -61,7 +61,8 @@ func _ready():
 	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	xp_table_data = get_xp_data()
 	total_xp = 0
-	#print(xp_table_data)
+	print("Initializing GameManager")
+	print("coinSpread: ", coinSpread)
 
 func update_attacks():
 	att = [
@@ -105,16 +106,21 @@ func get_max_xp_at(level):
 func add_coin(value:int):
 	VCoins += value
 
-func getCoinSpread()->int:
-	coinSpreadInd +=1;
-	if coinSpreadInd>=coinSpreadMax:
-		coinSpreadInd = 0;
+func getCoinSpread() -> int:
+	if coinSpread.is_empty():
+		print("Error: coinSpread is empty!")
+		return -1
+	
+	coinSpreadInd += 1
+	if coinSpreadInd >= coinSpread.size():
+		coinSpreadInd = 0
 	return coinSpreadInd
 
 #region Pause n Stat Controller
 var is_paused: bool = false
 var pause_menu: Control = null
 var stat_menu: Control = null
+var shop_menu: Control = null
 
 func register_stat_menu(menu: Control):
 	stat_menu = menu
@@ -125,7 +131,6 @@ func register_pause_menu(menu: Control):
 
 func toggle_pause():
 	if not pause_menu:
-		#print("Pause menu is NOT assigned!")  
 		return  
 
 	if stat_menu and stat_menu.visible:
@@ -146,6 +151,12 @@ func toggle_stat():
 		toggle_pause()
 	stat_menu.visible = !stat_menu.visible
 
+func toggle_shop():
+	if not is_paused:
+		return  
+	if pause_menu and pause_menu.visible:
+		toggle_pause()
+	shop_menu.visible = !shop_menu.visible
 #endregion
 
 #region Fade and Scene Transition
@@ -377,9 +388,9 @@ func load_from_dict(data: Dictionary):
 		if pos_str is String:
 			var pos_values = pos_str.trim_prefix("(").trim_suffix(")").split(", ")
 			if pos_values.size() == 2:
-				StageController.bg_1_2.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
+				StageController.bg_2.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
 		else:
-			StageController.bg_1_2.scroll_base_offset = data["background_offset"]
+			StageController.bg_2.scroll_base_offset = data["background_offset"]
 
 func _save_game() -> void:
 	var directory = DirAccess.open("user://")
