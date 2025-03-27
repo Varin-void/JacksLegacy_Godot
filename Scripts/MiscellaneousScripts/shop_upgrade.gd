@@ -66,21 +66,23 @@ func _on_shop_area_body_exited(body):
 		GameManager.setPlayerStatCalc()
 
 func _on_buy_1_pressed():
-	GameManager.Strength += 10
-	GameManager.VCoins -= 25
-	GameManager.setPlayerStatCalc()
-	GameManager._save_game()
+	if GameManager.VCoins >= 25:
+		GameManager.Strength += 10
+		GameManager.VCoins -= 25
+		GameManager.setPlayerStatCalc()
+		GameManager._save_game()
 
 func _on_buy_2_pressed():
-	GameManager.Vitality += 12
-	GameManager.VCoins -= 30
-	GameManager.setPlayerStatCalc()
-	
-	GameManager._save_game()
+	if GameManager.VCoins >= 30:
+		GameManager.Vitality += 12
+		GameManager.VCoins -= 30
+		GameManager.setPlayerStatCalc()
+		GameManager._save_game()
 
 func _on_buy_3_pressed():
-	GameManager.Agility += 8
-	GameManager.VCoins -= 15
-	GameManager.setPlayerStatCalc()
-	
-	GameManager._save_game()
+	if GameManager.VCoins >= 15:
+		GameManager.Agility += 8
+		GameManager.VCoins -= 15
+		GameManager.setPlayerStatCalc()
+		
+		GameManager._save_game()

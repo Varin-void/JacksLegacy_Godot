@@ -412,7 +412,6 @@ one_shot = true
 
 [node name="ShopUpgrade" parent="CanvasLayer" node_paths=PackedStringArray("player_area") instance=ExtResource("5_0buan")]
 unique_name_in_owner = true
-visible = false
 player_area = NodePath("../../ShopArea")
 
 [node name="BG_Map1" type="ParallaxBackground" parent="."]

@@ -2,7 +2,7 @@ extends State
 
 func enter():
 	owner.isDead = true
-	owner.isInactive = true
+
 	if owner.enemyClass == owner.EnemyClass.Golem:
 		owner.anim.play("GDeath")
 		GameManager.hit_stop(0.5)
