@@ -56,13 +56,15 @@ stream_count = 1
 stream_0 = ExtResource("5_i5sq8")
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_ok08k"]
-clip_count = 2
+clip_count = 3
 clip_0/name = &"Map1Ambient"
 clip_0/stream = SubResource("AudioStreamPlaylist_ge6sb")
 clip_0/auto_advance = 0
 clip_1/name = &"Map2Ambient"
 clip_1/stream = SubResource("AudioStreamPlaylist_bong2")
 clip_1/auto_advance = 0
+clip_2/name = &"AnyKey"
+clip_2/auto_advance = 0
 _transitions = {
 Vector2i(0, 1): {
 "fade_beats": 1.0,

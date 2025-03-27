@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func toggle_stat_screen():
 	if GameManager.is_paused and GameManager.pause_menu.visible and not GameManager.pause_menu.visible and not GameManager.stat_menu.visible and is_in_shop_area:
-		GameManager.toggle_pause()
+		GameManager.toggle_shop()
 
 	if visible:
 		resume()
@@ -62,3 +62,25 @@ func _on_shop_area_body_entered(body):
 func _on_shop_area_body_exited(body):
 	if body.is_in_group("Player"):
 		is_in_shop_area = false
+		resume()
+		GameManager.setPlayerStatCalc()
+
+func _on_buy_1_pressed():
+	GameManager.Strength += 10
+	GameManager.VCoins -= 25
+	GameManager.setPlayerStatCalc()
+	GameManager._save_game()
+
+func _on_buy_2_pressed():
+	GameManager.Vitality += 12
+	GameManager.VCoins -= 30
+	GameManager.setPlayerStatCalc()
+	
+	GameManager._save_game()
+
+func _on_buy_3_pressed():
+	GameManager.Agility += 8
+	GameManager.VCoins -= 15
+	GameManager.setPlayerStatCalc()
+	
+	GameManager._save_game()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=3 uid="uid://c7d7u7y52kw66"]
+[gd_scene load_steps=115 format=3 uid="uid://c7d7u7y52kw66"]
 
 [ext_resource type="Script" uid="uid://h66as1ewfei5" path="res://Scripts/EnemyScripts/Skelly/skellyController.gd" id="1_qj4qo"]
 [ext_resource type="Shader" uid="uid://dlgpseqakkaha" path="res://ShaderNResources/PaletteSwap.gdshader" id="2_l4d4b"]
@@ -9,8 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://dnty37mup3egi" path="res://Assets/Enemies/Skeleton/Shield.png" id="7_bo1bk"]
 [ext_resource type="Texture2D" uid="uid://dvprfin42i07s" path="res://Assets/Enemies/Skeleton/Take Hit.png" id="8_4uvkd"]
 [ext_resource type="Texture2D" uid="uid://c1n3huxmrb22q" path="res://Assets/Enemies/Skeleton/Walk.png" id="9_k2beq"]
+[ext_resource type="AudioStream" uid="uid://bw4pcxd3ftvjp" path="res://Assets/Audio/skeleton_hurt.mp3" id="10_4uvkd"]
 [ext_resource type="Script" uid="uid://cd2ntc05ylnkn" path="res://Scripts/JackScripts/FSM.gd" id="10_vp1la"]
 [ext_resource type="Script" uid="uid://btl20vimonkn4" path="res://Scripts/EnemyScripts/Skelly/E_idle.gd" id="11_4qu10"]
+[ext_resource type="AudioStream" uid="uid://dnbswoyntdyyg" path="res://Assets/Audio/golem_hurt.mp3" id="11_k2beq"]
 [ext_resource type="Script" uid="uid://bj42fnts68457" path="res://Scripts/EnemyScripts/Skelly/E_walk.gd" id="12_0hr1f"]
 [ext_resource type="Script" uid="uid://cpfskbmbvudv4" path="res://Scripts/EnemyScripts/Skelly/E_combat.gd" id="13_tyojn"]
 [ext_resource type="Script" uid="uid://6vvf51h0rawf" path="res://Scripts/EnemyScripts/Skelly/E_attack.gd" id="14_b565a"]
@@ -21,6 +23,7 @@
 [ext_resource type="Shader" uid="uid://b5tns18frbamc" path="res://ShaderNResources/Enemies_Shake_Flash.gdshader" id="17_nuyjy"]
 [ext_resource type="Texture2D" uid="uid://chutt6nubyjll" path="res://Assets/Enemies/Gollux/gollux_move.png" id="18_124dv"]
 [ext_resource type="Texture2D" uid="uid://n641gqhal4km" path="res://Assets/Enemies/Gollux/gollux_attack_B.png" id="19_124dv"]
+[ext_resource type="Texture2D" uid="uid://dl4ve7yi7tq1g" path="res://Assets/Props/hit_effects-Sheet.png" id="22_bo1bk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tbki"]
 shader = ExtResource("2_l4d4b")
@@ -319,7 +322,7 @@ tracks/4/path = NodePath("Golem/GolluxSprite:frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.333333, 0.366667, 0.4, 0.433333, 0.466667, 0.5, 0.533333),
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.233333, 0.266667, 0.3, 0.4, 0.433333, 0.466667, 0.5, 0.533333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -352,10 +355,29 @@ tracks/1/keys = {
 "update": 1,
 "values": [&"Death"]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("prop/AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 7.2035,
+"start_offset": 0.3,
+"stream": ExtResource("10_4uvkd")
+}, {
+"end_offset": 4.2295,
+"start_offset": 3.15,
+"stream": ExtResource("10_4uvkd")
+}],
+"times": PackedFloat32Array(0, 0.2)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_nuyjy"]
 resource_name = "GDeath"
-length = 0.5
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -392,6 +414,25 @@ tracks/2/keys = {
 "update": 0,
 "values": [0.0, 0.285, 0.0]
 }
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("prop/AudioStreamPlayer2D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 1.3048,
+"start_offset": 4.2278,
+"stream": ExtResource("11_k2beq")
+}, {
+"end_offset": 0.516,
+"start_offset": 5.0629,
+"stream": ExtResource("11_k2beq")
+}],
+"times": PackedFloat32Array(0, 0.533333)
+}
+tracks/3/use_blend = true
 
 [sub_resource type="Animation" id="Animation_pgy1r"]
 resource_name = "Idle"
@@ -552,29 +593,34 @@ tracks/1/keys = {
 "update": 1,
 "values": [&"Take_Hit"]
 }
-tracks/2/type = "value"
+tracks/2/type = "audio"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Golem/GolluxSprite:animation")
+tracks/2/path = NodePath("prop/AudioStreamPlayer2D")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"Take_Hit"]
+"clips": [{
+"end_offset": 7.0713,
+"start_offset": 0.3,
+"stream": ExtResource("10_4uvkd")
+}],
+"times": PackedFloat32Array(0.0666667)
 }
-tracks/3/type = "value"
+tracks/2/use_blend = true
+tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Golem/GolluxSprite:frame")
+tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.166667, 0.233333, 0.3, 0.366667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 1, 3, 4]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"audio_random_pitch"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_84w4i"]
@@ -630,11 +676,69 @@ tracks/3/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_vp1la"]
+resource_name = "GTakeHit"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Golem/GolluxSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Take_Hit"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Golem/GolluxSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.233333, 0.3, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 3, 4]
+}
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("prop/AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 4.67,
+"stream": ExtResource("11_k2beq")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"audio_random_pitch"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qw3p4"]
 _data = {
 &"Attack": SubResource("Animation_d8exw"),
 &"Death": SubResource("Animation_ux4xn"),
 &"GDeath": SubResource("Animation_nuyjy"),
+&"GTakeHit": SubResource("Animation_vp1la"),
 &"Idle": SubResource("Animation_pgy1r"),
 &"RESET": SubResource("Animation_dygl2"),
 &"Shield": SubResource("Animation_thmxk"),
@@ -643,13 +747,13 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lntep"]
-size = Vector2(141, 60)
+size = Vector2(146, 55)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dafwi"]
-size = Vector2(70, 61)
+size = Vector2(83, 61)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qjnjd"]
-size = Vector2(54, 61)
+size = Vector2(75, 61)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bo1bk"]
 shader = ExtResource("17_nuyjy")
@@ -988,12 +1092,76 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="Animation" id="Animation_sb6k5"]
+resource_name = "hit_vfx"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_3hwuy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_abrq0"]
+_data = {
+&"RESET": SubResource("Animation_3hwuy"),
+&"hit_vfx": SubResource("Animation_sb6k5")
+}
+
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_qj4qo")
 health = 100.0
 damage = 5
+actionPauseDuration = 1.5
+attackRadius = 80
+attackHeight = 10
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -1043,8 +1211,9 @@ script = ExtResource("15_grcm1")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="HitTimer" type="Timer" parent="FSM/Hurt"]
-wait_time = 0.5
+wait_time = 0.35
 one_shot = true
+autostart = true
 
 [node name="Dead" type="Node" parent="FSM"]
 script = ExtResource("16_pbc7q")
@@ -1057,7 +1226,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="prop/DetectionArea"]
-position = Vector2(26.5, 0)
+position = Vector2(24, 2.5)
 shape = SubResource("RectangleShape2D_lntep")
 debug_color = Color(0.519873, 0.541882, 0.53246, 0.42)
 
@@ -1066,7 +1235,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="prop/hitbox"]
-position = Vector2(40, -0.5)
+position = Vector2(33.5, -0.5)
 shape = SubResource("RectangleShape2D_dafwi")
 debug_color = Color(0.519873, 0.541882, 0.53246, 0.42)
 
@@ -1081,15 +1250,19 @@ target_position = Vector2(0, 75)
 
 [node name="RCChkBack" type="RayCast2D" parent="prop"]
 target_position = Vector2(-50, 0)
+collision_mask = 3
 
 [node name="AttackBox" type="Area2D" parent="prop"]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="prop/AttackBox"]
-position = Vector2(40, -0.5)
+position = Vector2(29.5, -0.5)
 shape = SubResource("RectangleShape2D_qjnjd")
 disabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="prop"]
+volume_db = -5.0
 
 [node name="PlayerTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -1107,7 +1280,20 @@ sprite_frames = SubResource("SpriteFrames_4uvkd")
 animation = &"Dead"
 autoplay = "idle"
 
+[node name="Hit_Vfx" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Hit_Vfx"]
+visible = false
+position = Vector2(6, -1)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("22_bo1bk")
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hit_Vfx"]
+libraries = {
+&"": SubResource("AnimationLibrary_abrq0")
+}
+
 [connection signal="body_entered" from="prop/DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="prop/DetectionArea" to="." method="_on_detection_area_body_exited"]
 [connection signal="body_entered" from="prop/AttackBox" to="." method="_on_attack_box_body_entered"]
-[connection signal="timeout" from="PlayerTimer" to="." method="_on_player_timer_timeout"]

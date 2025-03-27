@@ -6,7 +6,10 @@ func enter():
 	owner.setAbilty("Blocking", true)
 	owner.resetSpeed(0)
 	owner.anim.speed_scale = 0.8
+	
+
 	owner.anim.play("Blocking")
+	GameManager.frame_freeze(0.3,0.2)
 	owner.is_blocking = true
 
 func update(_delta):

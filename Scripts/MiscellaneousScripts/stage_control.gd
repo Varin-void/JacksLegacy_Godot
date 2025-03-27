@@ -17,12 +17,15 @@ var audio_control = preload("uid://cyjix7ve8f03c")
 @onready var coin_pools: Node2D = $CoinsPooling
 @onready var coin_marker: Marker2D = $CoinMarker
 
+@onready var rain = $Camera2D/RainParticle
+
 var maps = {}
 var spawn_points = {}
 var camera_triggers = {}
 
 func _ready():
 	GameManager.add_fade_to_scene("/root/GameScenes/CanvasLayer")
+	%InfoPanel.visible = false
 	info_timer.start()
 	info_timer.timeout.connect(_on_info_timer_timeout)
 
@@ -54,7 +57,7 @@ func _ready():
 		jack.global_position = spawn_points["Map1"].global_position
 		camera.global_position = spawn_points["Map1"].global_position + Vector2(200, 20)
 		camera.update_camera_attribute(camera_triggers["Map1"].cam_so)
-		$Camera2D/RainParticle.visible = false
+		rain.visible = false
 		bg_1.visible = true
 
 	# Load Game If Necessary
@@ -73,13 +76,14 @@ func _process(_delta):
 	checkForCompletion()
 	# Simplified PlayerUi visibility logic
 	$CanvasLayer/PlayerUi.visible = not ($CanvasLayer/PauseMenus.visible or $CanvasLayer/StatsControl.visible)
+	
 
 func _on_body_entered(body):
 	if body.is_in_group("Player") and completed_condition:
 		print(maps)
 		completed_condition = false
 		await transition_to_next_map()
-		$Camera2D/RainParticle.visible = true
+		rain.visible = true
 		bg_2.scroll_base_offset = Vector2(2750,2700)
 
 func transition_to_next_map():
@@ -105,8 +109,11 @@ func _on_info_timer_timeout():
 func checkForCompletion():
 	if $Map1/Map1Enemy.get_child_count() == 0 and current_map == "Map1":
 		completed_condition = true
+		$lvlBlockade/lvlBlockadeCol1.disabled = true
 	elif $Map2/Map2Enemy.get_child_count() == 0 and current_map == "Map2":
 		completed_condition = true
+		$lvlBlockade/lvlBlockadeCol2.disabled = true
+		
 	else:
 		return
 
@@ -143,13 +150,9 @@ func update_health_bar():
 	health_bar.max_value = max_hp
 	health_bar.value = GameManager.HP
 
-#func coin_setup():
-	#var coin_children = coins.get_children()
-	#var marker_children = coin_pos.get_children()
-	#
-	#if coin_children.size() != 10 or marker_children.size() != 10:
-		#print("Error: Coins and Markers do not have exactly 10 children!")
-		#return
-	#
-	#for i in range(10):
-		#coin_children[i].global_position = marker_children[i].global_position
+func _on_info_body_entered(body):
+	if body.is_in_group("Player") and !completed_condition:
+		%InfoPanel.visible = true
+		await get_tree().create_timer(0.75).timeout
+		%InfoPanel.visible = false
+	

@@ -6,6 +6,10 @@ func changeToStateRoot():
 
 func enter():
 	owner.anim.play("Idle")
+	$"../../AttackBox/Attack1".disabled = true
+	$"../../AttackBox/Attack2".disabled = true
+	$"../../AttackBox/Attack3".disabled = true
+	$"../../AttackBox/AirAttack".disabled = true
 
 func update(_delta):
 	if owner.direction:

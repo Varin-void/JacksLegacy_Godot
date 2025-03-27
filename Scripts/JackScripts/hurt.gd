@@ -6,6 +6,13 @@ var connect_hit: bool
 func enter():
 	owner.speed = 0
 	owner.velocity.x = 0
+	$"../../AttackBox/Attack1".set_deferred("disabled", true)
+	$"../../AttackBox/Attack2".set_deferred("disabled", true)
+	$"../../AttackBox/Attack3".set_deferred("disabled", true)
+	$"../../AttackBox/AirAttack".set_deferred("disabled", true)
+
+	GameManager.frame_freeze(0.2,0.2)
+	
 	if not owner.anim.is_connected("animation_finished", on_animation_finished):
 		owner.anim.animation_finished.connect(on_animation_finished)
 	owner.ui.health_bar.value = GameManager.HP

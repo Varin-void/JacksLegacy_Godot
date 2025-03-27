@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cjae7tcahph3m"]
+[gd_scene load_steps=66 format=3 uid="uid://cjae7tcahph3m"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
@@ -92,6 +92,13 @@ animations = [{
 "name": &"default",
 "speed": 12.0
 }]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vanww"]
+bg_color = Color(0, 0, 0, 0.529412)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dhrl2"]
 shader = ExtResource("7_tt5ii")
@@ -251,13 +258,16 @@ size = Vector2(232, 183)
 
 [node name="GameScenes" type="Node2D" groups=["Level"]]
 script = ExtResource("1_oufk3")
-metadata/_edit_vertical_guides_ = [2937.0]
+metadata/_edit_vertical_guides_ = [2937.0, 320.0]
+metadata/_edit_horizontal_guides_ = [180.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseMenus" parent="CanvasLayer" instance=ExtResource("2_tjt0p")]
 
 [node name="StatsControl" parent="CanvasLayer" instance=ExtResource("3_3jb3e")]
+offset_left = -2.0
+offset_right = -2.0
 
 [node name="PlayerUi" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -319,6 +329,41 @@ offset_right = 57.3333
 offset_bottom = 14.3333
 text = "50"
 
+[node name="InfoPanel" type="Panel" parent="CanvasLayer/PlayerUi"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 7.985
+anchor_top = 4.477
+anchor_right = 8.018
+anchor_bottom = 4.514
+offset_left = -120.4
+offset_top = -54.08
+offset_right = 120.28
+offset_bottom = 54.44
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vanww")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlayerUi/InfoPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "⚠️⚠️⚠️
+Clear all enemies in this
+ lvl first"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Instruction" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
@@ -343,11 +388,15 @@ offset_bottom = 132.0
 
 [node name="Label" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
 layout_mode = 2
-text = "left click  : Attack"
+text = "Left/Right click : Attack"
+
+[node name="Label5" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Press F : Block"
 
 [node name="Label2" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Press I  : Stats Check"
+text = "Press Tap  : Stats Check"
 
 [node name="Label3" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
 layout_mode = 2
@@ -355,17 +404,15 @@ text = "Press Esc  : Pause Menu"
 
 [node name="Label4" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Press /  : To give Exp"
-
-[node name="Label5" type="Label" parent="CanvasLayer/Instruction/Panel/VBoxContainer"]
-layout_mode = 2
-text = "Press Enter  : To Save Game"
+text = "Press E : Interact"
 
 [node name="infoTimer" type="Timer" parent="CanvasLayer/Instruction"]
 wait_time = 5.0
 one_shot = true
 
 [node name="ShopUpgrade" parent="CanvasLayer" node_paths=PackedStringArray("player_area") instance=ExtResource("5_0buan")]
+unique_name_in_owner = true
+visible = false
 player_area = NodePath("../../ShopArea")
 
 [node name="BG_Map1" type="ParallaxBackground" parent="."]
@@ -390,7 +437,6 @@ scale = Vector2(2.5, 2.5)
 texture = ExtResource("6_0buan")
 
 [node name="bg2" type="Node2D" parent="."]
-visible = false
 
 [node name="BG_Map2" type="ParallaxBackground" parent="bg2"]
 scroll_offset = Vector2(3000, 3000)
@@ -799,5 +845,6 @@ shape = SubResource("RectangleShape2D_tt5ii")
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig3" to="Map1/Map1Triggers/lvl1CamTrig3" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig" to="Map1/Map1Triggers/lvl1CamTrig" method="_on_body_entered"]
 [connection signal="body_entered" from="TrasitNext" to="." method="_on_body_entered"]
+[connection signal="body_entered" from="lvlBlockade/Info" to="." method="_on_info_body_entered"]
 [connection signal="body_entered" from="ShopArea" to="CanvasLayer/ShopUpgrade" method="_on_shop_area_body_entered"]
 [connection signal="body_exited" from="ShopArea" to="CanvasLayer/ShopUpgrade" method="_on_shop_area_body_exited"]

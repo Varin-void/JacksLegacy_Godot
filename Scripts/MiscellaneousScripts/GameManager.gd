@@ -330,6 +330,7 @@ func to_dict() -> Dictionary:
 		"current_map": StageController.current_map,
 		"camera_position": StageController.camera.global_position,
 		"background_offset" : StageController.bg_2.scroll_base_offset,
+		"rain" : StageController.rain.visible,
 	}
 
 func load_from_dict(data: Dictionary):
@@ -382,6 +383,10 @@ func load_from_dict(data: Dictionary):
 		else:
 			StageController.camera.global_position = data["camera_position"]
 	
+	# Restore Rain
+	if "rain" in data:
+		StageController.rain.visible = data["rain"]
+	
 	# Restore Background position
 	if "background_offset" in data:
 		var pos_str = data["background_offset"]
@@ -424,3 +429,18 @@ func _load_game():
 	load_from_dict(data)
 
 #endregion
+
+func frame_freeze(time,duration):
+	Engine.time_scale = time
+	await get_tree().create_timer(duration * time).timeout
+	Engine.time_scale = 1
+
+func hit_stop(duration: float):
+	Engine.time_scale = 0
+	await get_tree().create_timer(duration,true, false, true).timeout
+	Engine.time_scale = 1
+
+func slow_motion(duration: float):
+	Engine.time_scale = 0.5
+	await get_tree().create_timer(duration,true, false, true).timeout
+	Engine.time_scale = 1

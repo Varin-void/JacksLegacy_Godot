@@ -12,6 +12,7 @@ const MAX_AIR_ATTACKS = 3
 var att_name : String = "Attack1"
 
 func enter():
+	
 	owner.blockflip = true
 	owner.velocity.x = 0
 	action_pressed = false

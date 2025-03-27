@@ -6,12 +6,12 @@ func enter():
 	owner.velocity.x = 0
 
 func physicsUpdate(_delta):
-	if(owner.player):
+	if(owner.player) and !owner.isDead:
 		owner.rotateToPlayer()
 		if owner.enemyType == owner.EnemyType.Fixed:
-			#changeState("Attack")
 			pass
-			#print("attack state")
 		else:
-			#if(owner.RCDown.is_colliding()):
 			changeState("Combat")
+	else:
+			changeState("Patrol")
+		

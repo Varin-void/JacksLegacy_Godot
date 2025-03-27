@@ -16,7 +16,7 @@ extends CharacterBody2D
 @export var attackHeight = 70
 @export var closestRange = 0
 @export var id = 0
-@export var playerTrigger : Area2D
+#@export var playerTrigger : Area2D
 
 @onready var timer = $Timer as Timer 
 @onready var anim = $AnimationPlayer
@@ -34,6 +34,8 @@ extends CharacterBody2D
 @onready var screenSize  = get_viewport_rect()
 @onready var gollux_sprite: AnimatedSprite2D = $Golem/GolluxSprite
 @onready var skelly_sprite: AnimatedSprite2D = $SkellySprite
+@onready var player_timer = $PlayerTimer
+@onready var enemy_audio = $prop/AudioStreamPlayer2D
 
 var coinSpread : Node
 
@@ -57,7 +59,6 @@ var isPushup : bool = false
 var hitStop := 0.0
 var orgPos :Vector2
 var RCChkSpace : RayCast2D
-var barrel : Node2D
 var speed = 40
 var lastPost = Vector2.ZERO
 
@@ -76,11 +77,11 @@ func _ready():
 	RCChkBack.enabled = true
 	lastPost = global_position
 	
-	if playerTrigger:
-		playerTrigger.body_entered.connect(on_detection_area_body_entered)
-		playerTrigger.body_exited.connect(on_detection_area_body_exited)
-		if $prop/DetectionArea/CollisionShape2D:
-			$prop/DetectionArea/CollisionShape2D.disabled = true
+	#if playerTrigger:
+		#playerTrigger.body_entered.connect(on_detection_area_body_entered)
+		#playerTrigger.body_exited.connect(on_detection_area_body_exited)
+		#if $prop/DetectionArea/CollisionShape2D:
+			#$prop/DetectionArea/CollisionShape2D.disabled = true
 	if isInactive:
 		fsm.changeState("Idle")
 	else:
@@ -155,8 +156,11 @@ func take_dmg(attack_name, attacker_pos):
 	
 	var attack_data = GameManager.get_attack_by_name(attack_name)
 	if attack_data.size() > 0:
+		GameManager.frame_freeze(0.1,0.098)
+		
 		health -= attack_data.dmg
-
+		$Hit_Vfx/AnimationPlayer.play("hit_vfx")
+		
 		if health <= 0:
 			isDead = true
 			GameManager.current_xp += _exp
@@ -173,11 +177,15 @@ func _on_player_timer_timeout():
 	player = null
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	$PlayerTimer.stop()
-	player = body
+	#if player_timer:
+		#player_timer.stop()
+	#player = body
+	on_detection_area_body_entered(body)
 
 func _on_detection_area_body_exited(_body: Node2D) -> void:
-	$PlayerTimer.start()
+	#if player_timer:
+		#player_timer.start()
+	on_detection_area_body_exited(_body)
 
 func set_enemy_properties():
 	match enemyClass:
@@ -187,6 +195,7 @@ func set_enemy_properties():
 			damage = 10
 			health = 100
 			_exp = 100
+			attackRadius = 75
 			gollux_sprite.visible = false
 			skelly_sprite.visible = true
 			
@@ -196,9 +205,13 @@ func set_enemy_properties():
 			damage = 20
 			health = 150
 			_exp = 150
+			attackRadius = 60
 			skelly_sprite.visible = false
 			gollux_sprite.visible = true
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and body.has_method("_take_damage"):
-		body._take_damage(damage)
+		body._take_damage(damage,global_position)
+
+func audio_random_pitch():
+	enemy_audio.pitch_scale = randf_range(0.8, 1.1)

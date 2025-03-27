@@ -126,13 +126,19 @@ func setAbilty(_ability:String,val:bool)->void:
 func chkAbility(_ability: String) -> bool:
 	return ability.get(_ability, false)
 
-func _take_damage(amount):
+func _take_damage(amount,attacker_pos):
 	if is_dead:
 		return
 	
 	is_hurt = true
-	GameManager.HP -= amount
-	fsm.changeState("Hurt")
+	if is_blocking:
+		GameManager.HP -= (amount/2)
+		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
+		global_position.x += 25 * knockback_dir
+	else:
+		GameManager.HP -= amount
+		fsm.changeState("Hurt")
+	
 	if(GameManager.HP <= 0):
 		is_dead = true 
 

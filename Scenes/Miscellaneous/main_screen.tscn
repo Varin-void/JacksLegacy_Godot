@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cbyayktnmu7h5"]
+[gd_scene load_steps=24 format=3 uid="uid://cbyayktnmu7h5"]
 
 [ext_resource type="Texture2D" uid="uid://b45t8drb268pf" path="res://Assets/UI Element/LoadingScreen.png" id="1_tjriq"]
 [ext_resource type="Script" uid="uid://dmr024np3q5ex" path="res://Scripts/MiscellaneousScripts/main_screen.gd" id="1_vgc1b"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://0uqvt7gvm8ou" path="res://Assets/UI Element/SilentGUI/png/Buttons/Rect-Medium/PlayText/Hover.png" id="5_tycvk"]
 [ext_resource type="Texture2D" uid="uid://1aoo7t8rko3j" path="res://Assets/UI Element/SilentGUI/png/Buttons/Rect-Medium/PlayText/Default.png" id="6_lukfi"]
 [ext_resource type="Texture2D" uid="uid://twy7f82axmlq" path="res://Assets/UI Element/SilentGUI/exit.png" id="8_k46a3"]
+[ext_resource type="FontFile" uid="uid://dj4axxjd74elx" path="res://Assets/UI Element/SilentGUI/Fonts/josefin-sans/JosefinSans-BoldItalic.ttf" id="9_6r4rq"]
+[ext_resource type="AudioStream" uid="uid://c8n0a02hdq52" path="res://Assets/Audio/start.mp3" id="10_k46a3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjriq"]
 texture = ExtResource("1_tjriq")
@@ -58,6 +60,195 @@ modulate_color = Color(1, 1, 1, 0.52549)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lukfi"]
 texture = ExtResource("6_lukfi")
 
+[sub_resource type="Animation" id="Animation_vgc1b"]
+resource_name = "start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Play:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Exit:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Play:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Exit:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.4, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/5/type = "audio"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AudioStreamPlayer2D")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": [{
+"end_offset": 2.7594,
+"start_offset": 0.1397,
+"stream": ExtResource("10_k46a3")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/5/use_blend = true
+
+[sub_resource type="Animation" id="Animation_6r4rq"]
+resource_name = "pulse"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.235294), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Exit:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Play:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_k46a3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Play:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Play:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Exit:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Exit:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2uhq0"]
+_data = {
+&"RESET": SubResource("Animation_k46a3"),
+&"pulse": SubResource("Animation_6r4rq"),
+&"start": SubResource("Animation_vgc1b")
+}
+
 [node name="MainScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 8
@@ -94,9 +285,9 @@ process_material = SubResource("ParticleProcessMaterial_tycvk")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
 layout_mode = 0
-offset_left = 76.0
+offset_left = 83.0
 offset_top = 14.0
-offset_right = 553.0
+offset_right = 560.0
 offset_bottom = 85.0
 theme_override_colors/default_color = Color(0.989705, 0.47074, 0.530411, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -111,6 +302,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Play" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
 texture_filter = 1
 layout_mode = 0
 offset_left = 212.0
@@ -123,12 +315,39 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_vgc1b")
 theme_override_styles/normal = SubResource("StyleBoxTexture_lukfi")
 
 [node name="Exit" type="TextureButton" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -297.0
 offset_top = 136.0
 offset_right = -267.0
 offset_bottom = 166.0
 texture_normal = ExtResource("8_k46a3")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = 140.0
+offset_right = 67.0
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.988235, 0.470588, 0.529412, 1)
+theme_override_fonts/font = ExtResource("9_6r4rq")
+theme_override_font_sizes/font_size = 20
+text = "Press Any Key"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_2uhq0")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
 
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_button_pressed"]

@@ -61,13 +61,14 @@ func physicsUpdate(delta):
 					#changeState("idle")
 					owner.anim.play("Idle")
 					return
-			if owner.canAttack():
-				if owner.player.is_on_floor() && abs(dist.y)>=owner.attackHeight:
+			if owner.canAttack() and !owner.isDead:
+				if owner.player.is_on_floor() && abs(dist.y) >= owner.attackHeight:
 					#print("state routing")
 					#changeState("Routing")
 					pass
 				else:
 					#print("state attack")
+					owner.rotateToPlayer()
 					changeState("Attack")
 			else:
 				owner.anim.play("Idle" if owner.enemyType == owner.EnemyType.Fly else animName)

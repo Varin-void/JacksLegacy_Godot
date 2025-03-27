@@ -894,3 +894,7 @@ text = "0"
 libraries = {
 &"": SubResource("AnimationLibrary_6vxha")
 }
+
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer3/Buy1" to="." method="_on_buy_1_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer3/Buy2" to="." method="_on_buy_2_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer3/Buy3" to="." method="_on_buy_3_pressed"]
