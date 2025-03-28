@@ -7,7 +7,7 @@ func _ready():
 		coin.global_position = Vector2(-1000, -1000)
 
 func spawn(pos: Vector2):
-	var rnd = rand_generate.randi_range(5, 10)
+	var rnd = rand_generate.randi_range(2, 4)
 	for i in range(rnd):
 		if ind >= pooling.get_child_count():
 			ind = 0

@@ -18,6 +18,7 @@ var audio_control = preload("uid://cyjix7ve8f03c")
 @onready var coin_marker: Marker2D = $CoinMarker
 
 @onready var rain = $Camera2D/RainParticle
+@onready var lvl_2_complete: StaticBody2D = $Map2/Lvl2_complete
 
 var maps = {}
 var spawn_points = {}
@@ -25,8 +26,6 @@ var camera_triggers = {}
 
 func _ready():
 	GameManager.add_fade_to_scene("/root/GameScenes/CanvasLayer")
-	if !GameManager.isLoad:
-		GameManager.VCoins = 30
 	%InfoPanel.visible = false
 	info_timer.start()
 	info_timer.timeout.connect(_on_info_timer_timeout)
@@ -46,7 +45,7 @@ func _ready():
 	GameManager.coinSpread.clear()
 	var coin_spread_scene = preload("uid://wcaylsvafv00")
 	
-	for i in range(10):  # Pool 10 coins
+	for i in range(5):  # Pool 10 coins
 		var coin_instance = coin_spread_scene.instantiate()
 		coin_instance.global_position = coin_marker.global_position
 		coin_pools.add_child(coin_instance)
@@ -61,6 +60,9 @@ func _ready():
 		camera.update_camera_attribute(camera_triggers["Map1"].cam_so)
 		rain.visible = false
 		bg_1.visible = true
+		bg_2.visible = false
+		
+		GameManager.VCoins = 30
 
 	# Load Game If Necessary
 	if GameManager.isLoad:
@@ -68,6 +70,7 @@ func _ready():
 		await get_tree().process_frame
 		GameManager._load_game()
 		camera.update_camera_attribute(camera_triggers[current_map].cam_so)
+		bg_2.visible = true
 	else:
 		GameManager.StageController = self
 
@@ -84,13 +87,16 @@ func _on_body_entered(body):
 	if body.is_in_group("Player") and completed_condition:
 		print(maps)
 		completed_condition = false
+		if current_map == "Map1" :
+			rain.visible = true
+			bg_2.visible = true
+			bg_2.scroll_base_offset = Vector2(2750,2720)
+		elif current_map == "Map2":
+			rain.visible = true
+			bg_2.visible = true
+			bg_2.scroll_base_offset = Vector2(2750*2,2680*2)
 		await transition_to_next_map()
-		if current_map == "Map2" :
-			rain.visible = true
-			bg_2.scroll_base_offset = Vector2(2750,2700)
-		elif current_map == "Map3":
-			rain.visible = true
-			bg_2.scroll_base_offset = Vector2(2750*2,2700*2)
+		
 
 func transition_to_next_map():
 	var next_map_index = int(current_map.replace("Map", "")) + 1
@@ -116,12 +122,12 @@ func checkForCompletion():
 	if $Map1/Map1Enemy.get_child_count() == 0 and current_map == "Map1":
 		completed_condition = true
 		$lvlBlockade/lvlBlockadeCol1.disabled = true
-	elif $Map2/Map2Enemy.get_child_count() == 0 and current_map == "Map2":
+	if $Map2/Map2Enemy.get_child_count() == 0 and current_map == "Map2":
 		completed_condition = true
-		$Map2/Lvl2_complete.visible = true
+		lvl_2_complete.visible = true
 		$Map2/Lvl2_complete/CollisionShape2D.disabled = false
 	
-	elif $Map3/Map3Enemy.get_child_count() == 0 and current_map == "Map3":
+	if $Map3/Map3Enemy.get_child_count() == 0 and current_map == "Map3":
 		completed_condition = true
 		$lvlBlockade/lvlBlockadeCol2.disabled = true
 	else:
@@ -131,6 +137,8 @@ var dialog = ConfirmationDialog.new()
 
 func _inTheWork():
 	get_tree().paused = true
+	GameManager.isLoad = false
+	
 	dialog.dialog_text = "🚧 Contrustion in Progress. New Game? 🚧"
 	
 	get_tree().root.add_child(dialog)

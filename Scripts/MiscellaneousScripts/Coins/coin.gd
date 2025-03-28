@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var val:= 1
+@export var val:= 2
 
 var isCollected = false
 

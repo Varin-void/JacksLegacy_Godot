@@ -334,7 +334,7 @@ func to_dict() -> Dictionary:
 	}
 
 func load_from_dict(data: Dictionary):
-	#print("🔄 Loading Data from Save:", data)
+	print("🔄 Loading Data from Save:", data)
 
 	if "lvl" in data:
 		lvl = data["lvl"]
@@ -411,6 +411,7 @@ func _save_game() -> void:
 	file.store_string(json_data)
 	file.close()
 	print("✅ -> Game Saved Successfully!")
+	print("📜 Saved Data: \n", json_data)  # Print saved data
 
 func _load_game():
 	if !FileAccess.file_exists(path):

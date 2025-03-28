@@ -54,7 +54,7 @@ func enter():
 
 func physicsUpdate(_delta):
 	# If player is detected, switch to Combat state
-	if owner.player and !owner.isDead:
+	if owner.player and owner.health != 0:
 		changeState("Combat")
 		return
 
@@ -77,7 +77,8 @@ func physicsUpdate(_delta):
 
 	# Check if enemy gets hit from behind (RCChkBack)
 	elif owner.RCChkBack and owner.RCChkBack.is_colliding():
-		changeState("Combat")
+		if owner.RCChkBack.get_collider().is_in_group("Player"):
+			changeState("Combat")
 		return
 
 	# Change direction if enemy has walked too far

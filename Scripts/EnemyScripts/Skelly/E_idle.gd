@@ -1,9 +1,13 @@
 extends State
+@onready var timer: Timer = $"../../Timer"
 
 func enter():
 	owner.anim.play("Idle")
 	owner.speed = 0
 	owner.velocity.x = 0
+	
+	#if !owner.isDead and timer.is_stopped():
+		#timer.start(4.0)
 
 func physicsUpdate(_delta):
 	if(owner.player) and !owner.isDead:
@@ -15,3 +19,6 @@ func physicsUpdate(_delta):
 	else:
 			changeState("Patrol")
 		
+
+func exit():
+	timer.stop()

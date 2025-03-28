@@ -51,6 +51,7 @@ func _process(delta: float) -> void:
 	
 	if isConsuming && is_on_floor() && !isPooling:
 		queue_free()
+		set_process(false)
 
 func setType():
 	scale.x = 1

@@ -88,7 +88,8 @@ func _ready():
 		fsm.changeState("Patrol")
 
 func _physics_process(delta):
-	label.text = fsm.currentState
+	#label.text = fsm.currentState
+	#print(label.text)
 	if not is_on_floor() && enemyType != EnemyType.Fly:
 		if isAirbone:
 			velocity.y = 0
@@ -188,10 +189,9 @@ func take_dmg(attack_name, attacker_pos):
 		
 		$Hit_Vfx/AnimationPlayer.play("hit_vfx")
 		
-		if health <= 0:
-			isDead = true
-			fsm.changeState("Dead")  
-			return
+		#if health <= 0:
+			#fsm.changeState("Dead")  
+			#return
 		
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += attack_data.knockback * knockback_dir
@@ -199,8 +199,13 @@ func take_dmg(attack_name, attacker_pos):
 		isHurt = true
 		fsm.changeState("Hurt")
 
-func _on_player_timer_timeout():
-	player = null
+func forceDead():
+		if !isDead and timer.is_stopped():
+			timer.start(4.0)
+
+func _on_timer_timeout():
+	owner.isDead = true
+	fsm.changeState("Dead")  # Ensure you have a "Dead" state
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	#if player_timer:

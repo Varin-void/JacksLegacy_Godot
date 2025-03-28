@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://cjae7tcahph3m"]
+[gd_scene load_steps=74 format=3 uid="uid://cjae7tcahph3m"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
@@ -30,7 +30,9 @@
 [ext_resource type="PackedScene" uid="uid://bm0mbx3bn11ar" path="res://ShaderNResources/CameraController/CameraController.tscn" id="23_2hjmt"]
 [ext_resource type="PackedScene" uid="uid://c6ww6h1cglxi" path="res://Scenes/World/Map3.tscn" id="26_0buan"]
 [ext_resource type="PackedScene" uid="uid://dakqjrv8gj1ym" path="res://Scenes/Enemy/Elite/RhinoElite.tscn" id="26_tt5ii"]
+[ext_resource type="PackedScene" uid="uid://pmlvlr2v7erf" path="res://Scenes/Miscellaneous/moving_platform.tscn" id="27_koi87"]
 [ext_resource type="Texture2D" uid="uid://bf16bwqt3hwgv" path="res://Assets/LevelDesign/Legacy Adventure Pack - CEMETERY/cemetery.png" id="32_x4ufe"]
+[ext_resource type="PackedScene" uid="uid://vht2eox436y1" path="res://Scenes/Miscellaneous/chest.tscn" id="33_xy3lw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajhoy"]
 bg_color = Color(1, 0, 0.290196, 1)
@@ -153,16 +155,22 @@ offsetX = 0.0
 offsetY = 0.0
 pov = Vector2(0.9, 0.9)
 ClampX = Vector2(3300, 4650)
-ClampY = Vector2(2830, 3130)
+ClampY = Vector2(2865, 3130)
 islock = false
 lock_position = Vector2(0, 0)
 metadata/_custom_type_script = "uid://01ycw0k84ivy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_soh27"]
-size = Vector2(68, 337)
+size = Vector2(96, 337)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xy3lw"]
 size = Vector2(65.1582, 17.0001)
+
+[sub_resource type="Curve2D" id="Curve2D_x4ufe"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -289)
+}
+point_count = 2
 
 [sub_resource type="Resource" id="Resource_0buan"]
 script = ExtResource("17_nn4ui")
@@ -276,7 +284,7 @@ size = Vector2(232, 183)
 
 [node name="GameScenes" type="Node2D" groups=["Level"]]
 script = ExtResource("1_oufk3")
-metadata/_edit_horizontal_guides_ = [180.0]
+metadata/_edit_horizontal_guides_ = [180.0, 3123.0, 3347.0, 2867.0]
 metadata/_edit_vertical_guides_ = [2902.0, 5040.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -450,8 +458,6 @@ texture = ExtResource("6_0buan")
 
 [node name="BG_Map2" type="ParallaxBackground" parent="bg2"]
 scroll_offset = Vector2(3000, 3000)
-
-[node name="Map2" type="Node2D" parent="bg2/BG_Map2"]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="bg2/BG_Map2"]
 motion_scale = Vector2(0.1, 1)
@@ -667,22 +673,26 @@ shape = SubResource("RectangleShape2D_kmsc6")
 [node name="Skelly" parent="Map1/Map1Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(854, 203)
 scale = Vector2(2, 2)
+patrol_range = 150.0
 attackRadius = 70
 
 [node name="Skelly2" parent="Map1/Map1Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(137, -135)
 scale = Vector2(2, 2)
+patrol_range = 150.0
 attackRadius = 70
 
 [node name="Skelly3" parent="Map1/Map1Enemy" instance=ExtResource("18_8v06y")]
-position = Vector2(1181, 206)
+position = Vector2(1134, 205)
 scale = Vector2(2, 2)
 enemyClass = 1
+patrol_range = 150.0
 attackRadius = 70
 
 [node name="Skelly4" parent="Map1/Map1Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1553, -256)
 scale = Vector2(2, 2)
+patrol_range = 150.0
 attackRadius = 70
 
 [node name="SavePoint" parent="Map1" instance=ExtResource("19_b6k7t")]
@@ -704,6 +714,7 @@ script = ExtResource("16_aqm2h")
 cam_so = SubResource("Resource_ajhoy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map2/Map2Triggers/lvl2CamTrig"]
+position = Vector2(14, 0)
 shape = SubResource("RectangleShape2D_soh27")
 
 [node name="Map2Enemy" type="Node2D" parent="Map2"]
@@ -740,6 +751,16 @@ texture = ExtResource("32_x4ufe")
 region_enabled = true
 region_rect = Rect2(160, 96, 64, 16)
 
+[node name="Chest" parent="Map2" instance=ExtResource("33_xy3lw")]
+position = Vector2(1929, -211)
+scale = Vector2(2, 2)
+
+[node name="MovingPlatform" parent="Map2" instance=ExtResource("27_koi87")]
+position = Vector2(1586, 129)
+curve = SubResource("Curve2D_x4ufe")
+direction = 3
+trigger = true
+
 [node name="Map3" parent="." instance=ExtResource("26_0buan")]
 position = Vector2(6000, 6000)
 
@@ -749,34 +770,38 @@ position = Vector2(6000, 6000)
 position = Vector2(264, 196)
 scale = Vector2(2, 2)
 enemyClass = 1
+patrol_range = 125.0
 
 [node name="Skelly2" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1528, -202)
 scale = Vector2(2, 2)
-patrol_range = 169.0
+patrol_range = 125.0
 
 [node name="Skelly3" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
-position = Vector2(6, -263)
+position = Vector2(74, -261)
 scale = Vector2(2, 2)
+patrol_range = 125.0
 
 [node name="Skelly4" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1223, 196)
 scale = Vector2(2, 2)
+patrol_range = 125.0
 
 [node name="Skelly5" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1165, -205)
 scale = Vector2(2, 2)
-patrol_range = 169.0
+patrol_range = 125.0
 
 [node name="Skelly6" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1776, -211)
 scale = Vector2(2, 2)
-patrol_range = 169.0
+patrol_range = 125.0
 
 [node name="Skelly8" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
-position = Vector2(1924, 156)
+position = Vector2(1995, 150)
 scale = Vector2(2, 2)
 enemyClass = 1
+patrol_range = 125.0
 
 [node name="Map3Spawn" type="Marker2D" parent="Map3"]
 position = Vector2(75, 191)
@@ -795,6 +820,11 @@ shape = SubResource("RectangleShape2D_soh27")
 
 [node name="SavePoint" parent="Map3" instance=ExtResource("19_b6k7t")]
 position = Vector2(536, -105)
+
+[node name="Chest" parent="Map3" instance=ExtResource("33_xy3lw")]
+position = Vector2(-31, -240)
+rotation = 3.14159
+scale = Vector2(2, -2)
 
 [node name="Map4" parent="." instance=ExtResource("21_5nxkl")]
 position = Vector2(4256, -637)

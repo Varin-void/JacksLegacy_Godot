@@ -1222,6 +1222,7 @@ libraries = {
 }
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
 
 [node name="FSM" type="Node" parent="."]
 script = ExtResource("10_vp1la")
@@ -1247,7 +1248,7 @@ script = ExtResource("15_grcm1")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="HitTimer" type="Timer" parent="FSM/Hurt"]
-wait_time = 0.05
+wait_time = 0.1
 one_shot = true
 autostart = true
 
@@ -1285,7 +1286,7 @@ position = Vector2(25, 2)
 target_position = Vector2(0, 75)
 
 [node name="RCChkBack" type="RayCast2D" parent="prop"]
-target_position = Vector2(-50, 0)
+target_position = Vector2(-40, 0)
 collision_mask = 3
 
 [node name="AttackBox" type="Area2D" parent="prop"]

@@ -1,14 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://pmlvlr2v7erf"]
+[gd_scene load_steps=6 format=3 uid="uid://pmlvlr2v7erf"]
 
 [ext_resource type="Script" uid="uid://crg5suvdhup6u" path="res://Scripts/MiscellaneousScripts/moving_platform.gd" id="1_txppw"]
+[ext_resource type="Shader" uid="uid://cuclp0xkvj2we" path="res://ShaderNResources/color_swap.gdshader" id="2_01sw0"]
 [ext_resource type="Texture2D" uid="uid://bfgvg41ne4gcc" path="res://Assets/LevelDesign/platform.png" id="2_86may"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cselu"]
+shader = ExtResource("2_01sw0")
+shader_parameter/custom_color = Color(0.996078, 0.85098, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8wn36"]
 size = Vector2(190, 12)
 
 [node name="MovingPlatform" type="Path2D" node_paths=PackedStringArray("sprite")]
 script = ExtResource("1_txppw")
-oneShot = true
 sprite = NodePath("AnimatableBody2D/brigde1")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
@@ -32,22 +36,23 @@ offset_right = -16.0
 offset_bottom = -12.0
 
 [node name="brigde1" type="Sprite2D" parent="AnimatableBody2D"]
+material = SubResource("ShaderMaterial_cselu")
 position = Vector2(-64, 15)
 texture = ExtResource("2_86may")
 region_enabled = true
 region_rect = Rect2(240, 96, 64, 40)
 
 [node name="brigde2" type="Sprite2D" parent="AnimatableBody2D/brigde1"]
+material = SubResource("ShaderMaterial_cselu")
 position = Vector2(63, 0)
-scale = Vector2(1, 1)
 texture = ExtResource("2_86may")
 flip_h = true
 region_enabled = true
 region_rect = Rect2(240, 96, 64, 40)
 
 [node name="brigde3" type="Sprite2D" parent="AnimatableBody2D/brigde1"]
+material = SubResource("ShaderMaterial_cselu")
 position = Vector2(127, 2.86102e-06)
-scale = Vector2(1, 1)
 texture = ExtResource("2_86may")
 flip_h = true
 region_enabled = true
@@ -55,5 +60,4 @@ region_rect = Rect2(240, 96, 64, 40)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
 position = Vector2(-7.62939e-06, 1)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_8wn36")

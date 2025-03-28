@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cyjix7ve8f03c"]
+[gd_scene load_steps=14 format=3 uid="uid://cyjix7ve8f03c"]
 
 [ext_resource type="Script" uid="uid://jxedes60pemn" path="res://Scripts/MiscellaneousScripts/world_audio_manager.gd" id="1_cilue"]
 [ext_resource type="AudioStream" uid="uid://j0wtm4iie8w6" path="res://Assets/Audio/Background_Senya.mp3" id="2_n2mqe"]
@@ -21,8 +21,12 @@ stream_count = 2
 stream_0 = ExtResource("3_33aiw")
 stream_1 = ExtResource("2_n2mqe")
 
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_i5sq8"]
+stream_count = 1
+stream_0 = ExtResource("2_n2mqe")
+
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_5a1qp"]
-clip_count = 3
+clip_count = 4
 clip_0/name = &"Map1Music"
 clip_0/stream = SubResource("AudioStreamPlaylist_ajhoy")
 clip_0/auto_advance = 0
@@ -32,6 +36,9 @@ clip_1/auto_advance = 0
 clip_2/name = &"MainScreenMusic"
 clip_2/stream = SubResource("AudioStreamPlaylist_n2mqe")
 clip_2/auto_advance = 0
+clip_3/name = &"Map3Music"
+clip_3/stream = SubResource("AudioStreamPlaylist_i5sq8")
+clip_3/auto_advance = 0
 _transitions = {
 Vector2i(0, 1): {
 "fade_beats": 1.0,

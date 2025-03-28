@@ -15,7 +15,8 @@ func physicsUpdate(delta):
 	if !owner.player and !owner.isDead:
 		changeState("Patrol")
 		return
-	
+	elif owner.isDead:
+		return
 	var dist = owner.getDist()
 	if abs(dist.x) >= owner.attackRadius * 3:
 		animName = "Walk"
@@ -27,7 +28,7 @@ func physicsUpdate(delta):
 		animName = "Walk"
 	if owner.enemyType != owner.EnemyType.Fixed:
 		owner.rotateToPlayer()
-		if !owner.player:
+		if !owner.player and owner.health != 0:
 			changeState("Patrol")
 		else:
 			if owner.enemyType == owner.EnemyType.Fly:
@@ -61,7 +62,7 @@ func physicsUpdate(delta):
 					#changeState("idle")
 					owner.anim.play("Idle")
 					return
-			if owner.canAttack() and !owner.isDead:
+			if owner.canAttack() and owner.health != 0:
 				if owner.player.is_on_floor() && abs(dist.y) >= owner.attackHeight:
 					#print("state routing")
 					#changeState("Routing")

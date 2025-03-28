@@ -59,6 +59,12 @@ func enter():
 	owner.RCChkGround.enabled = false
 	owner.RCChkBack.enabled = false
 
+	# Immediately check for death before doing anything else
+	if owner.health <= 0:
+		owner.isDead = true
+		changeState("Dead")
+		return  # Stop processing
+
 	if not owner.anim.is_connected("animation_finished", on_animation_finished):
 		owner.anim.animation_finished.connect(on_animation_finished)
 
@@ -74,15 +80,15 @@ func enter():
 
 func on_animation_finished(anim_name):
 	if anim_name == "TakeHit" or anim_name == "GTakeHit":
-		if owner.isDead:
-			return
 		hit_timer.start()
 
 func hit_timeout():
-	if owner.isDead:  # If dead, stay in Dead state
-		return
-	owner.speed = owner.orgChaseSpeed
-	changeState("Patrol")  # Resume normal behavior
+	if owner.health<=0:
+		owner.isDead = true
+		changeState("Dead")
+	else:
+		owner.speed = owner.orgChaseSpeed
+		changeState("Patrol")  # Resume normal behavior
 
 func exit():
 	owner.RCChkFront.enabled = true
@@ -90,7 +96,7 @@ func exit():
 	owner.RCChkBack.enabled = true
 	owner.isHurt = false  
 	connect_hit = false
-
+	
 	# Safely disconnect hit_timer to avoid duplicate connections
 	if hit_timer.timeout.is_connected(hit_timeout):
 		hit_timer.timeout.disconnect(hit_timeout)
