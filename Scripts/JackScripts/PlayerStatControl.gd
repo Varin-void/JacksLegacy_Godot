@@ -43,7 +43,7 @@ func resume():
 
 func _process(_delta: float) -> void:
 	updateVal()
-	if Input.is_action_just_pressed("player_stat") and not GameManager.pause_menu.visible:
+	if Input.is_action_just_pressed("player_stat") and not GameManager.pause_menu.visible and not GameManager.shop_menu.visible:
 		toggle_stat_screen()
 	#if Input.is_action_just_pressed("add_exp"):
 		#GameManager.current_xp += 100

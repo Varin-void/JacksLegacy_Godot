@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://vht2eox436y1"]
+
+[ext_resource type="Script" uid="uid://dkkforx4ucfu3" path="res://Scripts/MiscellaneousScripts/chest.gd" id="1_jd7n7"]
+[ext_resource type="Texture2D" uid="uid://j06fxl2fjfrx" path="res://Assets/Props/Animated Chests/Chests.png" id="1_t1uqw"]
+
+[sub_resource type="Animation" id="Animation_jd7n7"]
+resource_name = "Close"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.366667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_frtom"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_t1uqw"]
+resource_name = "Open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(4, 4), Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e0t16"]
+_data = {
+&"Close": SubResource("Animation_jd7n7"),
+&"Open": SubResource("Animation_t1uqw"),
+&"RESET": SubResource("Animation_frtom")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1uqw"]
+radius = 27.0185
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_jd7n7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_t1uqw")
+hframes = 5
+vframes = 8
+frame = 20
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_e0t16")
+}
+autoplay = "Close"
+
+[node name="Detect" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detect"]
+shape = SubResource("CircleShape2D_t1uqw")
+
+[connection signal="body_entered" from="Detect" to="." method="_on_detect_body_entered"]

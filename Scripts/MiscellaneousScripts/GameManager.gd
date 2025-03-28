@@ -40,7 +40,7 @@ var att = [
 	{
 		"name": "Attack3",
 		"dmg": get_stat_damage()+5,
-		"knockback": 5,
+		"knockback": 0,
 	},
 	{
 		"name": "AirAttack",
@@ -79,7 +79,7 @@ func update_attacks():
 		{
 			"name": "Attack3",
 			"dmg": get_stat_damage() + 5,
-			"knockback": 5,
+			"knockback": 0,
 		},
 		{
 			"name": "AirAttack",
@@ -275,7 +275,7 @@ var Defense:int:
 	set(value):
 		Defense = value
 
-var VCoins = 50 :
+var VCoins = 30 :
 	set(value):
 		VCoins = value
 
@@ -318,7 +318,7 @@ func to_dict() -> Dictionary:
 		"Name": "Jack",
 		"lvl": lvl,
 		"total_xp": total_xp,
-		"current_xp": current_xp, 
+		"current_xp": current_xp,
 		"HP": HP,
 		"max_hp": max_hp,
 		"Strength": Strength,

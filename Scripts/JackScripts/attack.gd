@@ -53,7 +53,7 @@ func exit():
 		owner.blockflip = false
 		att_count = 1
 		combo_timer.stop()
-		$"../../AttackBox/AirAttack".disabled = true
+		$"../../AttackBox/AirAttack".call_deferred("set", "disabled", true)
 	else:
 		owner.speed = owner.original_speed
 		owner.blockflip = false

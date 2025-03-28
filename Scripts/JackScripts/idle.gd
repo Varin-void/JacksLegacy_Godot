@@ -2,6 +2,7 @@ extends State
 const animation: String = "Idle"
 
 func changeToStateRoot():
+	$"../../PlayerAudio".playing = false
 	changeState("Idle")
 
 func enter():

@@ -1,13 +1,13 @@
 extends State
 const animation:String = "Jump"
 var isjump : bool = false
-var jumpforce : float = -350
+var jumpforce : float = -360
 var jumpcount : int = 0
 
 var pixelSize :float = 16
 var jumpHeight :float = 8 * pixelSize
 var jumpDistance :float = 15 * pixelSize
-var jumpPeakTime :float = .3
+var jumpPeakTime :float = .35
 
 func enter():
 	jumpForceCal()

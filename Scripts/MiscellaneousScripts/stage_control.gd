@@ -25,12 +25,14 @@ var camera_triggers = {}
 
 func _ready():
 	GameManager.add_fade_to_scene("/root/GameScenes/CanvasLayer")
+	if !GameManager.isLoad:
+		GameManager.VCoins = 30
 	%InfoPanel.visible = false
 	info_timer.start()
 	info_timer.timeout.connect(_on_info_timer_timeout)
 
 	# Store Maps & Triggers
-	for i in range(1, 3):
+	for i in range(1, 4):
 		var map = get_node_or_null("Map" + str(i))
 		var spawn = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Spawn")
 		var cam_trig = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Triggers/lvl" + str(i) + "CamTrig")
@@ -83,8 +85,12 @@ func _on_body_entered(body):
 		print(maps)
 		completed_condition = false
 		await transition_to_next_map()
-		rain.visible = true
-		bg_2.scroll_base_offset = Vector2(2750,2700)
+		if current_map == "Map2" :
+			rain.visible = true
+			bg_2.scroll_base_offset = Vector2(2750,2700)
+		elif current_map == "Map3":
+			rain.visible = true
+			bg_2.scroll_base_offset = Vector2(2750*2,2700*2)
 
 func transition_to_next_map():
 	var next_map_index = int(current_map.replace("Map", "")) + 1
@@ -112,8 +118,12 @@ func checkForCompletion():
 		$lvlBlockade/lvlBlockadeCol1.disabled = true
 	elif $Map2/Map2Enemy.get_child_count() == 0 and current_map == "Map2":
 		completed_condition = true
+		$Map2/Lvl2_complete.visible = true
+		$Map2/Lvl2_complete/CollisionShape2D.disabled = false
+	
+	elif $Map3/Map3Enemy.get_child_count() == 0 and current_map == "Map3":
+		completed_condition = true
 		$lvlBlockade/lvlBlockadeCol2.disabled = true
-		
 	else:
 		return
 

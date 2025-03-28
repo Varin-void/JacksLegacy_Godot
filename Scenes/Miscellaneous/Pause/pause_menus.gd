@@ -22,7 +22,7 @@ func resume():
 	get_tree().paused = false
 
 func _process(_delta: float):
-	if Input.is_action_just_pressed("pause_game") and not GameManager.stat_menu.visible:
+	if Input.is_action_just_pressed("pause_game") and not GameManager.stat_menu.visible and not GameManager.shop_menu.visible:
 		GameManager.toggle_pause()
 
 func _on_button_resume_pressed():

@@ -68,6 +68,8 @@ func _ready():
 		GameManager.setPlayerStat(stats.max_hp, stats._str, stats.agi, stats.vit, stats.def)
 
 func _process(_delta):
+	if is_dead:
+		return
 	$Label.text = str(fsm.currentState)
 	if !chkAbility("Dashing"):
 		direction = Input.get_axis("move_left", "move_right")
@@ -79,6 +81,8 @@ func _process(_delta):
 	fsm.update(_delta)
 
 func _physics_process(_delta):
+	if is_dead:
+		return
 	fsm.physicsUpdate(_delta)
 	movement(_delta)
 	move_and_slide()
@@ -126,7 +130,7 @@ func setAbilty(_ability:String,val:bool)->void:
 func chkAbility(_ability: String) -> bool:
 	return ability.get(_ability, false)
 
-func _take_damage(amount,attacker_pos):
+func _take_damage(amount,attacker_pos,knockback_amount):
 	if is_dead:
 		return
 	
@@ -134,9 +138,12 @@ func _take_damage(amount,attacker_pos):
 	if is_blocking:
 		GameManager.HP -= (amount/2)
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
-		global_position.x += 25 * knockback_dir
+		global_position.x += (knockback_amount/2) * knockback_dir
 	else:
+		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
+		global_position.x += (knockback_amount/1.15) * knockback_dir
 		GameManager.HP -= amount
+		
 		fsm.changeState("Hurt")
 	
 	if(GameManager.HP <= 0):

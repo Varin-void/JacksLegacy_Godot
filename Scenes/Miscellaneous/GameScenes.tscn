@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://cjae7tcahph3m"]
+[gd_scene load_steps=71 format=3 uid="uid://cjae7tcahph3m"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
@@ -24,10 +24,13 @@
 [ext_resource type="Script" uid="uid://01ycw0k84ivy" path="res://ShaderNResources/CameraController/CameraSO.gd" id="17_nn4ui"]
 [ext_resource type="PackedScene" uid="uid://c7d7u7y52kw66" path="res://Scenes/Enemy/Skelly/Enemies.tscn" id="18_8v06y"]
 [ext_resource type="PackedScene" uid="uid://7l50wqum7k83" path="res://Scenes/Miscellaneous/save_point.tscn" id="19_b6k7t"]
-[ext_resource type="PackedScene" uid="uid://c6ww6h1cglxi" path="res://Scenes/World/Map2.tscn" id="20_xd6ty"]
-[ext_resource type="PackedScene" uid="uid://ck06uebud7qs" path="res://Scenes/World/Map3.tscn" id="21_5nxkl"]
+[ext_resource type="PackedScene" uid="uid://dt6mn2juolmkk" path="res://Scenes/World/Map2.tscn" id="20_xd6ty"]
+[ext_resource type="PackedScene" uid="uid://ck06uebud7qs" path="res://Scenes/World/Map4.tscn" id="21_5nxkl"]
 [ext_resource type="PackedScene" uid="uid://bvm2exo6iry4y" path="res://Scenes/Jack/jack.tscn" id="22_gc6ep"]
 [ext_resource type="PackedScene" uid="uid://bm0mbx3bn11ar" path="res://ShaderNResources/CameraController/CameraController.tscn" id="23_2hjmt"]
+[ext_resource type="PackedScene" uid="uid://c6ww6h1cglxi" path="res://Scenes/World/Map3.tscn" id="26_0buan"]
+[ext_resource type="PackedScene" uid="uid://dakqjrv8gj1ym" path="res://Scenes/Enemy/Elite/RhinoElite.tscn" id="26_tt5ii"]
+[ext_resource type="Texture2D" uid="uid://bf16bwqt3hwgv" path="res://Assets/LevelDesign/Legacy Adventure Pack - CEMETERY/cemetery.png" id="32_x4ufe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajhoy"]
 bg_color = Color(1, 0, 0.290196, 1)
@@ -149,14 +152,29 @@ smooth = 3.0
 offsetX = 0.0
 offsetY = 0.0
 pov = Vector2(0.9, 0.9)
-ClampX = Vector2(3300, 4820)
-ClampY = Vector2(2830, 3100)
+ClampX = Vector2(3300, 4650)
+ClampY = Vector2(2830, 3130)
 islock = false
 lock_position = Vector2(0, 0)
 metadata/_custom_type_script = "uid://01ycw0k84ivy"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_soh27"]
 size = Vector2(68, 337)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xy3lw"]
+size = Vector2(65.1582, 17.0001)
+
+[sub_resource type="Resource" id="Resource_0buan"]
+script = ExtResource("17_nn4ui")
+smooth = 3.0
+offsetX = 0.0
+offsetY = 0.0
+pov = Vector2(0.9, 0.9)
+ClampX = Vector2(6300, 7820)
+ClampY = Vector2(5820, 6130)
+islock = false
+lock_position = Vector2(0, 0)
+metadata/_custom_type_script = "uid://01ycw0k84ivy"
 
 [sub_resource type="Resource" id="Resource_i0miu"]
 script = ExtResource("17_nn4ui")
@@ -258,8 +276,8 @@ size = Vector2(232, 183)
 
 [node name="GameScenes" type="Node2D" groups=["Level"]]
 script = ExtResource("1_oufk3")
-metadata/_edit_vertical_guides_ = [2937.0, 320.0]
 metadata/_edit_horizontal_guides_ = [180.0]
+metadata/_edit_vertical_guides_ = [2902.0, 5040.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -314,19 +332,12 @@ scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_68bto")
 autoplay = "default"
 
-[node name="Label" type="Label" parent="CanvasLayer/PlayerUi/AnimatedSprite2D"]
-offset_left = 6.0
-offset_top = -10.6667
-offset_right = 46.0
-offset_bottom = 12.3333
-text = " : "
-
 [node name="CoinValue" type="Label" parent="CanvasLayer/PlayerUi/AnimatedSprite2D"]
 unique_name_in_owner = true
-offset_left = 17.3333
-offset_top = -10.6667
-offset_right = 57.3333
-offset_bottom = 14.3333
+offset_left = 10.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 13.0
 text = "50"
 
 [node name="InfoPanel" type="Panel" parent="CanvasLayer/PlayerUi"]
@@ -681,9 +692,10 @@ position = Vector2(1119, -7)
 position = Vector2(3000, 3000)
 
 [node name="Map2Spawn" type="Marker2D" parent="Map2"]
-position = Vector2(21, 206)
+position = Vector2(75, 191)
 
 [node name="Map2Triggers" type="Node2D" parent="Map2"]
+position = Vector2(72, 89)
 
 [node name="lvl2CamTrig" type="Area2D" parent="Map2/Map2Triggers"]
 collision_layer = 0
@@ -692,53 +704,104 @@ script = ExtResource("16_aqm2h")
 cam_so = SubResource("Resource_ajhoy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map2/Map2Triggers/lvl2CamTrig"]
-position = Vector2(31, 88.5)
 shape = SubResource("RectangleShape2D_soh27")
 
 [node name="Map2Enemy" type="Node2D" parent="Map2"]
 
-[node name="Skelly" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
-position = Vector2(374, 204)
+[node name="Elites" parent="Map2/Map2Enemy" instance=ExtResource("26_tt5ii")]
+position = Vector2(633, 183)
+scale = Vector2(2.5, 2.5)
+
+[node name="SavePoint" parent="Map2" instance=ExtResource("19_b6k7t")]
+position = Vector2(202, 86)
+
+[node name="SavePoint2" parent="Map2" instance=ExtResource("19_b6k7t")]
+position = Vector2(1824, 213)
+
+[node name="Lvl2_complete" type="StaticBody2D" parent="Map2"]
+visible = false
+position = Vector2(1107, 66)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map2/Lvl2_complete"]
+position = Vector2(-13.4209, 0.5)
+shape = SubResource("RectangleShape2D_xy3lw")
+disabled = true
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Map2/Lvl2_complete"]
+rotation = 1.5708
+texture = ExtResource("32_x4ufe")
+region_enabled = true
+region_rect = Rect2(160, 112, 32, 40)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Map2/Lvl2_complete"]
+position = Vector2(-16, 0)
+texture = ExtResource("32_x4ufe")
+region_enabled = true
+region_rect = Rect2(160, 96, 64, 16)
+
+[node name="Map3" parent="." instance=ExtResource("26_0buan")]
+position = Vector2(6000, 6000)
+
+[node name="Map3Enemy" type="Node2D" parent="Map3"]
+
+[node name="Skelly" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
+position = Vector2(264, 196)
 scale = Vector2(2, 2)
 enemyClass = 1
 
-[node name="Skelly2" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
+[node name="Skelly2" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1528, -202)
 scale = Vector2(2, 2)
 patrol_range = 169.0
 
-[node name="Skelly3" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
+[node name="Skelly3" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(6, -263)
 scale = Vector2(2, 2)
 
-[node name="Skelly4" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
+[node name="Skelly4" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1223, 196)
 scale = Vector2(2, 2)
 
-[node name="Skelly5" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
+[node name="Skelly5" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1165, -205)
 scale = Vector2(2, 2)
 patrol_range = 169.0
 
-[node name="Skelly6" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
+[node name="Skelly6" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
 position = Vector2(1776, -211)
 scale = Vector2(2, 2)
 patrol_range = 169.0
 
-[node name="Skelly8" parent="Map2/Map2Enemy" instance=ExtResource("18_8v06y")]
-position = Vector2(1897, 158)
+[node name="Skelly8" parent="Map3/Map3Enemy" instance=ExtResource("18_8v06y")]
+position = Vector2(1924, 156)
 scale = Vector2(2, 2)
 enemyClass = 1
 
-[node name="SavePoint" parent="Map2" instance=ExtResource("19_b6k7t")]
-position = Vector2(624, -103)
+[node name="Map3Spawn" type="Marker2D" parent="Map3"]
+position = Vector2(75, 191)
 
-[node name="Map3" parent="." instance=ExtResource("21_5nxkl")]
+[node name="Map3Triggers" type="Node2D" parent="Map3"]
+position = Vector2(72, 89)
+
+[node name="lvl3CamTrig" type="Area2D" parent="Map3/Map3Triggers"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("16_aqm2h")
+cam_so = SubResource("Resource_0buan")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map3/Map3Triggers/lvl3CamTrig"]
+shape = SubResource("RectangleShape2D_soh27")
+
+[node name="SavePoint" parent="Map3" instance=ExtResource("19_b6k7t")]
+position = Vector2(536, -105)
+
+[node name="Map4" parent="." instance=ExtResource("21_5nxkl")]
 position = Vector2(4256, -637)
 
 [node name="Jack" parent="." instance=ExtResource("22_gc6ep")]
 light_mask = 3
-position = Vector2(3021, 3208)
+position = Vector2(3076, 3152)
 collision_layer = 2
 speed = 275.0
 
@@ -774,7 +837,11 @@ position = Vector2(2495, 127)
 shape = SubResource("RectangleShape2D_6bfml")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="TrasitNext"]
-position = Vector2(5542, 3302)
+position = Vector2(5372, 3319)
+shape = SubResource("RectangleShape2D_0g4ye")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="TrasitNext"]
+position = Vector2(8543, 6295)
 shape = SubResource("RectangleShape2D_0g4ye")
 
 [node name="lvlBlockade" type="StaticBody2D" parent="."]
@@ -785,7 +852,7 @@ position = Vector2(1868, 112)
 shape = SubResource("RectangleShape2D_0q6go")
 
 [node name="lvlBlockadeCol2" type="CollisionShape2D" parent="lvlBlockade"]
-position = Vector2(5324, 3004)
+position = Vector2(8324, 5989)
 shape = SubResource("RectangleShape2D_0q6go")
 
 [node name="Info" type="Area2D" parent="lvlBlockade"]
@@ -797,7 +864,7 @@ position = Vector2(1865, 121)
 shape = SubResource("RectangleShape2D_0buan")
 
 [node name="lvlinfo2" type="CollisionShape2D" parent="lvlBlockade/Info"]
-position = Vector2(5365, 3038)
+position = Vector2(8365, 6047)
 shape = SubResource("RectangleShape2D_0buan")
 
 [node name="CoinMarker" type="Marker2D" parent="."]
@@ -832,7 +899,7 @@ position = Vector2(232, 110)
 [node name="CoinsPooling" type="Node2D" parent="."]
 
 [node name="ShopArea" type="Area2D" parent="."]
-position = Vector2(4137, 3081)
+position = Vector2(7133, 6090)
 collision_layer = 8
 collision_mask = 2
 

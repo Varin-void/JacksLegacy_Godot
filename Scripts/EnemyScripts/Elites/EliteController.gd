@@ -16,12 +16,10 @@ extends CharacterBody2D
 @export var attackHeight = 70
 @export var closestRange = 0
 @export var id = 0
-#@export var playerTrigger : Area2D
 
 @onready var timer = $Timer as Timer 
 @onready var anim = $AnimationPlayer
 @onready var fsm: FSM = $FSM
-@onready var label: Label = $Label
 @onready var sprite: AnimatedSprite2D
 @onready var prop: Node2D = $prop
 @onready var player : JackController
@@ -32,10 +30,9 @@ extends CharacterBody2D
 @onready var RCChkGround = $prop/RCChkGround as RayCast2D
 @onready var RCChkBack = $prop/RCChkBack as RayCast2D
 @onready var screenSize  = get_viewport_rect()
-@onready var gollux_sprite: AnimatedSprite2D = $Golem/GolluxSprite
-@onready var skelly_sprite: AnimatedSprite2D = $SkellySprite
+@onready var rhino_sprite: AnimatedSprite2D = $RhinoSprite
 
-@onready var player_timer = $PlayerTimer
+@onready var immune_timer = $ImmuneTimer
 @onready var enemy_audio = $prop/AudioStreamPlayer2D
 
 var coinSpread : Node
@@ -47,9 +44,8 @@ enum EnemyType {
 }
 
 enum EnemyClass{
-	Melee,
-	Golem,
-	_Container,
+	EliteRhino,
+	EliteGolem
 }
 
 var distance
@@ -77,19 +73,17 @@ func _ready():
 	RCChkBack.enabled = true
 	lastPost = global_position
 	
-	#if playerTrigger:
-		#playerTrigger.body_entered.connect(on_detection_area_body_entered)
-		#playerTrigger.body_exited.connect(on_detection_area_body_exited)
-		#if $prop/DetectionArea/CollisionShape2D:
-			#$prop/DetectionArea/CollisionShape2D.disabled = true
 	if isInactive:
 		fsm.changeState("Idle")
 	else:
 		fsm.changeState("Patrol")
 
 func _physics_process(delta):
-	label.text = fsm.currentState
-	if not is_on_floor() && enemyType != EnemyType.Fly:
+	#$Label.text = str(fsm.currentState, " anim - ", anim.current_animation)
+	if isImmune:
+		#print("isImmune")
+		pass
+	if !is_on_floor() && enemyType != EnemyType.Fly:
 		if isAirbone:
 			velocity.y = 0
 		else:
@@ -152,31 +146,74 @@ func on_detection_area_body_exited(body: Node2D) -> void:
 		speed = orgChaseSpeed
 		fsm.getState("Patrol").tmpSpeed = speed
 
+var hit_taken = 0
+var isImmune = false
+
+#func take_dmg(attack_name, attacker_pos):
+	#if isDead or isHurt:
+		#return
+		#
+	#if isImmune:
+		#return
+	#
+	#if hit_taken > 3:
+		#isImmune = true
+		#if player:
+			#fsm.changeState("Attack")
+			#hit_taken = 0
+			#isImmune = false
+			#return
+		#else:
+			#fsm.changeState("Patrol")
+	#
+	#var attack_data = GameManager.get_attack_by_name(attack_name)
+	#if attack_data.size() > 0:
+		#
+		#GameManager.frame_freeze(0.1, 0.098)
+		#health -= attack_data.dmg
+		#hit_taken += 1
+		#health = max(health, 0)
+		#
+		#$Hit_Vfx/AnimationPlayer.play("hit_vfx")
+		#
+		#if health <= 0:
+			#isDead = true
+			#fsm.changeState("Dead")  
+			#return
+		#
+		#var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
+		#global_position.x += (attack_data.knockback / 2) * knockback_dir
+		#
+		#
+		#isHurt = true
+		#fsm.changeState("Hurt")
+
 #func take_dmg(attack_name, attacker_pos):
 	#if isDead or isHurt:
 		#return
 	#
 	#var attack_data = GameManager.get_attack_by_name(attack_name)
 	#if attack_data.size() > 0:
-		#GameManager.frame_freeze(0.1,0.098)
 		#
+		#GameManager.frame_freeze(0.1, 0.098)
 		#health -= attack_data.dmg
+		#health = max(health, 0)
+		#
 		#$Hit_Vfx/AnimationPlayer.play("hit_vfx")
 		#
 		#if health <= 0:
 			#isDead = true
-			#GameManager.current_xp += _exp
-			#fsm.changeState("Dead")
+			#fsm.changeState("Dead")  
 			#return
-#
+		#
 		#var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		#global_position.x += attack_data.knockback * knockback_dir
-#
+		#
 		#isHurt = true
 		#fsm.changeState("Hurt")
 
 func take_dmg(attack_name, attacker_pos):
-	if isDead or isHurt:
+	if isDead or isHurt or isImmune:  # Ignore damage if in immune phase
 		return
 	
 	var attack_data = GameManager.get_attack_by_name(attack_name)
@@ -197,49 +234,70 @@ func take_dmg(attack_name, attacker_pos):
 		global_position.x += attack_data.knockback * knockback_dir
 		
 		isHurt = true
+		hit_taken += 1  # Increase hit counter
+		
+		if hit_taken >= 3:
+			activate_immunity()
+		
 		fsm.changeState("Hurt")
+
+func activate_immunity():
+	isImmune = true
+	hit_taken = 0  # Reset hit count
+	
+	# Disable RayCast detection temporarily
+	RCChkFront.enabled = false
+	RCChkGround.enabled = false
+	RCChkBack.enabled = false
+
+	# Start immunity timer
+	immune_timer.start()
+	immune_timer.timeout.connect(_end_immunity, CONNECT_ONE_SHOT)
+
+func _end_immunity():
+	isImmune = false
+
+	RCChkFront.enabled = true
+	RCChkGround.enabled = true
+	RCChkBack.enabled = true
+	
+	fsm.changeState("Attack")
 
 func _on_player_timer_timeout():
 	player = null
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	#if player_timer:
-		#player_timer.stop()
-	#player = body
 	on_detection_area_body_entered(body)
 
 func _on_detection_area_body_exited(_body: Node2D) -> void:
-	#if player_timer:
-		#player_timer.start()
 	on_detection_area_body_exited(_body)
 
 func set_enemy_properties():
 	match enemyClass:
-		EnemyClass.Melee:
-			sprite = skelly_sprite
-			speed = 50
-			damage = 10
-			health = 100
-			_exp = 100
-			attackRadius = 75
-			gollux_sprite.visible = false
-			skelly_sprite.visible = true
-		EnemyClass.Golem:
-			sprite = gollux_sprite
+		EnemyClass.EliteRhino:
+			sprite = rhino_sprite
 			speed = 75
-			damage = 15
-			health = 150
-			_exp = 150
-			attackRadius = 60
-			skelly_sprite.visible = false
-			gollux_sprite.visible = true
+			damage = 20
+			health = 800
+			_exp = 300
+			attackRadius = 120
+			rhino_sprite.visible = true
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and body.has_method("_take_damage"):
 		if body.is_dead:
 			isInactive = true
 			return
-		body._take_damage(damage,global_position,26)
+		body._take_damage(damage,global_position,10)
+
+func shrink_Damage_box(amount):
+	if amount != 0.0:
+		if isFacingRight():
+			$prop/AttackBox/CollisionShape2D.position.x += amount
+		else:
+			$prop/AttackBox/CollisionShape2D.position.x -= amount
+	else:
+		$prop/AttackBox/CollisionShape2D.position.x = 55.5
 
 func audio_random_pitch():
-	enemy_audio.pitch_scale = randf_range(0.8, 1.1)
+	enemy_audio.pitch_scale = randf_range(0.5, 1.2)
