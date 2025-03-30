@@ -2,7 +2,7 @@ extends State
 
 func enter():
 	owner.velocity.x=0
-	
+	owner.isDead = true
 	owner.velocity = Vector2.ZERO  # Ensure it stops moving
 	owner.RCChkFront.enabled = false
 	owner.RCChkGround.enabled = false
@@ -13,6 +13,14 @@ func enter():
 	else:
 		owner.anim.play("Death")
 	
+	
+	if not owner.anim.animation_finished.is_connected(on_animation_finished):
+		owner.anim.animation_finished.connect(on_animation_finished)
+
+func on_animation_finished(anim_name):
+	owner.anim.animation_finished.disconnect(on_animation_finished)
+
+	owner.visible = false
 	var coin_index = GameManager.getCoinSpread()
 	GameManager.current_xp += owner._exp
 	if coin_index < GameManager.coinSpreadMax and GameManager.coinSpread[coin_index] != null:
@@ -25,13 +33,6 @@ func enter():
 		owner.coinSpread.spawn(owner.global_position)
 	else:
 		print("Error: CoinSpread instance is null or invalid")
-	if not owner.anim.animation_finished.is_connected(on_animation_finished):
-		owner.anim.animation_finished.connect(on_animation_finished)
-
-func on_animation_finished(anim_name):
-	owner.anim.animation_finished.disconnect(on_animation_finished)
-
-	owner.visible = false
 	await get_tree().create_timer(1.0).timeout  # Delay before freeing
 	owner.queue_free()
 	owner.set_process(false)

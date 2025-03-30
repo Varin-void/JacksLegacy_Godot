@@ -64,7 +64,6 @@ animations = [{
 
 [node name="Coin" type="Node2D"]
 script = ExtResource("1_5eoeh")
-val = null
 
 [node name="collect" type="Area2D" parent="."]
 collision_layer = 0

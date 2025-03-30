@@ -62,7 +62,6 @@ func _ready():
 	xp_table_data = get_xp_data()
 	total_xp = 0
 	print("Initializing GameManager")
-	print("coinSpread: ", coinSpread)
 
 func update_attacks():
 	att = [
@@ -314,6 +313,13 @@ func setPlayerStatCalc():
 #region Save Game
 
 func to_dict() -> Dictionary:
+	var stage_background
+	if StageController.current_map == "Map2" or StageController.current_map == "Map3":
+		stage_background = StageController.bg_2
+	elif StageController.current_map == "Map4":
+		stage_background = StageController.bg_4
+	else:
+		stage_background = StageController.bg_1
 	return {
 		"Name": "Jack",
 		"lvl": lvl,
@@ -329,7 +335,7 @@ func to_dict() -> Dictionary:
 		"global_position": Character.global_position,
 		"current_map": StageController.current_map,
 		"camera_position": StageController.camera.global_position,
-		"background_offset" : StageController.bg_2.scroll_base_offset,
+		"background_offset" : stage_background.scroll_base_offset,
 		"rain" : StageController.rain.visible,
 	}
 
@@ -393,9 +399,20 @@ func load_from_dict(data: Dictionary):
 		if pos_str is String:
 			var pos_values = pos_str.trim_prefix("(").trim_suffix(")").split(", ")
 			if pos_values.size() == 2:
-				StageController.bg_2.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
+				if StageController.current_map == "Map2" or StageController.current_map == "Map3":
+					StageController.bg_2.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
+				elif StageController.current_map == "Map4":
+					StageController.bg_4.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
+				else:
+					StageController.bg_1.scroll_base_offset = Vector2(pos_values[0].to_float(), pos_values[1].to_float())
 		else:
-			StageController.bg_2.scroll_base_offset = data["background_offset"]
+			if StageController.current_map == "Map2" or StageController.current_map == "Map3":
+				StageController.bg_2.scroll_base_offset = data["background_offset"]
+			elif StageController.current_map == "Map4":
+				StageController.bg_4.scroll_base_offset = data["background_offset"]
+			else:
+				StageController.bg_1.scroll_base_offset = data["background_offset"]
+
 
 func _save_game() -> void:
 	var directory = DirAccess.open("user://")

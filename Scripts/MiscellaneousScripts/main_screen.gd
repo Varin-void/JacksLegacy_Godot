@@ -49,6 +49,7 @@ func on_play_pressed():
 		_start_new_game()
 
 func _start_new_game():
+	GameManager.isLoad = false
 	GameManager.transition_scene("uid://cjae7tcahph3m")
 
 func _load_game():

@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://b7uid77h4fx2" path="res://Scenes/Cave.tres" id="3_perak"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxyy6"]
-size = Vector2(30, 738)
+size = Vector2(30, 1116)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqr8q"]
 size = Vector2(3470.5, 20)
@@ -58,14 +58,23 @@ polygon = PackedVector2Array(1487, -474, 1601, -400, 1601, -384, 1487, -453)
 [node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Floor"]
 polygon = PackedVector2Array(2432, 272, 2752, 176, 2752, 192, 2432, 288)
 
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="Floor"]
+polygon = PackedVector2Array(1872, 159, 1898, 159, 1900, 106, 1914, 101, 1927, 101, 1938, 103, 1941, 111, 1938, 134, 1938, 151, 1941, 158, 1999, 160, 2001, 160, 2000, 144, 1989, 87, 1948, 80, 1903, 78, 1880, 88, 1874, 118, 1872, 144)
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="Floor"]
+polygon = PackedVector2Array(2016, 129, 2031, 128, 2033, 124, 2033, 114, 2033, 101, 2033, 96, 2040, 94, 2055, 94, 2064, 96, 2064, 80, 2022, 81)
+
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="Floor"]
+polygon = PackedVector2Array(1744, 16, 1786, 16, 1791, 18, 1792, 49, 1808, 49, 1808, 0, 1744, 0)
+
 [node name="MapBoundary" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapBoundary"]
-position = Vector2(-162, -2)
+position = Vector2(-160, -191)
 shape = SubResource("RectangleShape2D_xxyy6")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="MapBoundary"]
-position = Vector2(3314, -1)
+position = Vector2(3312, -188)
 shape = SubResource("RectangleShape2D_xxyy6")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="MapBoundary"]

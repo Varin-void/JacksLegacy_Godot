@@ -34,6 +34,7 @@ extends CharacterBody2D
 
 @onready var immune_timer = $ImmuneTimer
 @onready var enemy_audio = $prop/AudioStreamPlayer2D
+@onready var Health_bar: TextureProgressBar = $CanvasLayer/BossHP/TextureProgressBar
 
 var coinSpread : Node
 
@@ -62,10 +63,12 @@ var isDead = false
 var isHurt = false
 var isBlock = false
 
+@export var elite : CharacterBody2D
 #endregion
 
 func _ready():
 	set_enemy_properties()
+	$CanvasLayer/BossHP.visible = false
 	orgPos = global_position
 	orgChaseSpeed = speed
 	RCChkFront.enabled = true
@@ -81,7 +84,6 @@ func _ready():
 func _physics_process(delta):
 	#$Label.text = str(fsm.currentState, " anim - ", anim.current_animation)
 	if isImmune:
-		#print("isImmune")
 		pass
 	if !is_on_floor() && enemyType != EnemyType.Fly:
 		if isAirbone:
@@ -91,8 +93,13 @@ func _physics_process(delta):
 	
 	if !isInactive and !isDead:
 		fsm.physicsUpdate(delta)
+		$CanvasLayer/BossHP.visible = true
 		
 	
+	if isInactive and !isDead:
+		$CanvasLayer/BossHP.visible = false
+	
+	Health_bar.value = health
 	move_and_slide()
 
 func rotateToPlayer(val:bool = true):
@@ -252,6 +259,7 @@ func activate_immunity():
 
 	# Start immunity timer
 	immune_timer.start()
+	$CanvasLayer/BossHP/TextureProgressBar/Label.visible = true
 	immune_timer.timeout.connect(_end_immunity, CONNECT_ONE_SHOT)
 
 func _end_immunity():
@@ -260,6 +268,7 @@ func _end_immunity():
 	RCChkFront.enabled = true
 	RCChkGround.enabled = true
 	RCChkBack.enabled = true
+	$CanvasLayer/BossHP/TextureProgressBar/Label.visible = false
 	
 	fsm.changeState("Attack")
 
@@ -282,6 +291,7 @@ func set_enemy_properties():
 			_exp = 300
 			attackRadius = 120
 			rhino_sprite.visible = true
+			Health_bar.max_value = health
 
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and body.has_method("_take_damage"):

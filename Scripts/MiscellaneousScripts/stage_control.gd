@@ -8,30 +8,35 @@ class_name StageControl
 @onready var bg_1: ParallaxBackground = $BG_Map1
 @onready var bg_2: ParallaxBackground = $bg2/BG_Map2
 @onready var _bg_2: Node2D = $bg2
+@onready var bg_4: ParallaxBackground = $BG_Map4
 
 var audio_control = preload("uid://cyjix7ve8f03c")
 
 @onready var jack: JackController = $Jack
-@onready var health_bar: ProgressBar = $CanvasLayer/PlayerUi/HealthBar
+@onready var health_bar: TextureProgressBar = $CanvasLayer/PlayerUi/HealthBar
 @onready var camera: CameraController = $Camera2D
 @onready var coin_pools: Node2D = $CoinsPooling
 @onready var coin_marker: Marker2D = $CoinMarker
 
 @onready var rain = $Camera2D/RainParticle
 @onready var lvl_2_complete: StaticBody2D = $Map2/Lvl2_complete
+@onready var BossTrigger: CollisionShape2D = $Map2/BossTrigger/CollisionShape2D
 
 var maps = {}
 var spawn_points = {}
 var camera_triggers = {}
+
+var boss_triggered = false
+@export var elite : CharacterBody2D
 
 func _ready():
 	GameManager.add_fade_to_scene("/root/GameScenes/CanvasLayer")
 	%InfoPanel.visible = false
 	info_timer.start()
 	info_timer.timeout.connect(_on_info_timer_timeout)
-
+	
 	# Store Maps & Triggers
-	for i in range(1, 4):
+	for i in range(1, 5):
 		var map = get_node_or_null("Map" + str(i))
 		var spawn = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Spawn")
 		var cam_trig = get_node_or_null("Map" + str(i) + "/Map" + str(i) + "Triggers/lvl" + str(i) + "CamTrig")
@@ -41,11 +46,11 @@ func _ready():
 			spawn_points["Map" + str(i)] = spawn
 			camera_triggers["Map" + str(i)] = cam_trig
 
-	# 🛠️ Automatically Pool 10 Coins (Instead of Manually Placing Them)
+	# 🛠️ Automatically Pool 5 Coins (Instead of Manually Placing Them)
 	GameManager.coinSpread.clear()
 	var coin_spread_scene = preload("uid://wcaylsvafv00")
 	
-	for i in range(5):  # Pool 10 coins
+	for i in range(10):  # Pool 5 coins
 		var coin_instance = coin_spread_scene.instantiate()
 		coin_instance.global_position = coin_marker.global_position
 		coin_pools.add_child(coin_instance)
@@ -61,6 +66,7 @@ func _ready():
 		rain.visible = false
 		bg_1.visible = true
 		bg_2.visible = false
+		bg_4.visible = false
 		
 		GameManager.VCoins = 30
 
@@ -70,7 +76,18 @@ func _ready():
 		await get_tree().process_frame
 		GameManager._load_game()
 		camera.update_camera_attribute(camera_triggers[current_map].cam_so)
-		bg_2.visible = true
+		if current_map == "Map2" or current_map == "Map3":
+			bg_2.visible = true
+			bg_4.visible = false
+			bg_1.visible = false
+		elif current_map == "Map4":
+			bg_4.visible = true
+			bg_2.visible = false
+			bg_1.visible = false
+		else:
+			bg_1.visible = true
+			bg_4.visible = false
+			bg_2.visible = false
 	else:
 		GameManager.StageController = self
 
@@ -81,7 +98,6 @@ func _process(_delta):
 	checkForCompletion()
 	# Simplified PlayerUi visibility logic
 	$CanvasLayer/PlayerUi.visible = not ($CanvasLayer/PauseMenus.visible or $CanvasLayer/StatsControl.visible)
-	
 
 func _on_body_entered(body):
 	if body.is_in_group("Player") and completed_condition:
@@ -95,8 +111,13 @@ func _on_body_entered(body):
 			rain.visible = true
 			bg_2.visible = true
 			bg_2.scroll_base_offset = Vector2(2750*2,2680*2)
+		elif current_map == "Map3":
+			rain.visible = false
+			bg_2.visible = false
+			
+			bg_4.visible = true
+			bg_4.scroll_base_offset = Vector2(-2750*2,2480)
 		await transition_to_next_map()
-		
 
 func transition_to_next_map():
 	var next_map_index = int(current_map.replace("Map", "")) + 1
@@ -164,7 +185,6 @@ func _back_to_menu():
 
 func update_health_bar():
 	var max_hp = GameManager.max_hp
-	
 	health_bar.max_value = max_hp
 	health_bar.value = GameManager.HP
 
@@ -173,4 +193,8 @@ func _on_info_body_entered(body):
 		%InfoPanel.visible = true
 		await get_tree().create_timer(0.75).timeout
 		%InfoPanel.visible = false
-	
+
+func _on_boss_trigger_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player") and !boss_triggered:
+		BossTrigger.disabled = true
+		$Map2/Map2Enemy/Elites.isInactive = false

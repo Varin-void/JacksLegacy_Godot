@@ -65,14 +65,16 @@ func enter():
 		changeState("Dead")
 		return  # Stop processing
 
-	if not owner.anim.is_connected("animation_finished", on_animation_finished):
-		owner.anim.animation_finished.connect(on_animation_finished)
+
 
 	if owner.enemyClass == owner.EnemyClass.Golem:
 		owner.anim.play("GTakeHit")
 	else:
 		owner.anim.play("TakeHit")
-
+	
+	if not owner.anim.is_connected("animation_finished", on_animation_finished):
+		owner.anim.animation_finished.connect(on_animation_finished)
+	
 	if not connect_hit:
 		connect_hit = true
 		if not hit_timer.timeout.is_connected(hit_timeout):
