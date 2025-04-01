@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://bya68nv7h7432"]
+[gd_scene load_steps=86 format=3 uid="uid://bya68nv7h7432"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
@@ -39,7 +39,6 @@
 [ext_resource type="PackedScene" uid="uid://vht2eox436y1" path="res://Scenes/Miscellaneous/chest.tscn" id="33_xy3lw"]
 [ext_resource type="Script" uid="uid://crg5suvdhup6u" path="res://Scripts/MiscellaneousScripts/moving_platform.gd" id="36_aqm2h"]
 [ext_resource type="Texture2D" uid="uid://bfgvg41ne4gcc" path="res://Assets/LevelDesign/platform.png" id="37_nn4ui"]
-[ext_resource type="PackedScene" uid="uid://d2sjt0jil1l0i" path="res://Scenes/Miscellaneous/ultimate_sigils.tscn" id="40_nn4ui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx5qv"]
 bg_color = Color(0.788235, 0.858824, 1, 0.501961)
@@ -624,6 +623,7 @@ region_enabled = true
 region_rect = Rect2(192, 64, 64, 32)
 
 [node name="BG_Map4" type="ParallaxBackground" parent="."]
+visible = false
 offset = Vector2(200, 70)
 scale = Vector2(1, 1.15)
 transform = Transform2D(1, 0, 0, 1.15, 200, 70)
@@ -1021,6 +1021,8 @@ position = Vector2(-7.62939e-06, 1)
 shape = SubResource("RectangleShape2D_8wn36")
 one_way_collision = true
 
+[node name="Map5" type="Node2D" parent="."]
+
 [node name="Jack" parent="." instance=ExtResource("22_gc6ep")]
 light_mask = 3
 position = Vector2(3076, 3152)
@@ -1067,7 +1069,7 @@ position = Vector2(8543, 6295)
 shape = SubResource("RectangleShape2D_0g4ye")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="TrasitNext"]
-position = Vector2(-2974, 3314)
+position = Vector2(-2973, 3294)
 shape = SubResource("RectangleShape2D_0g4ye")
 
 [node name="lvlBlockade" type="StaticBody2D" parent="."]
@@ -1136,9 +1138,6 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShopArea"]
 position = Vector2(106, 81.5)
 shape = SubResource("RectangleShape2D_tt5ii")
-
-[node name="UltimateSigils" parent="." instance=ExtResource("40_nn4ui")]
-position = Vector2(554, 134)
 
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig2" to="Map1/Map1Triggers/lvl1CamTrig2" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig3" to="Map1/Map1Triggers/lvl1CamTrig3" method="_on_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bvm2exo6iry4y"]
+[gd_scene load_steps=50 format=3 uid="uid://bvm2exo6iry4y"]
 
 [ext_resource type="Texture2D" uid="uid://5q7s73fal10s" path="res://Assets/Player/lightning_ronin_full_v1.0.png" id="1_cd7a0"]
 [ext_resource type="Script" uid="uid://00gmrnsb0u42" path="res://Scripts/JackScripts/JackController.gd" id="1_jjc82"]
@@ -21,6 +21,8 @@
 [ext_resource type="AudioStream" uid="uid://dpg8g4n6tu4ft" path="res://Assets/Audio/PlayerSFX/LightningDash.mp3" id="17_xi45x"]
 [ext_resource type="Script" uid="uid://cb84fh5hi7rpa" path="res://Scripts/JackScripts/death.gd" id="18_go7hy"]
 [ext_resource type="Script" uid="uid://bt03ya6fpyg1e" path="res://Scripts/JackScripts/ultimate_skill.gd" id="20_ij5gx"]
+[ext_resource type="Texture2D" uid="uid://db7467fsrnufn" path="res://Assets/UI Element/PlayerUI/ultimate_icon.png" id="22_kg8p2"]
+[ext_resource type="FontFile" uid="uid://bard03r6lmdll" path="res://Assets/UI Element/SilentGUI/Fonts/Pixeloid/PixeloidSans.ttf" id="23_3fcpj"]
 
 [sub_resource type="Resource" id="Resource_bg3eg"]
 script = ExtResource("2_02sdt")
@@ -844,9 +846,33 @@ script = ExtResource("20_ij5gx")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="UltTimer" type="Timer" parent="FSM/Ultimate"]
-wait_time = 30.0
+wait_time = 15.0
 one_shot = true
 
 [node name="PlayerAudio" type="AudioStreamPlayer2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerUi" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UltimateIcon" type="Sprite2D" parent="CanvasLayer/PlayerUi"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(29, 332)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("22_kg8p2")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlayerUi/UltimateIcon"]
+offset_left = -53.3333
+offset_top = -53.3333
+offset_right = -13.3333
+offset_bottom = -13.3333
+theme_override_fonts/font = ExtResource("23_3fcpj")
+theme_override_font_sizes/font_size = 32
+text = "R"
 
 [connection signal="body_entered" from="AttackBox" to="FSM/Attack" method="_on_attack_box_body_entered"]

@@ -37,6 +37,7 @@ var ability: Dictionary = {
 	"Ultimate": false,
 	"Air_Combo": false
 }
+@onready var ult_timer: Timer = $FSM/Ultimate/UltTimer
 
 @export var stats : _PlayerStats
 @export var speed: float = 225
@@ -45,6 +46,7 @@ var ability: Dictionary = {
 @export var AttackSfx : AudioStreamMP3
 @export var DashSfx : AudioStreamMP3
 @export var playerAudio : AudioStreamPlayer2D
+@onready var ultimate_icon: Sprite2D = %UltimateIcon
 
 func _ready():
 	ui = get_tree().get_nodes_in_group("Level")[0] as StageControl
@@ -60,18 +62,20 @@ func _ready():
 		fsm.changeState("Falling")
 	else:
 		fsm.changeState("Idle")
-
+	
 	if GameManager.isLoad:
 		GameManager.Character = self
 		await get_tree().process_frame
 		GameManager._load_game()
 	else:
 		GameManager.setPlayerStat(stats.max_hp, stats._str, stats.agi, stats.vit, stats.def)
+	
+	ultimate_icon.visible = GameManager.Ultimate
 
 func _process(_delta):
 	if is_dead:
 		return
-	$Label.text = str(fsm.currentState)
+	#$Label.text = str(fsm.currentState)
 	if !chkAbility("Dashing") or !chkAbility("Ultimate"):
 		direction = Input.get_axis("move_left", "move_right")
 	flip()

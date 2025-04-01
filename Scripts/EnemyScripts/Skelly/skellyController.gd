@@ -155,29 +155,6 @@ func on_detection_area_body_exited(body: Node2D) -> void:
 		speed = orgChaseSpeed
 		fsm.getState("Patrol").tmpSpeed = speed
 
-#func take_dmg(attack_name, attacker_pos):
-	#if isDead or isHurt:
-		#return
-	#
-	#var attack_data = GameManager.get_attack_by_name(attack_name)
-	#if attack_data.size() > 0:
-		#GameManager.frame_freeze(0.1,0.098)
-		#
-		#health -= attack_data.dmg
-		#$Hit_Vfx/AnimationPlayer.play("hit_vfx")
-		#
-		#if health <= 0:
-			#isDead = true
-			#GameManager.current_xp += _exp
-			#fsm.changeState("Dead")
-			#return
-#
-		#var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
-		#global_position.x += attack_data.knockback * knockback_dir
-#
-		#isHurt = true
-		#fsm.changeState("Hurt")
-
 func take_dmg(attack_name, attacker_pos):
 	if isDead or isHurt:
 		return
@@ -189,10 +166,6 @@ func take_dmg(attack_name, attacker_pos):
 		health = max(health, 0)
 		
 		$Hit_Vfx/AnimationPlayer.play("hit_vfx")
-		
-		#if health <= 0:
-			#fsm.changeState("Dead")  
-			#return
 		
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += attack_data.knockback * knockback_dir

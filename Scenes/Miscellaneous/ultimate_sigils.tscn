@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2sjt0jil1l0i"]
+[gd_scene load_steps=8 format=3 uid="uid://d2sjt0jil1l0i"]
 
 [ext_resource type="Texture2D" uid="uid://e3c5f1a5ieil" path="res://Assets/UI Element/stone (2).png" id="1_7kgsy"]
 [ext_resource type="Script" uid="uid://cv17oj6ca8miw" path="res://Scripts/MiscellaneousScripts/ultimate_sigils.gd" id="1_wf5mc"]
+[ext_resource type="FontFile" uid="uid://bard03r6lmdll" path="res://Assets/UI Element/SilentGUI/Fonts/Pixeloid/PixeloidSans.ttf" id="2_hkjv4"]
 
 [sub_resource type="Animation" id="Animation_hkjv4"]
 length = 0.001
@@ -46,6 +47,15 @@ radius = 38.0132
 
 [node name="UltimateSigils" type="Node2D"]
 script = ExtResource("1_wf5mc")
+
+[node name="Control" type="Label" parent="."]
+offset_left = -133.0
+offset_top = -63.0
+offset_right = 125.0
+offset_bottom = -23.0
+theme_override_fonts/font = ExtResource("2_hkjv4")
+theme_override_font_sizes/font_size = 18
+text = "Unlock your Ultimate Ability"
 
 [node name="Stone(2)" type="Sprite2D" parent="."]
 texture = ExtResource("1_7kgsy")

@@ -117,6 +117,8 @@ func _on_body_entered(body):
 			
 			bg_4.visible = true
 			bg_4.scroll_base_offset = Vector2(-2750*2,2480)
+		
+			
 		await transition_to_next_map()
 
 func transition_to_next_map():
@@ -151,6 +153,8 @@ func checkForCompletion():
 	if $Map3/Map3Enemy.get_child_count() == 0 and current_map == "Map3":
 		completed_condition = true
 		$lvlBlockade/lvlBlockadeCol2.disabled = true
+	if $Map4/Map4Enemy.get_child_count() == 0 and current_map == "Map4":
+		completed_condition = true
 	else:
 		return
 
