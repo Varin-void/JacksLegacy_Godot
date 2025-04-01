@@ -63,8 +63,15 @@ var isDead = false
 var isHurt = false
 var isBlock = false
 
-@export var elite : CharacterBody2D
+var bullet_time_factor = 1.0
 #endregion
+
+func set_bullet_time(factor):
+	bullet_time_factor = factor
+	if factor == 1:
+		anim.speed_scale = factor
+	else:
+		anim.speed_scale = factor * 18
 
 func _ready():
 	set_enemy_properties()
@@ -83,6 +90,7 @@ func _ready():
 
 func _physics_process(delta):
 	#$Label.text = str(fsm.currentState, " anim - ", anim.current_animation)
+	delta *= bullet_time_factor 
 	if isImmune:
 		pass
 	if !is_on_floor() && enemyType != EnemyType.Fly:
@@ -240,7 +248,7 @@ func take_dmg(attack_name, attacker_pos):
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += attack_data.knockback * knockback_dir
 		
-		isHurt = true
+		#isHurt = true
 		hit_taken += 1  # Increase hit counter
 		
 		if hit_taken >= 3:

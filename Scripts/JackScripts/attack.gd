@@ -17,7 +17,7 @@ func enter():
 	owner.velocity.x = 0
 	action_pressed = false
 	owner.setAbilty("Attacking", true)
-	owner.anim.speed_scale = 1
+	owner.anim.speed_scale = 1.20
 	
 	if !owner.heavy_att:
 		comboAtt()
@@ -59,6 +59,8 @@ func exit():
 		owner.blockflip = false
 		owner.setAbilty("Attacking", false)
 		owner.heavy_att = false
+	owner.anim.speed_scale = 1
+	
 #func exit():
 	#if !owner.heavy_att:
 		#owner.setAbilty("Attacking", false)
@@ -118,3 +120,4 @@ func on_animation_finish(animName):
 func _on_attack_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		body.take_dmg(att_name,owner.global_position)
+		GameManager.frame_freeze(0.3, 0.125)

@@ -4,7 +4,7 @@ extends Node
 var loading_scene = preload("uid://dc1tescjuv6j8")
 var fade_control = preload("uid://dp4kp15ct53tw")
 var main_screen = preload("uid://cbyayktnmu7h5")
-var game_scene = preload("uid://cjae7tcahph3m")
+var game_scene = preload("uid://bya68nv7h7432")
 var Character : JackController
 var StageController : StageControl
 var pause_ui = preload("uid://clnw6lm0wf2im")
@@ -34,18 +34,23 @@ var att = [
 	},
 	{
 		"name": "Attack2",
-		"dmg": get_stat_damage()+5,
+		"dmg": get_stat_damage() + 5,
 		"knockback":25,
 	},
 	{
 		"name": "Attack3",
-		"dmg": get_stat_damage()+5,
+		"dmg": get_stat_damage() + 5,
 		"knockback": 0,
 	},
 	{
 		"name": "AirAttack",
-		"dmg": get_stat_damage()+2,
+		"dmg": get_stat_damage() + 2,
 		"knockback": 10,
+	},
+	{
+		"name": "Ultimate",
+		"dmg": get_stat_damage() + 15,
+		"knockback": 0,
 	}
 ]
 
@@ -84,7 +89,13 @@ func update_attacks():
 			"name": "AirAttack",
 			"dmg": get_stat_damage() + 2,
 			"knockback": 10,
+		},
+		{
+			"name": "Ultimate",
+			"dmg": get_stat_damage() + 15,
+			"knockback": 0,
 		}
+		
 	]
 
 # Function to get an attack by name
@@ -278,6 +289,8 @@ var VCoins = 30 :
 	set(value):
 		VCoins = value
 
+var Ultimate = false
+
 func setPlayerStat(_hp:int, _str:int, _agi:int, _vit:int, _def:int):
 	lvl = 1
 	total_xp = 0
@@ -289,7 +302,7 @@ func setPlayerStat(_hp:int, _str:int, _agi:int, _vit:int, _def:int):
 	Agility = _agi
 	Vitality = _vit
 	Defense = _def
-
+	Ultimate = false
 	# Recalculate extra stats
 	Character = get_tree().get_nodes_in_group("Player")[0] as JackController
 	
@@ -337,6 +350,7 @@ func to_dict() -> Dictionary:
 		"camera_position": StageController.camera.global_position,
 		"background_offset" : stage_background.scroll_base_offset,
 		"rain" : StageController.rain.visible,
+		"Ultimate" : Ultimate,
 	}
 
 func load_from_dict(data: Dictionary):
@@ -362,6 +376,8 @@ func load_from_dict(data: Dictionary):
 		Defense = data["Defense"]
 	if "VCoins" in data:
 		VCoins = data["VCoins"]
+	if "Ultimate" in data:
+		Ultimate = data["Ultimate"]
 	
 	# Restore player position
 	if "global_position" in data and Character:

@@ -174,7 +174,7 @@ func _inTheWork():
 	dialog.popup_centered()
 
 func _start_new_game():
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 	get_tree().paused = false
 	dialog.queue_free()
 
@@ -196,5 +196,6 @@ func _on_info_body_entered(body):
 
 func _on_boss_trigger_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and !boss_triggered:
-		BossTrigger.disabled = true
+		#BossTrigger.disabled = true
+		BossTrigger.call_deferred("set", "disabled", true)
 		$Map2/Map2Enemy/Elites.isInactive = false

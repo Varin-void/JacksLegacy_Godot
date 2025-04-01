@@ -66,8 +66,16 @@ var isDead = false
 var isHurt = false
 var isBlock = false
 
+var bullet_time_factor = 1.0
 #endregion
 
+func set_bullet_time(factor):
+	bullet_time_factor = factor
+	if factor == 1:
+		anim.speed_scale = factor #0.0175
+	else:
+		anim.speed_scale = factor * 18
+	
 func _ready():
 	set_enemy_properties()
 	orgPos = global_position
@@ -77,29 +85,23 @@ func _ready():
 	RCChkBack.enabled = true
 	lastPost = global_position
 	
-	#if playerTrigger:
-		#playerTrigger.body_entered.connect(on_detection_area_body_entered)
-		#playerTrigger.body_exited.connect(on_detection_area_body_exited)
-		#if $prop/DetectionArea/CollisionShape2D:
-			#$prop/DetectionArea/CollisionShape2D.disabled = true
 	if isInactive:
 		fsm.changeState("Idle")
 	else:
 		fsm.changeState("Patrol")
 
 func _physics_process(delta):
-	#label.text = fsm.currentState
-	#print(label.text)
-	if not is_on_floor() && enemyType != EnemyType.Fly:
+	delta *= bullet_time_factor  # Slow down only enemies
+
+	if not is_on_floor() and enemyType != EnemyType.Fly:
 		if isAirbone:
 			velocity.y = 0
 		else:
-			velocity.y += gravity * delta / (2 if isPushup && velocity.y > 0 else 1)
-	
+			velocity.y += gravity * delta / (2 if isPushup and velocity.y > 0 else 1)
+
 	if !isInactive and !isDead:
 		fsm.physicsUpdate(delta)
-		
-	
+
 	move_and_slide()
 
 func rotateToPlayer(val:bool = true):
@@ -183,7 +185,6 @@ func take_dmg(attack_name, attacker_pos):
 	var attack_data = GameManager.get_attack_by_name(attack_name)
 	if attack_data.size() > 0:
 		
-		GameManager.frame_freeze(0.1, 0.098)
 		health -= attack_data.dmg
 		health = max(health, 0)
 		
@@ -196,7 +197,7 @@ func take_dmg(attack_name, attacker_pos):
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += attack_data.knockback * knockback_dir
 		
-		isHurt = true
+		#isHurt = true
 		fsm.changeState("Hurt")
 
 func forceDead():

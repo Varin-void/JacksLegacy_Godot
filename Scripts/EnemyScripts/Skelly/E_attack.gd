@@ -22,6 +22,7 @@ func enter():
 
 
 func exit():
-	if owner.health <= 0 and !owner.isDead:
-		owner.isDead = true
-		changeState("Dead")
+	#if owner.health <= 0 and !owner.isDead:
+		#owner.isDead = true
+		#changeState("Dead")
+	$"../../prop/AttackBox/CollisionShape2D".call_deferred("set", "disabled", true)

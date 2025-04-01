@@ -5,12 +5,14 @@ class_name ShopUpgrade
 @onready var anim = $AnimationPlayer
 @export var player_area : Area2D
 var is_in_shop_area : bool = false
+@onready var buy_stat_up = $StatUp
 
 func _ready() -> void:
 	GameManager.is_paused = false
 	get_tree().paused = false
 	visible = false
 	anim.play("RESET")
+	buy_stat_up.visible = false
 	GameManager.shop_menu = self
 
 func toggle_stat_screen():
@@ -65,20 +67,29 @@ func _on_shop_area_body_exited(body):
 		resume()
 		GameManager.setPlayerStatCalc()
 
+func toggle_buy_stat(amount, attri):
+	$StatUp/StatBought.text = ("+" + str(amount) + " " + attri)
+	buy_stat_up.visible = true
+	await get_tree().create_timer(.75).timeout
+	buy_stat_up.visible = false
+
 func _on_buy_1_pressed():
 	if GameManager.VCoins >= 25:
 		GameManager.Strength += 10
 		GameManager.VCoins -= 25
 		GameManager.setPlayerStatCalc()
+		toggle_buy_stat(10,"STR")
 
 func _on_buy_2_pressed():
 	if GameManager.VCoins >= 30:
 		GameManager.Vitality += 12
 		GameManager.VCoins -= 30
 		GameManager.setPlayerStatCalc()
+		toggle_buy_stat(12,"VIT")
 
 func _on_buy_3_pressed():
 	if GameManager.VCoins >= 15:
 		GameManager.Agility += 8
 		GameManager.VCoins -= 15
 		GameManager.setPlayerStatCalc()
+		toggle_buy_stat(8,"AGI")

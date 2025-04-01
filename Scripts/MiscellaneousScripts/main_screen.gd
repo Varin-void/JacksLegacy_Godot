@@ -50,11 +50,11 @@ func on_play_pressed():
 
 func _start_new_game():
 	GameManager.isLoad = false
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 
 func _load_game():
 	GameManager.isLoad = true
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 
 func _input(event):
 	if done and !has_started:

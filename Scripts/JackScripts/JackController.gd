@@ -34,6 +34,7 @@ var ability: Dictionary = {
 	"Attacking": false,
 	"Air_Attacking": false,
 	"Falling": false,
+	"Ultimate": false,
 	"Air_Combo": false
 }
 
@@ -71,7 +72,7 @@ func _process(_delta):
 	if is_dead:
 		return
 	$Label.text = str(fsm.currentState)
-	if !chkAbility("Dashing"):
+	if !chkAbility("Dashing") or !chkAbility("Ultimate"):
 		direction = Input.get_axis("move_left", "move_right")
 	flip()
 	if is_on_floor() and dir == 0:
@@ -133,17 +134,20 @@ func chkAbility(_ability: String) -> bool:
 func _take_damage(amount,attacker_pos,knockback_amount):
 	if is_dead:
 		return
+	if isImmune:
+		return
 	
 	is_hurt = true
 	if is_blocking:
 		GameManager.HP -= (amount/2)
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += (knockback_amount/2) * knockback_dir
+		camera.shake(.02,2)
 	else:
 		var knockback_dir = -1 if attacker_pos.x > global_position.x else 1
 		global_position.x += (knockback_amount/1.15) * knockback_dir
 		GameManager.HP -= amount
-		
+		camera.shake(.02,3)
 		fsm.changeState("Hurt")
 	
 	if(GameManager.HP <= 0):
@@ -167,13 +171,13 @@ func _die():
 	dialog.popup_centered()
 
 func _start_new_game():
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 	get_tree().paused = false
 	dialog.queue_free()
 
 func _load_game():
 	GameManager.isLoad = true
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 	get_tree().paused = false
 	dialog.queue_free()
 
@@ -198,3 +202,18 @@ func audio_random_pitch():
 
 func set_audio_volume(amount:float):
 	playerAudio.volume_db = amount
+
+var bullet_time = false
+var slow_factor = 0.0175
+var canUseUltimate = false
+var isImmune = false
+
+func activate_ultimate():
+	bullet_time = true
+	for enemy in get_tree().get_nodes_in_group("Enemy"):
+		enemy.set_bullet_time(slow_factor)
+	await get_tree().create_timer(2.5).timeout
+	bullet_time = false
+	for enemy in get_tree().get_nodes_in_group("Enemy"):
+		enemy.set_bullet_time(1.0)
+	isImmune = false

@@ -29,7 +29,7 @@ func _on_button_resume_pressed():
 	GameManager.toggle_pause()
 
 func _on_button_restart_pressed():
-	GameManager.transition_scene("uid://cjae7tcahph3m")
+	GameManager.transition_scene("uid://bya68nv7h7432")
 
 func _on_button_exit_pressed():
 	GameManager.transition_scene("uid://cbyayktnmu7h5")

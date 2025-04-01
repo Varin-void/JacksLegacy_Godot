@@ -661,7 +661,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_3rbnq"]
 resource_name = "TakeHit"
-length = 0.4
+length = 0.35
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -669,7 +669,7 @@ tracks/0/path = NodePath("SkellySprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.233333, 0.366667),
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -1248,7 +1248,7 @@ script = ExtResource("15_grcm1")
 metadata/_custom_type_script = "uid://boxbtoh25c3mr"
 
 [node name="HitTimer" type="Timer" parent="FSM/Hurt"]
-wait_time = 0.1
+wait_time = 0.05
 one_shot = true
 autostart = true
 
@@ -1314,7 +1314,7 @@ material = SubResource("ShaderMaterial_bo1bk")
 position = Vector2(4, -25)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_4uvkd")
-animation = &"attack"
+animation = &"Walk"
 autoplay = "idle"
 
 [node name="Hit_Vfx" type="Node2D" parent="."]

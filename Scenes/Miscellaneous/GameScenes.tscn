@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://bya68nv7h7432"]
+[gd_scene load_steps=87 format=3 uid="uid://bya68nv7h7432"]
 
 [ext_resource type="Script" uid="uid://dlde878hu68p8" path="res://Scripts/MiscellaneousScripts/stage_control.gd" id="1_oufk3"]
 [ext_resource type="PackedScene" uid="uid://clnw6lm0wf2im" path="res://Scenes/Miscellaneous/Pause/pause_menus.tscn" id="2_tjt0p"]
@@ -39,6 +39,7 @@
 [ext_resource type="PackedScene" uid="uid://vht2eox436y1" path="res://Scenes/Miscellaneous/chest.tscn" id="33_xy3lw"]
 [ext_resource type="Script" uid="uid://crg5suvdhup6u" path="res://Scripts/MiscellaneousScripts/moving_platform.gd" id="36_aqm2h"]
 [ext_resource type="Texture2D" uid="uid://bfgvg41ne4gcc" path="res://Assets/LevelDesign/platform.png" id="37_nn4ui"]
+[ext_resource type="PackedScene" uid="uid://d2sjt0jil1l0i" path="res://Scenes/Miscellaneous/ultimate_sigils.tscn" id="40_nn4ui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hx5qv"]
 bg_color = Color(0.788235, 0.858824, 1, 0.501961)
@@ -320,8 +321,9 @@ size = Vector2(582, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt5ii"]
 size = Vector2(232, 183)
 
-[node name="GameScenes" type="Node2D" groups=["Level"]]
+[node name="GameScenes" type="Node2D" node_paths=PackedStringArray("elite") groups=["Level"]]
 script = ExtResource("1_oufk3")
+elite = NodePath("Map2/Map2Enemy/Elites")
 metadata/_edit_horizontal_guides_ = [180.0, 3123.0, 3347.0, 2867.0]
 metadata/_edit_vertical_guides_ = [2902.0, 5040.0]
 
@@ -1134,6 +1136,9 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShopArea"]
 position = Vector2(106, 81.5)
 shape = SubResource("RectangleShape2D_tt5ii")
+
+[node name="UltimateSigils" parent="." instance=ExtResource("40_nn4ui")]
+position = Vector2(554, 134)
 
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig2" to="Map1/Map1Triggers/lvl1CamTrig2" method="_on_body_entered"]
 [connection signal="body_entered" from="Map1/Map1Triggers/lvl1CamTrig3" to="Map1/Map1Triggers/lvl1CamTrig3" method="_on_body_entered"]
